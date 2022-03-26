@@ -8,13 +8,14 @@ def fetch_github_data(username):
     response = requests.get(url).json()
     
     data_needed = ["company", "followers", "public_repos"]
-    
-    overall_data = {}
-    for field in data_needed:
-        overall_data[field] = response[field]
-    overall_data.update(fetch_repos_data(username))
-
-    overall_data["total commits"] = fetch_commit_count(username)
+    try:
+        overall_data = {'SUCCESS': True}
+        for field in data_needed:
+            overall_data[field] = response[field]
+        overall_data.update(fetch_repos_data(username))
+        overall_data["total commits"] = fetch_commit_count(username)
+    except:
+        return {'SUCCESS': False}
 
     return overall_data
 
@@ -59,7 +60,7 @@ if __name__ == "__main__":
     import time
     start = time.time()
     
-    # print(fetch_github_data("UserName"))
+    print(fetch_github_data("Mizan-Ali"))
     
     end = time.time()
     print(end - start)
