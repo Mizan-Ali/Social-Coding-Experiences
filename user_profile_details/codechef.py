@@ -12,7 +12,3 @@ def fetch_codechef_data(username):
         return response_info
     except:
         return {"SUCCESS": False}
-
-
-if __name__ == "__main__":
-    print(fetch_codechef_data("tourist"))

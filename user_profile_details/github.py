@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 def fetch_github_data(username):
     url = f'https://api.github.com/users/{username}'
     response = requests.get(url).json()
-    
+
     data_needed = ["company", "followers", "public_repos"]
     try:
         overall_data = {'SUCCESS': True}
@@ -16,6 +16,7 @@ def fetch_github_data(username):
     except:
         return {'SUCCESS': False}
 
+    # ["company", "followers", "public_repos", "total commits"]
     return overall_data
 
 
@@ -27,14 +28,13 @@ def fetch_commit_count(username):
     res = res.split('\n')[1].strip()
 
     return res
-    
-    
+
 
 def fetch_repos_data(username):
     page_no = 1
     repo_data = []
     repos_url = f'https://api.github.com/users/{username}/repos'
-    
+
     while True:
         url = repos_url + '?page=' + str(page_no)
         response = requests.get(url).json()
@@ -43,23 +43,12 @@ def fetch_repos_data(username):
         if repos_fetched != 30:
             break
         page_no = page_no + 1
-    
+
     data_needed = ["watchers_count", "forks_count", "stargazers_count"]
-    data ={field: 0 for field in data_needed + ["commits_count"]}
-    
+    data = {field: 0 for field in data_needed + ["commits_count"]}
+
     for repo in repo_data:
         for field in data_needed:
-            data[field] += int(repo[field]) 
-            
-    return data
-    
-    
+            data[field] += int(repo[field])
 
-if __name__ == "__main__":
-    import time
-    start = time.time()
-    
-    print(fetch_github_data("Mizan-Ali"))
-    
-    end = time.time()
-    print(end - start)
+    return data

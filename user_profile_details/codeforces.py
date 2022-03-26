@@ -24,7 +24,3 @@ def fetch_codeforces_data(username):
     }
 
     return return_dict
-
-
-if __name__ == "__main__":
-    print(fetch_codeforces_data("tourist"))
