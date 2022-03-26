@@ -1,4 +1,5 @@
 from typing import Any
+from .models import UserDB
 from dataclasses import dataclass
 from user_profile_details import github, codechef, codeforces
 
@@ -7,7 +8,6 @@ class User:
     flask_obj: Any
     friends: tuple[int]
 
-    score: int
     upvotes: int
     downvotes: int
 
@@ -27,5 +27,9 @@ class User:
 
 
     def friend_leaderboard(self):
-        pass
+        leaderboard = []
+        for friend_id in self.friends:
+            friend = UserDB.query.filter_by(id=friend_id).first()
+            leaderboard.append((friend.full_name, friend.score))
+        return leaderboard
 
