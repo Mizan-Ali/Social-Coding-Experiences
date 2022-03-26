@@ -1,23 +1,25 @@
-{% extends "base.html" %}
-
-{% block head %}
-    <title>Login</title>
-{% endblock %}
-
-{% block content %}
-<form method="POST">
-    <h3>Login</h3>
-
-    <div class="form-group col-sm-4">
-      <label for="email">Email Address</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/css/login_style.css">
+</head>
+<body>
+    <div class="out_box">
+        <div class="in_box">
+            <form method="POST">
+                <input type="email" class="form-control" id="email" name="email" placeholder="email">
+                <input type="password" class="form-control" id="password" name="password" placeholder="password">
+                <button type="submit" class="btn">Login</button>
+                <span style="margin-top: 30px;">_____________________________</span>
+            </form>
+            <div class="sign_up">
+                <span>Not registered yet? </span><a href="/signup">SIGN UP</a>
+            </div>
+        </div>
     </div>
-    
-    <div class="form-group col-sm-4">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"/>
-    </div>
-    
-    <br><button type="submit" class="btn btn-primary">Login</button>
-</form>
-{% endblock %}
+</body>
+</html>

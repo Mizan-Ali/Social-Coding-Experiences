@@ -1,0 +1,59 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.out_box{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.in_box{
+    background:whitesmoke;
+    width : 50%;
+    height: 50%;
+    border: solid 4px #0e5ed6a6;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.in_box form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.in_box input{
+    margin: 10px;
+    width: 300px;
+    height: 18px;
+    padding: 10px;
+    font-size: 15px;
+    border: solid 2.5px gray;
+    border-radius: 10px;
+}
+.in_box button{
+    color: #fff;
+    margin: 10px;
+    width: 100px;
+    height: 30px;
+    border: solid 1px lightgray;
+    border-radius: 10px;
+    background-color: #0B5ED7;
+}
+.sign_up{
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 45px;
+    font-size: 13px;
+}
+.sign_up a{
+    color: #000;
+    font-weight: bold;
+}
