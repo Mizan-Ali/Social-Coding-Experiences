@@ -1,5 +1,5 @@
 from . import db
-from .models import User
+from .models import UserDB
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, redirect, request, flash, url_for
@@ -14,7 +14,7 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         
-        user = User.query.filter_by(email=email).first()
+        user = UserDB.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             flash("Logged in successfully!", category="success")
             login_user(user, remember=True) 
@@ -40,7 +40,7 @@ def signup():
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
         
-        user = User.query.filter_by(email=email).first()
+        user = UserDB.query.filter_by(email=email).first()
         if user:
             flash("Email already exists.", category="error")
         elif len(email) < 4:
@@ -52,7 +52,7 @@ def signup():
         elif len(password2) <= 3:
             flash("Password must be greater than 3 characters.", category="error")
         else:
-            new_user = User(email=email, full_name=full_name, password=generate_password_hash(password=password1, method="sha256"))
+            new_user = UserDB(email=email, full_name=full_name, password=generate_password_hash(password=password1, method="sha256"))
             db.session.add(new_user)
             db.session.commit()
             
