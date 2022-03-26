@@ -36,7 +36,3 @@ def no_of_problems(username):
     soup = BeautifulSoup(resp.text, 'html.parser')
     problem_count = soup.find('div', class_ = '_UserActivityFrame_counterValue').text.split()[0]
     return problem_count
-
-if __name__ == '__main__':
-    # fetch_codeforces_data('tourist')
-    print(fetch_codeforces_data('PrateekBajpai'))
