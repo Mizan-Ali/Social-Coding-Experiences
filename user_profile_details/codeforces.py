@@ -1,5 +1,5 @@
-import json
 import requests
+
 
 
 def fetch_codeforces_data(username):
