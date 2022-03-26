@@ -1,7 +1,9 @@
 import json
 import requests
+from bs4 import BeautifulSoup
 
-def main(username):
+
+def fetch_github_data(username):
     url = f'https://api.github.com/users/{username}'
     response = requests.get(url).json()
     
@@ -11,7 +13,20 @@ def main(username):
     for field in data_needed:
         overall_data[field] = response[field]
     overall_data.update(fetch_repos_data(username))
+
+    overall_data["total commits"] = fetch_commit_count(username)
+
     return overall_data
+
+
+def fetch_commit_count(username):
+    url = "https://github.com/" + username
+    resp = requests.get(url)
+    soup = BeautifulSoup(resp.text, 'html.parser')
+    res = soup.find('div', class_='js-yearly-contributions').div.h2.text
+    res = res.split('\n')[1].strip()
+
+    return res
     
     
 
@@ -35,30 +50,16 @@ def fetch_repos_data(username):
     for repo in repo_data:
         for field in data_needed:
             data[field] += int(repo[field]) 
-        # data["commits_count"] += fetch_commit_data(repo["git_commits_url"])
+            
     return data
     
     
-def fetch_commit_data(commits_url):
-    page_no = 1
-    commits = 0
-    while (True):
-        url = commits_url + '?page=' + str(page_no)
-        response = requests.get(url).json()
-        commits += len(response)
-            
-        if len(response) != 30:
-            break
-        page_no = page_no + 1
-    return commits
-            
 
 if __name__ == "__main__":
     import time
     start = time.time()
     
-    # print(main("Conero007"))
-    # print(main("kb22"))
+    # print(fetch_github_data("UserName"))
     
     end = time.time()
     print(end - start)
