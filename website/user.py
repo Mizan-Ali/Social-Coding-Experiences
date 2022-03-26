@@ -1,6 +1,7 @@
 from typing import Any
 from dataclasses import dataclass
 from user_profile_details import github, codechef, codeforces
+from . import db
 
 @dataclass(frozen=True)
 class User:
@@ -29,3 +30,22 @@ class User:
     def friend_leaderboard(self):
         pass
 
+    def update_rating(self):
+
+        total_rating = self.upvotes + self.downvotes
+
+        if self.codechef_rating:
+            total_rating += (self.codechef_details['rating'] / 10)
+
+        if self.codeforces_rating:
+            total_rating += (self.codeforces_details['current rating'] / 10)
+
+        if self.github_username:
+            total_rating += self.github_details['total commits']
+        
+        try:
+            self.flask_obj.score = total_rating
+            db.session.commit()
+        except Exception as e:
+            print(e)
+        
