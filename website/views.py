@@ -9,12 +9,13 @@ views = Blueprint("views", __name__)
 
 
 @views.route("/")
+@login_required
 def home():
-    curr_user_json = json.load(current_user.details)
+    curr_user_json = json.loads(current_user.details)
 
     user_obj = User(
         flask_obj=current_user,
-        
+        score=curr_user_json.get("score", 0),
         upvotes=curr_user_json.get("upvotes", 0),
         downvotes=curr_user_json.get("downvotes", 0),
         friends=tuple(curr_user_json.get("friends", [])),
@@ -24,10 +25,10 @@ def home():
         codeforces_username=curr_user_json.get("codeforces_username", ""),
     )
 
-    return render_template("home.html", user=user_obj)
+    return render_template("profile.html", user=current_user, user_obj=user_obj)
 
 
-@views.route("/add_friend", METHOD=["POST"])
+@views.route("/add_friend", methods=["POST"])
 def add_friend():
     friend_email = request.form.get("friendEmail")
     friend = UserDB.query.filter_by(email=friend_email).first()
@@ -51,7 +52,7 @@ def add_friend():
     return redirect(url_for("views.home"))
 
 
-@views.route("/delete_friend", METHOD=["POST"])
+@views.route("/delete_friend", methods=["POST"])
 def delete_friend():
     friend_email = request.form.get("friendEmail")
     friend = UserDB.query.filter_by(email=friend_email).first()
