@@ -11,4 +11,3 @@ class UserDB(db.Model, UserMixin):
     
     score = db.Column(db.Integer, default=0)
     details = db.Column(db.String(256), default="{}")
-    

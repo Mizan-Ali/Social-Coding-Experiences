@@ -16,7 +16,6 @@ def home():
     user_obj = User(
         flask_obj=current_user,
         score=curr_user_json.get("score", 0),
-
         upvotes=curr_user_json.get("upvotes", 0),
         downvotes=curr_user_json.get("downvotes", 0),
         friends=tuple(curr_user_json.get("friends", [])),
