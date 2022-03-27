@@ -25,6 +25,24 @@ def add_github():
     return redirect(url_for("views.refresh"))
 
 
+@modify.route("/remove_github", methods=["POST"])
+@login_required
+def remove_github():
+    try:
+        curr_user_json = json.loads(current_user.details)
+        curr_user_json["github_username"] = ""
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to remove Github", category="error")
+
+    return redirect(url_for("views.refresh"))
+
+
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
 def add_codeforces():
@@ -44,6 +62,24 @@ def add_codeforces():
     return redirect(url_for("views.refresh"))
 
 
+@modify.route("/remove_codeforces", methods=["POST"])
+@login_required
+def remove_codeforces():
+    try:
+        curr_user_json = json.loads(current_user.details)
+        curr_user_json["codeforces_username"] = ""
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to remove CodeForces", category="error")
+
+    return redirect(url_for("views.refresh"))
+
+
 @modify.route("/add_codechef", methods = ["POST"])
 def add_codechef():
     username = request.form.get("codechef_username")
@@ -57,7 +93,24 @@ def add_codechef():
     
     except Exception as e:
         print(f"\n\n{e}\n\n")
-        flash("Error in adding Codechef", category = "error")
+        flash("Unable to add Codechef", category = "error")
+    
+    return redirect(url_for('views.refresh'))
+
+
+@modify.route("/remove_codechef", methods = ["POST"])
+def remove_codechef():
+    try:
+        curr_user_json = json.loads(current_user.details)
+        curr_user_json["codechef_username"] = ""
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+    
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to remove Codechef", category = "error")
     
     return redirect(url_for('views.refresh'))
 
