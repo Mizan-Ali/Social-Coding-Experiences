@@ -117,7 +117,7 @@
             {% if user_obj.github_username %}
             <div class="github_username common username_common">
               <img src="../static/image/github.png" alt="Github">
-              <a href="https://github.com/username">{{ user_obj.github_username }}</a>
+              <a href="https://github.com/{{ user_obj.github_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.github_username }}</a>
             </div>
             <div class="github_contributions common">
               <h6>Contributions in the Last Year</h6>
@@ -192,34 +192,53 @@
           </div>
 
           <div class="cc_card card_common">
+
+            {% if user_obj.codechef_username %}
+
             <div class="cc_username common username_common">
               <img src="../static/image/code-chef.png" alt="CodeChef">
-              <a href="https://codechef.com/users/username">user_1121</a>
+              <a href="https://codechef.com/users/{{ user_obj.codechef_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.codechef_username }}</a>
+            </div>
+            <div class="cc_country common">
+              <h6>Country</h6>
+              <span>{{ user_obj.codechef_details['country'] }}</span>
             </div>
             <div class="cc_u_rating common">
               <h6>Current Rating</h6>
-              <span>4</span>
+              <span>{{ user_obj.codechef_details['rating'] }}</span>
             </div>
             <div class="cc_h_rating common">
               <h6>Highest Rating</h6>
-              <span>4.5</span>
+              <span>{{ user_obj.codechef_details['highest_rating'] }}</span>
             </div>
             <div class="cc_global_rank common">
               <h6>Global Ranking</h6>
-              <span>1</span>
+              <span>{{ user_obj.codechef_details['global_rank'] }}</span>
             </div>
             <div class="cc_country_rank common">
               <h6>Country Ranking</h6>
-              <span>1</span>
+              <span>{{ user_obj.codechef_details['country_rank']}}</span>
             </div>
             <div class="cc_star common">
               <h6>Star Rating</h6>
-              <span>4</span>
+              <span>{{ user_obj.codechef_details['num_stars'] }}</span>
             </div>
+
+            {% else %}
+
+            <form method="POST" action="{{ url_for('modify.add_codechef') }}">
+              <div class="form-group col-sm-4">
+                <label for="codechef_username">Codechef Username</label>
+                <input type="codechef_username" class="form-control" id="codechef_username" name="codechef_username"
+                  placeholder="Enter Codechef Username..." />
+              </div>
+              <br><button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            {% endif %}
+
           </div>
         </div>
-
-
       </div>
     </div>
 
