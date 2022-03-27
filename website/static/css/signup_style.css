@@ -12,8 +12,9 @@
 .in_box{
     background:whitesmoke;
     width : 50%;
-    height: 50%;
+    height: 80%;
     border: solid 4px #0e5ed6a6;
+    /* border: solid 2px black; */
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -28,8 +29,8 @@
 }
 .in_box input{
     margin: 10px;
-    width: 300px;
-    height: 18px;
+    width: 400px;
+    height: 40px;
     padding: 10px;
     font-size: 15px;
     border: solid 2.5px gray;
@@ -39,21 +40,32 @@
     color: #fff;
     margin: 10px;
     width: 100px;
-    height: 30px;
+    height: 40px;
     border: solid 1px lightgray;
     border-radius: 10px;
     background-color: #0B5ED7;
 }
 .sign_up{
-    width: 200px;
+    width:100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 45px;
+    justify-content: center;
     font-size: 13px;
 }
 .sign_up a{
+    margin: 0px 0px 0px 20px;
     color: #000;
     font-weight: bold;
+}
+
+.gender_combo{
+    width: 400px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px 10px 20px 10px;
 }

@@ -2,7 +2,8 @@
 
 {% block head %}
 <title>Sign Up</title>
-<link rel="stylesheet" href="../static/css/signup_style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup_style.css') }}">
+<!-- <link rel="stylesheet" href="website/static/css/signup_style.css"> -->
 {% endblock %}
 
 {% block content %}
@@ -11,23 +12,19 @@
             <form method="POST">
                 <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
                 <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name">
-
-                <p>Gender</p>
-                <input type="radio" id="gender" name="gender" value="M">
-                <label for="M">Male</label><br>
-                <input type="radio" id="gender" name="gender" value="F">
-                <label for="F">Female</label><br>
-                <input type="radio" id="gender" name="gender" value="N">
-                <label for="N">Non-Binary</label><br>
-
-                <input type="text" class="form-control" id="occupation" name="occupation"
-                    placeholder="(Optional) Occupation">
+                <select name="gender_combo" class="gender_combo">
+                    <option value="none">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="nbinary">Non-Binary</option>
+                  </select>
+                <input type="text" class="form-control" id="occupation" name="occupation" placeholder="(Optional) Occupation">
                 <input type="password" class="form-control" id="password" name="password1" placeholder="Password">
                 <input type="password" class="form-control" id="password" name="password2"
                     placeholder="Confirm Password">
 
                 <button type="submit" class="btn">Login</button>
-                <span style="margin-top: 30px;">_____________________________</span>
+                <span style="margin-top:30px;">_____________________________</span>
             </form>
             <div class="sign_up">
                 <span>Already have an account? </span><a href="/login">SIGN IN</a>
