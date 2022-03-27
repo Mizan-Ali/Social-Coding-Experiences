@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../static/css/signup_style.css">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block head %}
+<title>Sign Up</title>
+<link rel="stylesheet" href="../static/css/login_style.css">
+{% endblock %}
+
+{% block content %}
     <div class="out_box">
         <div class="in_box">
             <form method="POST">
                 <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
                 <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name">
+
+                <p>Gender</p>
+                <input type="radio" id="gender" name="gender" value="M">
+                <label for="M">Male</label><br>
+                <input type="radio" id="gender" name="gender" value="F">
+                <label for="F">Female</label><br>
+                <input type="radio" id="gender" name="gender" value="N">
+                <label for="N">Non-Binary</label><br>
+
+                <input type="text" class="form-control" id="occupation" name="occupation"
+                    placeholder="(Optional) Occupation">
                 <input type="password" class="form-control" id="password" name="password1" placeholder="Password">
-                <input type="password" class="form-control" id="password" name="password2" placeholder="Confirm Password">
+                <input type="password" class="form-control" id="password" name="password2"
+                    placeholder="Confirm Password">
+
                 <button type="submit" class="btn">Login</button>
                 <span style="margin-top: 30px;">_____________________________</span>
             </form>
@@ -23,5 +34,6 @@
             </div>
         </div>
     </div>
-</body>
+{% endblock %}
+
 </html>

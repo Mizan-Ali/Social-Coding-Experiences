@@ -34,12 +34,11 @@ def logout():
 
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
-    # TODO: gender
-    # TODO: occupation
-
     if request.method == "POST":
         email = request.form.get("email")
         full_name = request.form.get("full_name")
+        gender = request.form.get("gender")
+        occupation = request.form.get("occupation", "None")
         password1 = request.form.get("password1")
         password2 = request.form.get("password2")
         
@@ -50,12 +49,20 @@ def signup():
             flash("Email must be greater than 3 characters.", category="error")
         elif len(full_name) < 2:
             flash("First Name must be greater than 1 characters.", category="error")
+        elif not gender:
+            flash("Please specify your gender", category="error")
         elif password1 != password2:
             flash("Passwords don't match.", category="error")
         elif len(password2) <= 3:
             flash("Password must be greater than 3 characters.", category="error")
         else:
-            new_user = UserDB(email=email, full_name=full_name, password=generate_password_hash(password=password1, method="sha256"))
+            new_user = UserDB(
+                email=email, 
+                full_name=full_name, 
+                gender=gender,
+                occupation=str(occupation),
+                password=generate_password_hash(password=password1, method="sha256")
+                )
             db.session.add(new_user)
             db.session.commit()
             
