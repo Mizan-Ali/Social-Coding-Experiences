@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 def fetch_github_data(username):
     url = f'https://api.github.com/users/{username}'
-    response = requests.get(url, headers={"Authorization": "token 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"}).json()
+    response = requests.get(url, headers={"Authorization": "token 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"}).json()
 
     data_needed = ["company", "followers", "public_repos"]
     try:
@@ -37,7 +37,7 @@ def fetch_repos_data(username):
 
     while True:
         url = repos_url + '?page=' + str(page_no)
-        response = requests.get(url, headers={"Authorization": "token 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"}).json()
+        response = requests.get(url, headers={"Authorization": "token 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"}).json()
         repos_fetched = len(response)
         repo_data.extend(response)
         if repos_fetched != 30:
