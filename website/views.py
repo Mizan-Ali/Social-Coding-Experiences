@@ -1,7 +1,7 @@
 from . import db
 from flask_login import login_required, current_user
-from .models import Codechef, Codeforces, Friends, Github, User
 from user_profile_details import github, codechef, codeforces
+from .models import Codechef, Codeforces, Friends, Github, User
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 
@@ -12,7 +12,11 @@ views = Blueprint("views", __name__)
 @login_required
 def home():
     git = Github.query.filter_by(user_id=current_user.id).first()
-    return render_template("profile.html", user=current_user, github=git)
+    cf = Codeforces.query.filter_by(user_id=current_user.id).first()
+    cc = Codechef.query.filter_by(user_id=current_user.id).first()
+    return render_template(
+        "profile.html", user=current_user, github=git, codechef=cc, codeforces=cf
+    )
 
 
 @views.route("/public_profile", methods=["POST"])
@@ -26,18 +30,23 @@ def public_profile():
     if not friend:
         flash("User does not exist.", category="error")
         return redirect((url_for("views.home")))
-    
-    isfriend = Friends.query.filter_by(user_id=current_user.id, friend_id=friend.id).first()
-    if isfriend:
-        isfriend = True
-    else:
-        isfriend = False
+
+    isfriend = bool(
+        Friends.query.filter_by(user_id=current_user.id, friend_id=friend.id).first()
+    )
+
+    git = Github.query.filter_by(user_id=current_user.id).first()
+    cf = Codeforces.query.filter_by(user_id=current_user.id).first()
+    cc = Codechef.query.filter_by(user_id=current_user.id).first()
 
     return render_template(
         "publicprofile.html",
         user=current_user,
         friend=friend,
-        isfriend=isfriend
+        isfriend=isfriend,
+        github=git,
+        codechef=cc,
+        codeforces=cf,
     )
 
 
@@ -56,19 +65,26 @@ def leaderboard():
 @views.route("/refresh_github", methods=["POST"])
 @login_required
 def refresh_github():
-    git = current_user.github
-    db.session.delete(git)
-
+    git = Github.query.filter_by(user_id=current_user.id)
     github_details = github.fetch_github_data(current_user.github_username)
-    git = Github(user_id=current_user.id, **github_details)
-    db.session.add(git)
+    
+    git.update(
+        {
+            "followers": github_details["followers"],
+            "public_repos": github_details["public_repos"],
+            "total_commits": github_details["total_commits"],
+            "stargazers_count": github_details["stargazers_count"],
+            "forks_count": github_details["forks_count"],
+        }
+    )
 
     try:
         db.session.commit()
-        flash("Updated Github", category="success")
     except Exception as e:
-        flash("Couldn't update Github", category="error")
+        db.session.rollback()
+        flash("Unable to add Github", category="error")
 
+    update_rating()
     return redirect(url_for("views.home"))
 
 
@@ -78,7 +94,9 @@ def refresh_codeforces():
     cf = current_user.codeforces
     db.session.delete(cf)
 
-    codeforces_details = codeforces.fetch_codeforces_data(current_user.codeforces_username)
+    codeforces_details = codeforces.fetch_codeforces_data(
+        current_user.codeforces_username
+    )
     cf = Codeforces(user_id=current_user.id, **codeforces_details)
     db.session.add(cf)
 
@@ -133,11 +151,11 @@ def update_rating(user=current_user):
 
     if current_user.codechef_username:
         cc = Codechef.query.filter_by(user_id=user.id).first()
-        total_rating += (cc.rating / 10)
+        total_rating += cc.rating / 10
 
     if current_user.codeforces_username:
         cf = Codeforces.query.filter_by(user_id=user.id).first()
-        total_rating += (cf.rating / 10)
+        total_rating += cf.rating / 10
 
     if current_user.github_username:
         git = Github.query.filter_by(user_id=user.id).first()
@@ -149,7 +167,7 @@ def update_rating(user=current_user):
         # print("\n\n")
         # print(user.score, user.upvotes, user.downvotes)
         # print("\n\n")
-        
+
         flash("Updated rating", category="success")
     except Exception as e:
         flash("Could not update rating", category="error")

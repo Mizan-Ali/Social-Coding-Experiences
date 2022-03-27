@@ -19,10 +19,14 @@ def add_github():
         flash("Unable to add Github", category="error")
         return redirect(url_for("views.home"))
 
-    github_details.pop("SUCCESS")
-    github_details.pop("company")
-    github_details.pop("watchers_count")
-    git = Github(user_id=current_user.id, **github_details)
+    git = Github(
+        user_id=current_user.id,
+        followers=github_details["followers"],
+        public_repos=github_details["public_repos"],
+        total_commits=github_details["total_commits"],
+        stargazers_count=github_details["stargazers_count"],
+        forks_count=github_details["forks_count"],
+    )
     db.session.add(git)
 
     try:
