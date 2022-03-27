@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
+</head>
+<body>
+    <div class="rating">
+        <h2>Current Ranking</h2>
+        <div class="cur_rating">
+            <div class="rating_card_common c_rating_head">
+                <h3>Name</h3>
+                <h3>Email</h3>
+                <h3>Score</h3>
+            </div>
+            <div class="rating_card_common c_rating_data">
+                <span>abc</span>
+                <a href="{{ url_for('views.public_profile') }}">abc@gmail.com</a>
+                <span>10</span>
+            </div>
+        </div>
+
+        <h2>Global Rating</h2>
+        <div class="global_rating">
+            <div class="rating_card_common c_rating_head">
+                <h3>Name</h3>
+                <h3>Email</h3>
+                <h3>Score</h3>
+            </div>
+            <div class="rating_card_common c_rating_data">
+                <span>abc</span>
+                <a href="{{ url_for('views.public_profile') }}">abc@gmail.com</a>
+                <span>10</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
