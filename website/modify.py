@@ -25,6 +25,24 @@ def add_github():
 
 
 
+@modify.route("/add_codechef", methods = ["POST"])
+def add_codechef():
+    username = request.form.get("codechef_username")
+    try:
+        curr_user_json = json.loads(current_user.details)
+        curr_user_json["codechef_username"] = username
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+    
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Error in adding Codechef", category = "error")
+    
+    return redirect(url_for('views.home'))
+
+
 @modify.route("/add_friend", methods=["POST"])
 def add_friend():
     friend_email = request.form.get("friendEmail")
