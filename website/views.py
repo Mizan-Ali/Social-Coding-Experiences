@@ -67,7 +67,7 @@ def leaderboard():
 def refresh_github():
     git = Github.query.filter_by(user_id=current_user.id)
     github_details = github.fetch_github_data(current_user.github_username)
-    
+
     git.update(
         {
             "followers": github_details["followers"],
@@ -80,6 +80,7 @@ def refresh_github():
 
     try:
         db.session.commit()
+        flash("Updated GitHub", category="success")
     except Exception as e:
         db.session.rollback()
         flash("Unable to add Github", category="error")
@@ -112,20 +113,29 @@ def refresh_codeforces():
 @views.route("/refresh_codechef", methods=["POST"])
 @login_required
 def refresh_codechef():
-    cc = current_user.codechef
-    db.session.delete(cc)
-
+    cc = Codechef.query.filter_by(user_id=current_user.id)
     codechef_details = codechef.fetch_codechef_data(current_user.codechef_username)
-    codechef_details.pop("SUCCESS")
-    cc = Codechef(user_id=current_user.id, **codechef_details)
-    db.session.add(cc)
+
+    cc.update(
+        {
+            "rating": codechef_details["rating"],
+            "solved": codechef_details["solved"],
+            "country_rank": codechef_details["country_rank"],
+            "global_rank": codechef_details["global_rank"],
+            "highest_rating": codechef_details["highest_rating"],
+            "num_stars": codechef_details["num_stars"],
+            "country": codechef_details["country"],
+        }
+    )
 
     try:
         db.session.commit()
         flash("Updated Codechef", category="success")
     except Exception as e:
-        flash("Couldn't update Codechef", category="error")
+        db.session.rollback()
+        flash("Unable to add Codechef", category="error")
 
+    update_rating()
     return redirect(url_for("views.home"))
 
 
