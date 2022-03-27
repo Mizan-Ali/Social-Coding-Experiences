@@ -159,3 +159,13 @@ def delete_friend():
         flash("Unable to delete friend", category="error")
 
     return redirect(url_for("views.refresh"))
+
+@modify.route("/upvote", methods=["POST"])
+@login_required
+def upvote():
+    pass
+
+@modify.route("/downvote", methods=["POST"])
+@login_required
+def downvote():
+    pass
