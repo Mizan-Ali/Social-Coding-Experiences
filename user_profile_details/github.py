@@ -54,11 +54,6 @@ def fetch_repos_data(username):
     return data
 
 
-'''
-Fetches profile picture and returns the link
-'''
-
-
 def fetch_profile_picture(username):
     url = "https://github.com/" + username
     resp = requests.get(url)
