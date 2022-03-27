@@ -12,7 +12,7 @@ def fetch_github_data(username):
         for field in data_needed:
             overall_data[field] = response[field]
         overall_data.update(fetch_repos_data(username))
-        overall_data["total commits"] = fetch_commit_count(username)
+        overall_data["total_commits"] = fetch_commit_count(username)
     except:
         return {'SUCCESS': False}
 
