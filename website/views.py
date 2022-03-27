@@ -92,21 +92,29 @@ def refresh_github():
 @views.route("/refresh_codeforces", methods=["POST"])
 @login_required
 def refresh_codeforces():
-    cf = current_user.codeforces
-    db.session.delete(cf)
-
+    cf = Codeforces.query.filter_by(user_id=current_user.id)
     codeforces_details = codeforces.fetch_codeforces_data(
         current_user.codeforces_username
     )
-    cf = Codeforces(user_id=current_user.id, **codeforces_details)
-    db.session.add(cf)
+
+    cf.update(
+        {
+            "rank": codeforces_details["rank"],
+            "rating": codeforces_details["rating"],
+            "problems_solved": codeforces_details["problems_solved"],
+            "contests": codeforces_details["contests"],
+            "highest_rating": codeforces_details["highest_rating"],
+        }
+    )
 
     try:
         db.session.commit()
         flash("Updated Codeforces", category="success")
     except Exception as e:
-        flash("Couldn't update Codeforces", category="error")
+        db.session.rollback()
+        flash("Unable to add Codeforces", category="error")
 
+    update_rating()
     return redirect(url_for("views.home"))
 
 
