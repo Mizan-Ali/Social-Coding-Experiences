@@ -1,12 +1,13 @@
 import json
 from . import db
 from .models import UserDB
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask import Blueprint, redirect, request, flash, url_for
 
 modify = Blueprint("modify", __name__)
 
 @modify.route("/add_github", methods=["POST"])
+@login_required
 def add_github():
     username = request.form.get("github_username")
     try:
@@ -25,6 +26,7 @@ def add_github():
 
 
 @modify.route("/add_codeforces", methods=["POST"])
+@login_required
 def add_codeforces():
     username = request.form.get("codeforces_username")
     try:
@@ -43,6 +45,7 @@ def add_codeforces():
 
 
 @modify.route("/add_friend", methods=["POST"])
+@login_required
 def add_friend():
     friend_email = request.form.get("friendEmail")
     friend = UserDB.query.filter_by(email=friend_email).first()
@@ -67,6 +70,7 @@ def add_friend():
 
 
 @modify.route("/delete_friend", methods=["POST"])
+@login_required
 def delete_friend():
     friend_email = request.form.get("friendEmail")
     friend = UserDB.query.filter_by(email=friend_email).first()
