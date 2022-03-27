@@ -61,19 +61,23 @@
                 <p class="text-secondary mb-1">{{ user_obj.flask_obj.occupation }}</p>
                 <!-- <button class="btn btn-primary">Follow</button> -->
               </div>
+              <div>
+                <a href="{{ url_for('modify.upvote') }}"><img src="../static/image/thumbd_up.png" alt="Like" style="width:60px"></a>
+                <a href="{{ url_for('modify.downvote') }}"><img src="../static/image/thumbd_up.png" alt="UnLike" style="width:60px;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);"></a>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="card mt-3">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap list">
               <img src="../static/image/search.png" alt="Search" class="sidebar_logo">
 
               <form action="{{ url_for('views.public_profile') }}" method="post">
                 <input placeholder="Email..." type="email" id="email" name="email"
-                  style="border: solid 1px lightgray;border-radius: 5px;width:79%; margin-left: 20px;">
-                <button type="submit" class="btn">Search</button>
+                  style="border: solid 1px lightgray;border-radius: 5px;height: 30px;width:70%;">
+                <button type="submit" class="btn btn-primary">Search</button>
               </form>
             </li>
 
