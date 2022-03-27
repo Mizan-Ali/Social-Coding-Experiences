@@ -1,10 +1,12 @@
+from wsgiref import headers
 import requests
 from bs4 import BeautifulSoup
 
 
 def fetch_github_data(username):
     url = f'https://api.github.com/users/{username}'
-    response = requests.get(url, headers={"Authorization": "token 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"}).json()
+    headers = {"Authorization": "token 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"}
+    response = requests.get(url, headers=headers).json()
 
     data_needed = ["company", "followers", "public_repos"]
     try:
@@ -37,7 +39,9 @@ def fetch_repos_data(username):
 
     while True:
         url = repos_url + '?page=' + str(page_no)
-        response = requests.get(url, headers={"Authorization": "token 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"}).json()
+        headers = {
+            "Authorization": "token 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"}
+        response = requests.get(url, headers=headers).json()
         repos_fetched = len(response)
         repo_data.extend(response)
         if repos_fetched != 30:
