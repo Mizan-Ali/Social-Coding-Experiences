@@ -1,3 +1,4 @@
+from collections import UserList
 import json
 from .user import User
 from .models import UserDB
@@ -31,7 +32,16 @@ def home():
     user_obj = get_user_obj(current_user)
     return render_template("profile.html", user=current_user, user_obj=user_obj)
 
-
+@views.route("/leaderboard")
+def global_leaderboard():
+    leaderboard = []
+    users = UserDB.query.all()
+    
+    for user in users:
+        leaderboard.append((user.full_name, user.email, user.score))
+    leaderboard.sort(key = lambda x: x[2], reverse=True)
+    return leaderboard
+  
 @views.route("/public_profile/<string:email>")
 def public_profile(email):
     user = UserDB.query.filter_by(email=email).first()
