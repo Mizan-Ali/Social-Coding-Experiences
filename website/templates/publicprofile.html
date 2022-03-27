@@ -61,17 +61,25 @@
                 <p class="text-secondary mb-1">{{ friend_user_obj.flask_obj.occupation }}</p>
                 {% if curr_user_obj.check_friend(friend_user_obj.flask_obj.id) %}
                 <form action="{{ url_for('modify.delete_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">UnFollow</button>
+                  <button class="btn btn-primary" name="friend_id"
+                    value="{{ friend_user_obj.flask_obj.id }}">UnFollow</button>
                 </form>
                 {% else %}
                 <form action="{{ url_for('modify.add_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">Follow</button>
+                  <button class="btn btn-primary" name="friend_id"
+                    value="{{ friend_user_obj.flask_obj.id }}">Follow</button>
                 </form>
                 {% endif %}
               </div>
+              
               <div>
-                <a href="{{ url_for('modify.upvote') }}"><img src="../static/image/thumbd_up.png" alt="Like" style="width:60px"></a>
-                <a href="{{ url_for('modify.downvote') }}"><img src="../static/image/thumbd_up.png" alt="UnLike" style="width:60px;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);"></a>
+                <a href="{{ url_for('modify.add_upvote', friend_id=friend_user_obj.flask_obj.id) }}">
+                  <img src="../static/image/thumbd_up.png" alt="Like" style="width:60px">
+                </a>
+
+                <a href="{{ url_for('modify.add_downvote', friend_id=friend_user_obj.flask_obj.id) }}">
+                  <img src="../static/image/thumbd_up.png" alt="UnLike"
+                    style="width:60px;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);"></a>
               </div>
             </div>
           </div>
@@ -86,7 +94,8 @@
             {% if friend_user_obj.github_username %}
             <div class="github_username common username_common">
               <img src="../static/image/github.png" alt="Github">
-              <a href="https://github.com/{{ friend_user_obj.github_username }}" target="_blank" rel="noreferrer noopener">{{
+              <a href="https://github.com/{{ friend_user_obj.github_username }}" target="_blank"
+                rel="noreferrer noopener">{{
                 friend_user_obj.github_username }}</a>
             </div>
             <div class="github_contributions common">

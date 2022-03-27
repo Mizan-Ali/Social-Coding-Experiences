@@ -6,6 +6,7 @@ from flask import Blueprint, redirect, request, flash, url_for
 
 modify = Blueprint("modify", __name__)
 
+
 @modify.route("/add_github", methods=["POST"])
 @login_required
 def add_github():
@@ -80,7 +81,7 @@ def remove_codeforces():
     return redirect(url_for("views.refresh"))
 
 
-@modify.route("/add_codechef", methods = ["POST"])
+@modify.route("/add_codechef", methods=["POST"])
 def add_codechef():
     username = request.form.get("codechef_username")
     try:
@@ -90,15 +91,15 @@ def add_codechef():
 
         current_user.details = curr_user_text
         db.session.commit()
-    
+
     except Exception as e:
         print(f"\n\n{e}\n\n")
-        flash("Unable to add Codechef", category = "error")
-    
-    return redirect(url_for('views.refresh'))
+        flash("Unable to add Codechef", category="error")
+
+    return redirect(url_for("views.refresh"))
 
 
-@modify.route("/remove_codechef", methods = ["POST"])
+@modify.route("/remove_codechef", methods=["POST"])
 def remove_codechef():
     try:
         curr_user_json = json.loads(current_user.details)
@@ -107,12 +108,12 @@ def remove_codechef():
 
         current_user.details = curr_user_text
         db.session.commit()
-    
+
     except Exception as e:
         print(f"\n\n{e}\n\n")
-        flash("Unable to remove Codechef", category = "error")
-    
-    return redirect(url_for('views.refresh'))
+        flash("Unable to remove Codechef", category="error")
+
+    return redirect(url_for("views.refresh"))
 
 
 @modify.route("/add_friend", methods=["POST"])
@@ -160,12 +161,44 @@ def delete_friend():
 
     return redirect(url_for("views.refresh"))
 
-@modify.route("/upvote", methods=["POST"])
-@login_required
-def upvote():
-    pass
 
-@modify.route("/downvote", methods=["POST"])
+@modify.route("/upvote/<int:friend_id>", methods=["GET"])
 @login_required
-def downvote():
-    pass
+def add_upvote(friend_id):
+    try:
+        curr_user_json = json.loads(current_user.details)
+        if friend_id in curr_user_json.get("upvotes", []):
+            raise ValueError
+
+        curr_user_json["upvotes"] = curr_user_json.get("upvotes", []) + [friend_id]
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to upvote user.", category="error")
+
+    return redirect(url_for("views.refresh"))
+
+
+@modify.route("/downvote/<int:friend_id>", methods=["GET"])
+@login_required
+def add_downvote(friend_id):
+    try:
+        curr_user_json = json.loads(current_user.details)
+        if friend_id in curr_user_json.get("downvote", []):
+            raise ValueError
+
+        curr_user_json["downvote"] = curr_user_json.get("downvote", []) + [friend_id]
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to downvote user.", category="error")
+
+    return redirect(url_for("views.refresh"))
