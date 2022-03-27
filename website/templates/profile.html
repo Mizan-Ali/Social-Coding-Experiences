@@ -58,7 +58,7 @@
                 width="150">
               <div class="mt-3">
                 <h4>{{ user.full_name }}</h4>
-                <p class="text-secondary mb-1">Full Stack Developer</p>
+                <p class="text-secondary mb-1">{{ user_obj.flask_obj.occupation }}</p>
                 <!-- <button class="btn btn-primary">Follow</button> -->
               </div>
             </div>
@@ -154,7 +154,7 @@
             {% if user_obj.codeforces_username %}
             <div class="cf_username common username_common">
               <img src="../static/image/code-forces.png" alt="Codeforces">
-              <a href="https://codeforces.com/profile/username">{{ user_obj.codeforces_username }}</a>
+              <a href="https://codeforces.com/profile/{{ user_obj.codeforces_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.codeforces_username }}</a>
             </div>
             <div class="cf_u_rating common">
               <h6>Current Rating</h6>
