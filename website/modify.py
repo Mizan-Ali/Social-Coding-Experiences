@@ -1,8 +1,9 @@
-import json
 from . import db
-from .models import UserDB
+from .views import update_rating
 from flask_login import current_user, login_required
+from user_profile_details import github, codechef, codeforces
 from flask import Blueprint, redirect, request, flash, url_for
+from .models import Codeforces, Friends, Github, User, Votes, Codechef
 
 modify = Blueprint("modify", __name__)
 
@@ -11,109 +12,136 @@ modify = Blueprint("modify", __name__)
 @login_required
 def add_github():
     username = request.form.get("github_username")
+    current_user.github_username = username
+
+    github_details = github.fetch_github_data(username)
+    if not github_details["SUCCESS"]:
+        flash("Unable to add Github", category="error")
+        return redirect(url_for("views.home"))
+
+    github_details.pop("SUCCESS")
+    github_details.pop("company")
+    github_details.pop("watchers_count")
+    git = Github(user_id=current_user.id, **github_details)
+    db.session.add(git)
+
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["github_username"] = username
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
         db.session.commit()
-
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to add Github", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating()
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/remove_github", methods=["POST"])
 @login_required
 def remove_github():
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["github_username"] = ""
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
+        current_user.github_username = ""
+        git = Github.query.filter_by(user_id=current_user.id).first()
+        db.session.delete(git)
         db.session.commit()
+        flash("Removed Github", category="success")
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to remove Github", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating()
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
 def add_codeforces():
-    username = request.form.get("codeforces_username")
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["codeforces_username"] = username
-        curr_user_text = json.dumps(curr_user_json)
+        username = request.form.get("codeforces_username")
+        current_user.codeforces_username = username
 
-        current_user.details = curr_user_text
+        codeforces_details = codeforces.fetch_codeforces_data(username)
+
+        if not codeforces_details["SUCCESS"]:
+            raise ValueError
+
+        cf = Codeforces(user_id=current_user.id, **codeforces_details)
+        db.session.add(cf)
         db.session.commit()
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to add CodeForces", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating()
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/remove_codeforces", methods=["POST"])
 @login_required
 def remove_codeforces():
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["codeforces_username"] = ""
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
+        current_user.codeforces_username = ""
+        cf = current_user.codeforces
+        db.session.delete(cf)
         db.session.commit()
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to remove CodeForces", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating()
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/add_codechef", methods=["POST"])
 def add_codechef():
     username = request.form.get("codechef_username")
+    current_user.codechef_username = username
+
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["codechef_username"] = username
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
         db.session.commit()
-
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to add Codechef", category="error")
 
-    return redirect(url_for("views.refresh"))
+    codechef_details = codechef.fetch_codechef_data(username)
+
+    if not codechef_details["SUCCESS"]:
+        raise ValueError
+
+    codechef_details.pop("SUCCESS")
+    cc = Codechef(
+        user_id=current_user.id,
+        rating=codechef_details["rating"],
+        solved=codechef_details["solved"],
+        country_rank=codechef_details["country_rank"],
+        global_rank=codechef_details["global_rank"],
+        highest_rating=codechef_details["highest_rating"],
+        num_stars=codechef_details["num_stars"],
+        country=codechef_details["country"],
+    )
+
+    db.session.add(cc)
+
+    try:
+        db.session.commit()
+        update_rating()
+
+    except Exception as e:
+        flash("Unable to add Codechef", category="error")
+
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/remove_codechef", methods=["POST"])
 def remove_codechef():
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["codechef_username"] = ""
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
+        current_user.codechef_username = ""
+        cc = current_user.codechef
+        db.session.delete(cc)
         db.session.commit()
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to remove Codechef", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating()
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/add_friend", methods=["POST"])
@@ -122,48 +150,41 @@ def add_friend():
     friend_id = request.form.get("friend_id")
     if current_user.id == int(friend_id):
         flash("Cannot follow self.", category="error")
-        return redirect(url_for("views.refresh"))
-    
-    friend = UserDB.query.filter_by(id=friend_id).first()
+        return redirect(url_for("views.home"))
+
+    friend = User.query.filter_by(id=friend_id).first()
 
     if not friend:
-        flash("Friend not found", category="error")
-        return redirect(url_for("views.refresh"))
+        flash("User not found", category="error")
+        return redirect(url_for("views.home"))
 
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["friends"] = curr_user_json.get("friends", []) + [friend.id]
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
+        new_friend = Friends(user_id=current_user.id, friend_id=friend_id)
+        db.session.add(new_friend)
         db.session.commit()
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
-        flash("Unable to add friend", category="error")
+        flash("Unable to follow user", category="error")
 
-    return redirect(url_for("views.refresh"))
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/delete_friend", methods=["POST"])
 @login_required
 def delete_friend():
     friend_id = request.form.get("friend_id")
-    friend = UserDB.query.filter_by(id=friend_id).first()
+    friend_relaton = Friends.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id
+    ).first()
 
     try:
-        curr_user_json = json.loads(current_user.details)
-        curr_user_json["friends"].pop(curr_user_json["friends"].index(friend.id))
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
+        db.session.delete(friend_relaton)
         db.session.commit()
 
     except Exception as e:
-        print(f"\n\n{e}\n\n")
-        flash("Unable to delete friend", category="error")
+        flash("Unable to unfollow user", category="error")
 
-    return redirect(url_for("views.refresh"))
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/upvote/<int:friend_id>")
@@ -171,26 +192,31 @@ def delete_friend():
 def add_upvote(friend_id):
     if current_user.id == friend_id:
         flash("Cannot upvote self", category="error")
-        return redirect(url_for("views.refresh"))
-    
+        return redirect(url_for("views.home"))
+
+    friend = User.query.get(friend_id)
+    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+
+    if vote:
+        if vote.vote_type == "U":
+            flash("Can only upvote once", category="error")
+            return redirect(url_for("views.home"))
+        else:
+            db.session.delete(vote)
+            friend.downvotes -= 1
+
+    vote = Votes(user_id=current_user.id, friend_id=friend_id, vote_type="U")
+    db.session.add(vote)
+    friend.upvotes += 1
+
     try:
-        curr_user_json = json.loads(current_user.details)
-        if friend_id in curr_user_json.get("upvotes", []):
-            raise ValueError
-
-        curr_user_json["upvotes"] = curr_user_json.get("upvotes", []) + [friend_id]
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
         db.session.commit()
-        
         flash("Upvoted User", category="success")
-
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to upvote user.", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating(friend)
+    return redirect(url_for("views.home"))
 
 
 @modify.route("/downvote/<int:friend_id>")
@@ -198,23 +224,28 @@ def add_upvote(friend_id):
 def add_downvote(friend_id):
     if current_user.id == friend_id:
         flash("Cannot downvote self", category="error")
-        return redirect(url_for("views.refresh"))
-    
+        return redirect(url_for("views.home"))
+
+    friend = User.query.get(friend_id)
+    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+
+    if vote:
+        if vote.vote_type == "D":
+            flash("Can only downvote once", category="error")
+            return redirect(url_for("views.home"))
+        else:
+            db.session.delete(vote)
+            friend.upvotes -= 1
+
+    vote = Votes(user_id=current_user.id, friend_id=friend_id, vote_type="D")
+    db.session.add(vote)
+    friend.downvotes += 1
+
     try:
-        curr_user_json = json.loads(current_user.details)
-        if friend_id in curr_user_json.get("downvote", []):
-            raise ValueError
-
-        curr_user_json["downvote"] = curr_user_json.get("downvote", []) + [friend_id]
-        curr_user_text = json.dumps(curr_user_json)
-
-        current_user.details = curr_user_text
         db.session.commit()
-        
         flash("Downvoted User", category="success")
-
     except Exception as e:
-        print(f"\n\n{e}\n\n")
         flash("Unable to downvote user.", category="error")
 
-    return redirect(url_for("views.refresh"))
+    update_rating(friend)
+    return redirect(url_for("views.home"))
