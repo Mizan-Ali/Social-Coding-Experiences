@@ -65,8 +65,8 @@ def add_codechef():
 @modify.route("/add_friend", methods=["POST"])
 @login_required
 def add_friend():
-    friend_email = request.form.get("friendEmail")
-    friend = UserDB.query.filter_by(email=friend_email).first()
+    friend_id = request.form.get("friend_id")
+    friend = UserDB.query.filter_by(id=friend_id).first()
 
     if not friend:
         flash("Friend not found", category="error")
@@ -90,8 +90,8 @@ def add_friend():
 @modify.route("/delete_friend", methods=["POST"])
 @login_required
 def delete_friend():
-    friend_email = request.form.get("friendEmail")
-    friend = UserDB.query.filter_by(email=friend_email).first()
+    friend_id = request.form.get("friend_id")
+    friend = UserDB.query.filter_by(id=friend_id).first()
 
     try:
         curr_user_json = json.loads(current_user.details)
