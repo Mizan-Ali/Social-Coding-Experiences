@@ -1,41 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
-</head>
-<body>
-    <div class="rating">
-        <h2>Current Ranking</h2>
-        <div class="cur_rating">
-            <div class="rating_card_common c_rating_head">
-                <h3>Name</h3>
-                <h3>Email</h3>
-                <h3>Score</h3>
-            </div>
-            <div class="rating_card_common c_rating_data">
-                <span>abc</span>
-                <a href="{{ url_for('views.public_profile') }}">abc@gmail.com</a>
-                <span>10</span>
-            </div>
-        </div>
+{% extends "base.html" %}
 
-        <h2>Global Rating</h2>
-        <div class="global_rating">
-            <div class="rating_card_common c_rating_head">
-                <h3>Name</h3>
-                <h3>Email</h3>
-                <h3>Score</h3>
-            </div>
-            <div class="rating_card_common c_rating_data">
-                <span>abc</span>
-                <a href="{{ url_for('views.public_profile') }}">abc@gmail.com</a>
-                <span>10</span>
-            </div>
+{% block head %}
+<title>Leaderboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="rating">
+    <h2>Personal Ranking</h2>
+    <div class="cur_rating">
+        <div class="rating_card_common c_rating_head">
+            <h3>Name</h3>
+            <h3>Email</h3>
+            <h3>Score</h3>
         </div>
+        {% for user in friends_leaderboard %}
+        <div class="rating_card_common c_rating_data">
+            <span>{{ user[0] }}</span>
+            <form action="{{ url_for('views.public_profile') }}" method="post">
+                <button type="submit" name="email" value="{{ user[1] }}">{{ user[1] }}</button>
+            </form>
+            <span>{{ user[2] }}</span>
+        </div>
+        {% endfor %}
     </div>
-</body>
-</html>
+
+    <h2>Global Rating</h2>
+    <div class="global_rating">
+        <div class="rating_card_common c_rating_head">
+            <h3>Name</h3>
+            <h3>Email</h3>
+            <h3>Score</h3>
+        </div>
+        {% for user in global_leaderboard %}
+        <div class="rating_card_common c_rating_data">
+            <span>{{ user[0] }}</span>
+            <form action="{{ url_for('views.public_profile') }}" method="post">
+                <button type="submit" name="email" value="{{ user[1] }}">{{ user[1] }}</button>
+            </form>
+            <span>{{ user[2] }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
