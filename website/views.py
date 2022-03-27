@@ -36,4 +36,6 @@ def home():
 def public_profile(email):
     user = UserDB.query.filter_by(email=email).first()
     user_obj = get_user_obj(user)
-    return render_template("publicprofile.html", user_obj=user_obj)
+    curr_user_obj = get_user_obj(current_user)
+    
+    return render_template("publicprofile.html", user=current_user, user_obj=user_obj, curr_user_obj=curr_user_obj)

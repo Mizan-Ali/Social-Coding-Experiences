@@ -53,4 +53,9 @@ class User:
             db.session.commit()
         except Exception as e:
             print(e)
+            
+    def check_friend(self, friend_id):
+        if friend_id in self.friends:
+            return True
+        return False
         
