@@ -69,9 +69,14 @@
           <ul class="list-group list-group-flush">
             <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
               <img src="../static/image/search.png" alt="Search" class="sidebar_logo">
-              <input type="text" placeholder="Username..."
-                style="border: solid 1px lightgray;border-radius: 5px;width:79%; margin-left: 20px;">
+
+              <form action="{{ url_for('views.public_profile') }}" method="post">
+                <input placeholder="Email..." type="email" id="email" name="email"
+                  style="border: solid 1px lightgray;border-radius: 5px;width:79%; margin-left: 20px;">
+                <button type="submit" class="btn">Search</button>
+              </form>
             </li>
+
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <img src="../static/image/trophy.png" alt="Search" class="sidebar_logo">
               <div style="width: 100%;margin-left: 30px;">
@@ -89,33 +94,6 @@
 
       </div>
       <div class="col-md-8">
-        <!-- <div class="card mb-3">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Full Name</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  Kenneth Valdez
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Email</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  fip@jukmuh.al
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                        <div class="col-sm-12">
-                          <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                        </div>
-                      </div>
-            </div>
-          </div> -->
 
         <div class="row_new">
 
@@ -123,7 +101,8 @@
             {% if user_obj.github_username %}
             <div class="github_username common username_common">
               <img src="../static/image/github.png" alt="Github">
-              <a href="https://github.com/{{ user_obj.github_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.github_username }}</a>
+              <a href="https://github.com/{{ user_obj.github_username }}" target="_blank" rel="noreferrer noopener">
+                {{ user_obj.github_username }}</a>
             </div>
             <div class="github_contributions common">
               <h6>Contributions in the Last Year</h6>
@@ -141,6 +120,10 @@
               <h6>Star Count</h6>
               <span>{{ user_obj.github_details["stargazers_count"] }}</span>
             </div>
+
+            <form method="POST" action="{{ url_for('modify.remove_github') }}">
+              <button type="submit" class="btn btn-primary">Remove</button>
+            </form>
 
             {% else %}
 
@@ -160,7 +143,8 @@
             {% if user_obj.codeforces_username %}
             <div class="cf_username common username_common">
               <img src="../static/image/code-forces.png" alt="Codeforces">
-              <a href="https://codeforces.com/profile/{{ user_obj.codeforces_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.codeforces_username }}</a>
+              <a href="https://codeforces.com/profile/{{ user_obj.codeforces_username }}" target="_blank"
+                rel="noreferrer noopener">{{ user_obj.codeforces_username }}</a>
             </div>
             <div class="cf_u_rating common">
               <h6>Current Rating</h6>
@@ -183,6 +167,10 @@
               <span>{{ user_obj.codeforces_details["rank"] }}</span>
             </div>
 
+            <form method="POST" action="{{ url_for('modify.remove_codeforces') }}">
+              <button type="submit" class="btn btn-primary">Remove</button>
+            </form>
+
             {% else %}
 
             <form method="POST" action="{{ url_for('modify.add_codeforces') }}">
@@ -203,7 +191,8 @@
 
             <div class="cc_username common username_common">
               <img src="../static/image/code-chef.png" alt="CodeChef">
-              <a href="https://codechef.com/users/{{ user_obj.codechef_username }}" target="_blank" rel="noreferrer noopener">{{ user_obj.codechef_username }}</a>
+              <a href="https://codechef.com/users/{{ user_obj.codechef_username }}" target="_blank"
+                rel="noreferrer noopener">{{ user_obj.codechef_username }}</a>
             </div>
             <div class="cc_country common">
               <h6>Country</h6>
@@ -229,6 +218,10 @@
               <h6>Star Rating</h6>
               <span>{{ user_obj.codechef_details['num_stars'] }}</span>
             </div>
+
+            <form method="POST" action="{{ url_for('modify.remove_codechef') }}">
+              <button type="submit" class="btn btn-primary">Remove</button>
+            </form>
 
             {% else %}
 

@@ -59,7 +59,6 @@
               <div class="mt-3">
                 <h4>{{ friend_user_obj.flask_obj.full_name }}</h4>
                 <p class="text-secondary mb-1">{{ friend_user_obj.flask_obj.occupation }}</p>
-                {% if curr_user_obj.flask_obj.is_authenticated %}
                 {% if curr_user_obj.check_friend(friend_user_obj.flask_obj.id) %}
                 <form action="{{ url_for('modify.delete_friend') }}" method="post">
                   <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">UnFollow</button>
@@ -68,7 +67,6 @@
                 <form action="{{ url_for('modify.add_friend') }}" method="post">
                   <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">Follow</button>
                 </form>
-                {% endif %}
                 {% endif %}
               </div>
             </div>
