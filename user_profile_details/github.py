@@ -52,3 +52,21 @@ def fetch_repos_data(username):
             data[field] += int(repo[field])
 
     return data
+
+
+'''
+Fetches profile picture and returns the link
+'''
+
+
+def fetch_profile_picture(username):
+    url = "https://github.com/" + username
+    resp = requests.get(url)
+    soup = BeautifulSoup(resp.text, 'html.parser')
+
+    pfp = soup.find('img', alt='Avatar')
+    try:
+        img_url = pfp['src']
+        return img_url
+    except:
+        return False
