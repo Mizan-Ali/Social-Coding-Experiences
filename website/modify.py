@@ -31,6 +31,7 @@ def add_github():
 
     try:
         db.session.commit()
+        flash("Added Github", category="success")
     except Exception as e:
         flash("Unable to add Github", category="error")
 
@@ -65,7 +66,7 @@ def add_codeforces():
 
     if not codeforces_details["SUCCESS"]:
         flash("Unable to add Codeforces", category="error")
-        raise redirect(url_for("views.home"))
+        return redirect(url_for("views.home"))
 
     cf = Codeforces(
         user_id=current_user.id,
@@ -110,15 +111,11 @@ def add_codechef():
     username = request.form.get("codechef_username")
     current_user.codechef_username = username
 
-    try:
-        db.session.commit()
-    except Exception as e:
-        flash("Unable to add Codechef", category="error")
-
     codechef_details = codechef.fetch_codechef_data(username)
 
     if not codechef_details["SUCCESS"]:
-        raise ValueError
+        flash("Unable to add Codechef", category="error")
+        return redirect(url_for("views.home"))
 
     codechef_details.pop("SUCCESS")
     cc = Codechef(
@@ -137,6 +134,7 @@ def add_codechef():
     try:
         db.session.commit()
         update_rating()
+        flash("Codechef added", category="success")
 
     except Exception as e:
         flash("Unable to add Codechef", category="error")
