@@ -12,7 +12,7 @@
 .in_box{
     background:whitesmoke;
     width : 50%;
-    height: 50%;
+    height: 80%;
     border: solid 4px #0e5ed6a6;
     border-radius: 20px;
     display: flex;
@@ -29,7 +29,7 @@
 .in_box input{
     margin: 10px;
     width: 300px;
-    height: 18px;
+    height: 40px;
     padding: 10px;
     font-size: 15px;
     border: solid 2.5px gray;
@@ -38,8 +38,8 @@
 .in_box button{
     color: #fff;
     margin: 10px;
-    width: 100px;
-    height: 30px;
+    width: 120px;
+    height: 40px;
     border: solid 1px lightgray;
     border-radius: 10px;
     background-color: #0B5ED7;
@@ -50,7 +50,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-top: 45px;
     font-size: 13px;
 }
 .sign_up a{
