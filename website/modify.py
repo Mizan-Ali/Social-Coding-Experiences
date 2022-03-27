@@ -120,6 +120,10 @@ def remove_codechef():
 @login_required
 def add_friend():
     friend_id = request.form.get("friend_id")
+    if current_user.id == int(friend_id):
+        flash("Cannot follow self.", category="error")
+        return redirect(url_for("views.refresh"))
+    
     friend = UserDB.query.filter_by(id=friend_id).first()
 
     if not friend:
@@ -162,9 +166,13 @@ def delete_friend():
     return redirect(url_for("views.refresh"))
 
 
-@modify.route("/upvote/<int:friend_id>", methods=["GET"])
+@modify.route("/upvote/<int:friend_id>")
 @login_required
 def add_upvote(friend_id):
+    if current_user.id == friend_id:
+        flash("Cannot upvote self", category="error")
+        return redirect(url_for("views.refresh"))
+    
     try:
         curr_user_json = json.loads(current_user.details)
         if friend_id in curr_user_json.get("upvotes", []):
@@ -175,6 +183,8 @@ def add_upvote(friend_id):
 
         current_user.details = curr_user_text
         db.session.commit()
+        
+        flash("Upvoted User", category="success")
 
     except Exception as e:
         print(f"\n\n{e}\n\n")
@@ -183,9 +193,13 @@ def add_upvote(friend_id):
     return redirect(url_for("views.refresh"))
 
 
-@modify.route("/downvote/<int:friend_id>", methods=["GET"])
+@modify.route("/downvote/<int:friend_id>")
 @login_required
 def add_downvote(friend_id):
+    if current_user.id == friend_id:
+        flash("Cannot downvote self", category="error")
+        return redirect(url_for("views.refresh"))
+    
     try:
         curr_user_json = json.loads(current_user.details)
         if friend_id in curr_user_json.get("downvote", []):
@@ -196,6 +210,8 @@ def add_downvote(friend_id):
 
         current_user.details = curr_user_text
         db.session.commit()
+        
+        flash("Downvoted User", category="success")
 
     except Exception as e:
         print(f"\n\n{e}\n\n")

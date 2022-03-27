@@ -6,6 +6,15 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 curr_user_obj = None
 views = Blueprint("views", __name__)
 
+def get_global_leaderboard():
+    leaderboard = []
+    users = UserDB.query.all()
+    
+    for user in users:
+        leaderboard.append((user.full_name, user.email, user.score))
+    leaderboard.sort(key = lambda x: x[2], reverse=True)
+    return leaderboard
+
 @views.route("/")
 @login_required
 def home():
@@ -21,14 +30,11 @@ def refresh():
     return redirect(url_for("views.home"))
 
 @views.route("/leaderboard")
-def global_leaderboard():
-    leaderboard = []
-    users = UserDB.query.all()
+def leaderboard():
+    global_leaderboard = get_global_leaderboard()
+    friends_leaderboard = curr_user_obj.friend_leaderboard()
     
-    for user in users:
-        leaderboard.append((user.full_name, user.email, user.score))
-    leaderboard.sort(key = lambda x: x[2], reverse=True)
-    return leaderboard
+    return render_template("leaderboard.html", global_leaderboard=global_leaderboard, friends_leaderboard=friends_leaderboard)
   
 @views.route("/public_profile", methods=["POST"])
 @login_required

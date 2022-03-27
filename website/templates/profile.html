@@ -79,7 +79,7 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <img src="../static/image/trophy.png" alt="Search" class="sidebar_logo">
               <div style="width: 100%;margin-left: 30px;">
-                <a href="#" style="text-decoration: none;color: black;font-weight: 500;">Leaderboard</a>
+                <a href="{{ url_for('views.leaderboard') }}" style="text-decoration: none;color: black;font-weight: 500;">Leaderboard</a>
               </div>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -243,5 +243,3 @@
   </div>
 </div>
 {% endblock %}
-
-</html>

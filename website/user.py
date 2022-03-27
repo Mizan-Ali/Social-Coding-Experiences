@@ -10,8 +10,8 @@ class User:
     flask_obj: Any
     friends: field(default_factory=tuple)
 
-    upvotes: int = 0
-    downvotes: int = 0
+    upvotes: field(default_factory=list)
+    downvotes: field(default_factory=list)
 
     github_username: str = ""
     codechef_username: str = ""
@@ -26,10 +26,12 @@ class User:
 
         if self.codeforces_username:
             self.codeforces_details = codeforces.fetch_codeforces_data(self.codeforces_username)
+            
+        self.update_rating()
 
 
     def friend_leaderboard(self):
-        leaderboard = []
+        leaderboard = [(self.flask_obj.full_name, self.flask_obj.email, self.flask_obj.score)]
         for friend_id in self.friends:
             friend = UserDB.query.filter_by(id=friend_id).first()
             leaderboard.append((friend.full_name, friend.email, friend.score))
@@ -38,16 +40,16 @@ class User:
 
     def update_rating(self):
 
-        total_rating = self.upvotes + self.downvotes
+        total_rating = len(self.upvotes) + len(self.downvotes)
 
-        if self.codechef_rating:
-            total_rating += (self.codechef_details['rating'] / 10)
+        if self.codechef_username:
+            total_rating += (int(self.codechef_details['rating']) / 10)
 
-        if self.codeforces_rating:
-            total_rating += (self.codeforces_details['current rating'] / 10)
+        if self.codeforces_username:
+            total_rating += (int(self.codeforces_details['rating']) / 10)
 
         if self.github_username:
-            total_rating += self.github_details['total commits']
+            total_rating += int(self.github_details.get('total_commits', 0))
         
         try:
             self.flask_obj.score = total_rating
@@ -68,8 +70,8 @@ def get_user_obj(user):
     user_obj = User(
         flask_obj=user,
         
-        upvotes=curr_user_json.get("upvotes", 0),
-        downvotes=curr_user_json.get("downvotes", 0),
+        upvotes=curr_user_json.get("upvotes", []),
+        downvotes=curr_user_json.get("downvotes", []),
         friends=tuple(curr_user_json.get("friends", [])),
 
         github_username=curr_user_json.get("github_username", ""),
