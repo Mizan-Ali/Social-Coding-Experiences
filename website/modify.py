@@ -65,11 +65,11 @@ def add_codeforces():
 
     cf = Codeforces(
         user_id=current_user.id,
-        rank = codeforces_details["rank"],
-        rating =codeforces_details["rating"],
-        problems_solved = codeforces_details["problems_solved"],
-        contests = codeforces_details["contests"],
-        highest_rating = codeforces_details["highest_rating"]
+        rank=codeforces_details["rank"],
+        rating=codeforces_details["rating"],
+        problems_solved=codeforces_details["problems_solved"],
+        contests=codeforces_details["contests"],
+        highest_rating=codeforces_details["highest_rating"]
     )
 
     db.session.add(cf)
@@ -78,7 +78,7 @@ def add_codeforces():
 
     except Exception as e:
         flash("Unable to add Codeforces", category="error")
-    
+
     update_rating()
     return redirect(url_for("views.home"))
 
@@ -88,7 +88,7 @@ def add_codeforces():
 def remove_codeforces():
     try:
         current_user.codeforces_username = ""
-        
+
         cf = Codeforces.query.filter_by(user_id=current_user.id).first()
         db.session.delete(cf)
         db.session.commit()
@@ -206,7 +206,8 @@ def add_upvote(friend_id):
         return redirect(url_for("views.home"))
 
     friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+    vote = Votes.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id).first()
 
     if vote:
         if vote.vote_type == "U":
@@ -238,7 +239,8 @@ def add_downvote(friend_id):
         return redirect(url_for("views.home"))
 
     friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+    vote = Votes.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id).first()
 
     if vote:
         if vote.vote_type == "D":
