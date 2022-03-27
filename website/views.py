@@ -1,36 +1,24 @@
-from collections import UserList
-import json
-from .user import User
 from .models import UserDB
-from flask import Blueprint, render_template
+from .user import get_user_obj
+from flask import Blueprint, redirect, render_template, url_for
 from flask_login import login_required, current_user
 
+curr_user_obj = None
 views = Blueprint("views", __name__)
-
-
-def get_user_obj(user):
-    curr_user_json = json.loads(user.details)
-
-    user_obj = User(
-        flask_obj=user,
-        
-        upvotes=curr_user_json.get("upvotes", 0),
-        downvotes=curr_user_json.get("downvotes", 0),
-        friends=tuple(curr_user_json.get("friends", [])),
-
-        github_username=curr_user_json.get("github_username", ""),
-        codechef_username=curr_user_json.get("codechef_username", ""),
-        codeforces_username=curr_user_json.get("codeforces_username", ""),
-    )
-    
-    return user_obj
-
 
 @views.route("/")
 @login_required
 def home():
-    user_obj = get_user_obj(current_user)
-    return render_template("profile.html", user=current_user, user_obj=user_obj)
+    if curr_user_obj is None:
+        return redirect(url_for("views.refresh"))
+    return render_template("profile.html", user_obj=curr_user_obj)
+
+@views.route('/refresh')
+@login_required
+def refresh():
+    global curr_user_obj
+    curr_user_obj = get_user_obj(current_user)
+    return redirect(url_for("views.home"))
 
 @views.route("/leaderboard")
 def global_leaderboard():
@@ -43,9 +31,9 @@ def global_leaderboard():
     return leaderboard
   
 @views.route("/public_profile/<string:email>")
+@login_required
 def public_profile(email):
     user = UserDB.query.filter_by(email=email).first()
-    user_obj = get_user_obj(user)
-    curr_user_obj = get_user_obj(current_user)
+    friend_user_obj = get_user_obj(user)
     
-    return render_template("publicprofile.html", user=current_user, user_obj=user_obj, curr_user_obj=curr_user_obj)
+    return render_template("publicprofile.html", user_obj=curr_user_obj, friend_user_obj=friend_user_obj)

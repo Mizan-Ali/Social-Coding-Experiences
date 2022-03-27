@@ -1,20 +1,21 @@
+import json
+from . import db
 from typing import Any
 from .models import UserDB
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from user_profile_details import github, codechef, codeforces
-from . import db
 
 @dataclass
 class User:
     flask_obj: Any
-    friends: tuple[int]
+    friends: field(default_factory=tuple)
 
-    upvotes: int
-    downvotes: int
+    upvotes: int = 0
+    downvotes: int = 0
 
-    github_username: str
-    codechef_username: str
-    codeforces_username: str
+    github_username: str = ""
+    codechef_username: str = ""
+    codeforces_username: str = ""
 
     def __post_init__(self):
         if self.github_username:
@@ -59,3 +60,21 @@ class User:
             return True
         return False
         
+def get_user_obj(user):
+    curr_user_json = dict()
+    if user.is_authenticated:
+        curr_user_json = json.loads(user.details)
+
+    user_obj = User(
+        flask_obj=user,
+        
+        upvotes=curr_user_json.get("upvotes", 0),
+        downvotes=curr_user_json.get("downvotes", 0),
+        friends=tuple(curr_user_json.get("friends", [])),
+
+        github_username=curr_user_json.get("github_username", ""),
+        codechef_username=curr_user_json.get("codechef_username", ""),
+        codeforces_username=curr_user_json.get("codeforces_username", ""),
+    )
+    
+    return user_obj
