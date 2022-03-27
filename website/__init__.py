@@ -8,6 +8,7 @@ from dbcleanup.db_cleanup import DBCleanup
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
+app = Flask(__name__)
 
 class DBCleaner(Resource):
     def delete(self):
@@ -17,11 +18,15 @@ class DBCleaner(Resource):
 
         if False == cleanup_obj.validate_key():
             return jsonify({'error' : 'Use correct Reg Key to delete'})
-            
-        return jsonify(cleanup_obj.initiate_db_cleanup())
+        
+        resp = cleanup_obj.initiate_db_cleanup()
+
+        if resp.get('cleanup_status', 'FAILURE') == 'SUCCESS':
+            create_database(app)
+
+        return jsonify(resp)
 
 def create_app():
-    app = Flask(__name__)
     app.config["SECRET_KEY"] = "dsfuibskdbvibsidbvbb" # change before deployment
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
