@@ -8,6 +8,8 @@ class UserDB(db.Model, UserMixin):
 
     full_name = db.Column(db.String(64))
     password = db.Column(db.String(64))
+    gender = db.Column(db.String(1))
+    occupation = db.Column(db.String(64))
     
     score = db.Column(db.Integer, default=0)
     details = db.Column(db.String(256), default="{}")

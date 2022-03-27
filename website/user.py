@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from user_profile_details import github, codechef, codeforces
 from . import db
 
-@dataclass(frozen=True)
+@dataclass
 class User:
     flask_obj: Any
     friends: tuple[int]
@@ -32,6 +32,7 @@ class User:
         for friend_id in self.friends:
             friend = UserDB.query.filter_by(id=friend_id).first()
             leaderboard.append((friend.full_name, friend.score))
+        leaderboard.sort(key=lambda x: x[1])
         return leaderboard
 
     def update_rating(self):

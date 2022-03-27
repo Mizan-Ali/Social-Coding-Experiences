@@ -27,6 +27,24 @@ def home():
 
     return render_template("profile.html", user=current_user, user_obj=user_obj)
 
+@views.route("/add_github", methods=["POST"])
+def add_github():
+    username = request.form.get("github_username")
+    try:
+        curr_user_json = json.loads(current_user.details)
+        curr_user_json["github_username"] = username
+        curr_user_text = json.dumps(curr_user_json)
+
+        current_user.details = curr_user_text
+        db.session.commit()
+
+    except Exception as e:
+        print(f"\n\n{e}\n\n")
+        flash("Unable to add Github", category="error")
+
+    return redirect(url_for("views.home"))
+
+
 
 @views.route("/add_friend", methods=["POST"])
 def add_friend():
@@ -38,7 +56,7 @@ def add_friend():
         return redirect(url_for("views.home"))
 
     try:
-        curr_user_json = json.load(current_user.details)
+        curr_user_json = json.loads(current_user.details)
         curr_user_json["friends"] = curr_user_json.get("friends", []) + [friend.id]
         curr_user_text = json.dumps(curr_user_json)
 
@@ -58,7 +76,7 @@ def delete_friend():
     friend = UserDB.query.filter_by(email=friend_email).first()
 
     try:
-        curr_user_json = json.load(current_user.details)
+        curr_user_json = json.loads(current_user.details)
         curr_user_json["friends"].pop(curr_user_json["friends"].index(friend.id))
         curr_user_text = json.dumps(curr_user_json)
 

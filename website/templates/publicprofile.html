@@ -59,57 +59,41 @@
               <div class="mt-3">
                 <h4>{{ user.full_name }}</h4>
                 <p class="text-secondary mb-1">Full Stack Developer</p>
-                <!-- <button class="btn btn-primary">Follow</button> -->
+                <button class="btn btn-primary">Follow</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="card mt-3">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-              <img src="../static/image/search.png" alt="Search" class="sidebar_logo">
-              <input type="text" placeholder="Username..."
-                style="border: solid 1px lightgray;border-radius: 5px;width:79%; margin-left: 20px;">
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <img src="../static/image/trophy.png" alt="Search" class="sidebar_logo">
-              <div style="width: 100%;margin-left: 30px;">
-                <a href="#" style="text-decoration: none;color: black;font-weight: 500;">Leaderboard</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-
       </div>
       <div class="col-md-8">
         <!-- <div class="card mb-3">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Full Name</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  Kenneth Valdez
-                </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Full Name</h6>
               </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Email</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  fip@jukmuh.al
-                </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user.full_name }}
               </div>
-              <hr>
-              <div class="row">
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <h6 class="mb-0">Email</h6>
+              </div>
+              <div class="col-sm-9 text-secondary">
+                {{ user.email }}
+              </div>
+            </div>
+            <hr>
+            <div class="row">
                         <div class="col-sm-12">
                           <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
                         </div>
                       </div>
-            </div>
-          </div> -->
+          </div>
+        </div> -->
 
         <div class="row_new">
 
@@ -119,21 +103,21 @@
               <img src="../static/image/github.png" alt="Github">
               <a href="https://github.com/username">{{ user_obj.github_username }}</a>
             </div>
-            <div class="github_contributions common">
-              <h6>Contributions in the Last Year</h6>
-              <span>{{ user_obj.github_details["total_commits"] }}</span>
+            <div class="github_comit_count common">
+              <h6>Total Commits</h6>
+              <span>{{ user_obj.github_details[""] }}</span>
             </div>
             <div class="github_followers common">
               <h6>Total Followers</h6>
-              <span>{{ user_obj.github_details["followers"] }}</span>
+              <span>112</span>
             </div>
-            <div class="github_forks common">
-              <h6>Fork Count</h6>
-              <span>{{ user_obj.github_details["forks_count"] }}</span>
+            <div class="github_contributions common">
+              <h6>Total Contributions</h6>
+              <span>112</span>
             </div>
-            <div class="github_stars common">
-              <h6>Star Count</h6>
-              <span>{{ user_obj.github_details["stargazers_count"] }}</span>
+            <div class="github_star_rating common">
+              <h6>Github Star Rating</h6>
+              <span>4</span>
             </div>
 
             {% else %}

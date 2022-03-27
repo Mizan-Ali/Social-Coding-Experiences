@@ -34,6 +34,9 @@ def logout():
 
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
+    # TODO: gender
+    # TODO: occupation
+
     if request.method == "POST":
         email = request.form.get("email")
         full_name = request.form.get("full_name")
