@@ -69,6 +69,10 @@
                 </form>
                 {% endif %}
               </div>
+              <div>
+                <a href="{{ url_for('modify.upvote') }}"><img src="../static/image/thumbd_up.png" alt="Like" style="width:60px"></a>
+                <a href="{{ url_for('modify.downvote') }}"><img src="../static/image/thumbd_up.png" alt="UnLike" style="width:60px;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);"></a>
+              </div>
             </div>
           </div>
         </div>
