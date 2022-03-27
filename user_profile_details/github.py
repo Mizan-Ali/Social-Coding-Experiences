@@ -1,12 +1,15 @@
-from wsgiref import headers
 import requests
 from bs4 import BeautifulSoup
 
 
 def fetch_github_data(username):
+    # res = requests.get("https://api.github.com/rate_limit").json()
+    # print("\n\n")
+    # print(res["resources"]["core"]["remaining"])
+    # print("\n\n")
+    
     url = f'https://api.github.com/users/{username}'
-    headers = {"Authorization": "token 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"}
-    response = requests.get(url, headers=headers).json()
+    response = requests.get(url).json()
 
     data_needed = ["company", "followers", "public_repos"]
     try:
@@ -18,7 +21,6 @@ def fetch_github_data(username):
     except:
         return {'SUCCESS': False}
 
-    # ["company", "followers", "public_repos", "total commits"]
     return overall_data
 
 
@@ -39,17 +41,17 @@ def fetch_repos_data(username):
 
     while True:
         url = repos_url + '?page=' + str(page_no)
-        headers = {
-            "Authorization": "token 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"}
-        response = requests.get(url, headers=headers).json()
+        response = requests.get(url).json()
         repos_fetched = len(response)
         repo_data.extend(response)
         if repos_fetched != 30:
             break
         page_no = page_no + 1
 
+
+    
     data_needed = ["watchers_count", "forks_count", "stargazers_count"]
-    data = {field: 0 for field in data_needed + ["commits_count"]}
+    data = {field: 0 for field in data_needed}
 
     for repo in repo_data:
         for field in data_needed:
