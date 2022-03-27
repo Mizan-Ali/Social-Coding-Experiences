@@ -137,9 +137,10 @@ def add_codechef():
 def remove_codechef():
     try:
         current_user.codechef_username = ""
-        cc = current_user.codechef
+        cc = Codechef.query.filter_by(user_id = current_user.id).first()
         db.session.delete(cc)
         db.session.commit()
+        flash("Removed Codechef", category = "success")
 
     except Exception as e:
         flash("Unable to remove Codechef", category="error")
