@@ -35,9 +35,9 @@ def public_profile():
         Friends.query.filter_by(user_id=current_user.id, friend_id=friend.id).first()
     )
 
-    git = Github.query.filter_by(user_id=current_user.id).first()
-    cf = Codeforces.query.filter_by(user_id=current_user.id).first()
-    cc = Codechef.query.filter_by(user_id=current_user.id).first()
+    git = Github.query.filter_by(user_id=friend.id).first()
+    cf = Codeforces.query.filter_by(user_id=friend.id).first()
+    cc = Codechef.query.filter_by(user_id=friend.id).first()
 
     return render_template(
         "publicprofile.html",
