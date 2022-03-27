@@ -103,33 +103,26 @@
               <img src="../static/image/github.png" alt="Github">
               <a href="https://github.com/username">{{ user_obj.github_username }}</a>
             </div>
-            <div class="github_comit_count common">
-              <h6>Total Commits</h6>
-              <span>{{ user_obj.github_details[""] }}</span>
+            <div class="github_contributions common">
+              <h6>Contributions in the Last Year</h6>
+              <span>{{ user_obj.github_details["total_commits"] }}</span>
             </div>
             <div class="github_followers common">
               <h6>Total Followers</h6>
-              <span>112</span>
+              <span>{{ user_obj.github_details["followers"] }}</span>
             </div>
-            <div class="github_contributions common">
-              <h6>Total Contributions</h6>
-              <span>112</span>
+            <div class="github_forks common">
+              <h6>Fork Count</h6>
+              <span>{{ user_obj.github_details["forks_count"] }}</span>
             </div>
-            <div class="github_star_rating common">
-              <h6>Github Star Rating</h6>
-              <span>4</span>
+            <div class="github_stars common">
+              <h6>Star Count</h6>
+              <span>{{ user_obj.github_details["stargazers_count"] }}</span>
             </div>
 
             {% else %}
 
-            <form method="POST" action="{{ url_for('views.add_github') }}">
-              <div class="form-group col-sm-4">
-                <label for="github_username">GitHub Username</label>
-                <input type="github_username" class="form-control" id="github_username" name="github_username"
-                  placeholder="Enter GitHub Username..." />
-              </div>
-              <br><button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <h3>Not Available</h3>
 
             {% endif %}
           </div>
