@@ -31,8 +31,8 @@ class User:
         leaderboard = []
         for friend_id in self.friends:
             friend = UserDB.query.filter_by(id=friend_id).first()
-            leaderboard.append((friend.full_name, friend.score))
-        leaderboard.sort(key=lambda x: x[1])
+            leaderboard.append((friend.full_name, friend.email, friend.score))
+        leaderboard.sort(key=lambda x: x[2], reverse=True)
         return leaderboard
 
     def update_rating(self):
