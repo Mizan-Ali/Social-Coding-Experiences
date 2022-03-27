@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../static/css/login_style.css">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block head %}
+<title>Sign In</title>
+<link rel="stylesheet" href="../static/css/login_style.css">
+{% endblock %}
+
+{% block content %}
     <div class="out_box">
         <div class="in_box">
             <form method="POST">
@@ -21,5 +19,6 @@
             </div>
         </div>
     </div>
-</body>
+{% endblock %}
+
 </html>
