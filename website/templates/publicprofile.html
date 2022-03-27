@@ -57,16 +57,18 @@
               <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
                 width="150">
               <div class="mt-3">
-                <h4>{{ user_obj.flask_obj.full_name }}</h4>
-                <p class="text-secondary mb-1">{{ user_obj.flask_obj.occupation }}</p>
-                {% if curr_user_obj.check_friend(user_obj.flask_obj.id) %}
+                <h4>{{ friend_user_obj.flask_obj.full_name }}</h4>
+                <p class="text-secondary mb-1">{{ friend_user_obj.flask_obj.occupation }}</p>
+                {% if curr_user_obj.flask_obj.is_authenticated %}
+                {% if curr_user_obj.check_friend(friend_user_obj.flask_obj.id) %}
                 <form action="{{ url_for('modify.delete_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ user_obj.flask_obj.id }}">UnFollow</button>
+                  <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">UnFollow</button>
                 </form>
                 {% else %}
                 <form action="{{ url_for('modify.add_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ user_obj.flask_obj.id }}">Follow</button>
+                  <button class="btn btn-primary" name="friend_id" value="{{ friend_user_obj.flask_obj.id }}">Follow</button>
                 </form>
+                {% endif %}
                 {% endif %}
               </div>
             </div>
@@ -79,27 +81,27 @@
         <div class="row_new">
 
           <div class="github_card card_common">
-            {% if user_obj.github_username %}
+            {% if friend_user_obj.github_username %}
             <div class="github_username common username_common">
               <img src="../static/image/github.png" alt="Github">
-              <a href="https://github.com/{{ user_obj.github_username }}" target="_blank" rel="noreferrer noopener">{{
-                user_obj.github_username }}</a>
+              <a href="https://github.com/{{ friend_user_obj.github_username }}" target="_blank" rel="noreferrer noopener">{{
+                friend_user_obj.github_username }}</a>
             </div>
             <div class="github_contributions common">
               <h6>Contributions in the Last Year</h6>
-              <span>{{ user_obj.github_details["total_commits"] }}</span>
+              <span>{{ friend_user_obj.github_details["total_commits"] }}</span>
             </div>
             <div class="github_followers common">
               <h6>Total Followers</h6>
-              <span>{{ user_obj.github_details["followers"] }}</span>
+              <span>{{ friend_user_obj.github_details["followers"] }}</span>
             </div>
             <div class="github_forks common">
               <h6>Fork Count</h6>
-              <span>{{ user_obj.github_details["forks_count"] }}</span>
+              <span>{{ friend_user_obj.github_details["forks_count"] }}</span>
             </div>
             <div class="github_stars common">
               <h6>Star Count</h6>
-              <span>{{ user_obj.github_details["stargazers_count"] }}</span>
+              <span>{{ friend_user_obj.github_details["stargazers_count"] }}</span>
             </div>
 
             {% else %}
@@ -110,31 +112,31 @@
           </div>
 
           <div class="cf_card card_common">
-            {% if user_obj.codeforces_username %}
+            {% if friend_user_obj.codeforces_username %}
             <div class="cf_username common username_common">
               <img src="../static/image/code-forces.png" alt="Codeforces">
-              <a href="https://codeforces.com/profile/{{ user_obj.codeforces_username }}" target="_blank"
-                rel="noreferrer noopener">{{ user_obj.codeforces_username }}</a>
+              <a href="https://codeforces.com/profile/{{ friend_user_obj.codeforces_username }}" target="_blank"
+                rel="noreferrer noopener">{{ friend_user_obj.codeforces_username }}</a>
             </div>
             <div class="cf_u_rating common">
               <h6>Current Rating</h6>
-              <span>{{ user_obj.codeforces_details["rating"] }}</span>
+              <span>{{ friend_user_obj.codeforces_details["rating"] }}</span>
             </div>
             <div class="cf_h_rating common">
               <h6>Highest Rating</h6>
-              <span>{{ user_obj.codeforces_details["highest_rating"] }}</span>
+              <span>{{ friend_user_obj.codeforces_details["highest_rating"] }}</span>
             </div>
             <div class="cf_contests common">
               <h6>Total Contests</h6>
-              <span>{{ user_obj.codeforces_details["contests"] }}</span>
+              <span>{{ friend_user_obj.codeforces_details["contests"] }}</span>
             </div>
             <div class="cf_ps common">
               <h6>Total Problem Solved</h6>
-              <span>{{ user_obj.codeforces_details["problems_solved"] }}</span>
+              <span>{{ friend_user_obj.codeforces_details["problems_solved"] }}</span>
             </div>
             <div class="cf_rank common">
               <h6>Current Ranking</h6>
-              <span>{{ user_obj.codeforces_details["rank"] }}</span>
+              <span>{{ friend_user_obj.codeforces_details["rank"] }}</span>
             </div>
 
             {% else %}
@@ -146,36 +148,36 @@
 
           <div class="cc_card card_common">
 
-            {% if user_obj.codechef_username %}
+            {% if friend_user_obj.codechef_username %}
 
             <div class="cc_username common username_common">
               <img src="../static/image/code-chef.png" alt="CodeChef">
-              <a href="https://codechef.com/users/{{ user_obj.codechef_username }}" target="_blank"
-                rel="noreferrer noopener">{{ user_obj.codechef_username }}</a>
+              <a href="https://codechef.com/users/{{ friend_user_obj.codechef_username }}" target="_blank"
+                rel="noreferrer noopener">{{ friend_user_obj.codechef_username }}</a>
             </div>
             <div class="cc_country common">
               <h6>Country</h6>
-              <span>{{ user_obj.codechef_details['country'] }}</span>
+              <span>{{ friend_user_obj.codechef_details['country'] }}</span>
             </div>
             <div class="cc_u_rating common">
               <h6>Current Rating</h6>
-              <span>{{ user_obj.codechef_details['rating'] }}</span>
+              <span>{{ friend_user_obj.codechef_details['rating'] }}</span>
             </div>
             <div class="cc_h_rating common">
               <h6>Highest Rating</h6>
-              <span>{{ user_obj.codechef_details['highest_rating'] }}</span>
+              <span>{{ friend_user_obj.codechef_details['highest_rating'] }}</span>
             </div>
             <div class="cc_global_rank common">
               <h6>Global Ranking</h6>
-              <span>{{ user_obj.codechef_details['global_rank'] }}</span>
+              <span>{{ friend_user_obj.codechef_details['global_rank'] }}</span>
             </div>
             <div class="cc_country_rank common">
               <h6>Country Ranking</h6>
-              <span>{{ user_obj.codechef_details['country_rank']}}</span>
+              <span>{{ friend_user_obj.codechef_details['country_rank']}}</span>
             </div>
             <div class="cc_star common">
               <h6>Star Rating</h6>
-              <span>{{ user_obj.codechef_details['num_stars'] }}</span>
+              <span>{{ friend_user_obj.codechef_details['num_stars'] }}</span>
             </div>
 
             {% else %}

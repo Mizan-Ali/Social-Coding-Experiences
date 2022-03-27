@@ -22,7 +22,7 @@ def add_github():
         print(f"\n\n{e}\n\n")
         flash("Unable to add Github", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.refresh"))
 
 
 @modify.route("/add_codeforces", methods=["POST"])
@@ -41,7 +41,7 @@ def add_codeforces():
         print(f"\n\n{e}\n\n")
         flash("Unable to add CodeForces", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.refresh"))
 
 
 @modify.route("/add_codechef", methods = ["POST"])
@@ -59,7 +59,7 @@ def add_codechef():
         print(f"\n\n{e}\n\n")
         flash("Error in adding Codechef", category = "error")
     
-    return redirect(url_for('views.home'))
+    return redirect(url_for('views.refresh'))
 
 
 @modify.route("/add_friend", methods=["POST"])
@@ -70,7 +70,7 @@ def add_friend():
 
     if not friend:
         flash("Friend not found", category="error")
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.refresh"))
 
     try:
         curr_user_json = json.loads(current_user.details)
@@ -84,7 +84,7 @@ def add_friend():
         print(f"\n\n{e}\n\n")
         flash("Unable to add friend", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.refresh"))
 
 
 @modify.route("/delete_friend", methods=["POST"])
@@ -105,4 +105,4 @@ def delete_friend():
         print(f"\n\n{e}\n\n")
         flash("Unable to delete friend", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.refresh"))
