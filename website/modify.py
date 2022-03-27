@@ -58,21 +58,30 @@ def remove_github():
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
 def add_codeforces():
+    username = request.form.get("codeforces_username")
+    current_user.codeforces_username = username
+
+    codeforces_details = codeforces.fetch_codeforces_data(username)
+
+    if not codeforces_details["SUCCESS"]:
+        flash("Unable to add Codeforces", category="error")
+        raise redirect(url_for("views.home"))
+
+    cf = Codeforces(
+        user_id=current_user.id,
+        rank=codeforces_details["rank"],
+        rating=codeforces_details["rating"],
+        problems_solved=codeforces_details["problems_solved"],
+        contests=codeforces_details["contests"],
+        highest_rating=codeforces_details["highest_rating"]
+    )
+
+    db.session.add(cf)
     try:
-        username = request.form.get("codeforces_username")
-        current_user.codeforces_username = username
-
-        codeforces_details = codeforces.fetch_codeforces_data(username)
-
-        if not codeforces_details["SUCCESS"]:
-            raise ValueError
-
-        cf = Codeforces(user_id=current_user.id, **codeforces_details)
-        db.session.add(cf)
         db.session.commit()
 
     except Exception as e:
-        flash("Unable to add CodeForces", category="error")
+        flash("Unable to add Codeforces", category="error")
 
     update_rating()
     return redirect(url_for("views.home"))
@@ -83,9 +92,11 @@ def add_codeforces():
 def remove_codeforces():
     try:
         current_user.codeforces_username = ""
-        cf = current_user.codeforces
+
+        cf = Codeforces.query.filter_by(user_id=current_user.id).first()
         db.session.delete(cf)
         db.session.commit()
+        flash("Codeforces added", category="success")
 
     except Exception as e:
         flash("Unable to remove CodeForces", category="error")
@@ -200,7 +211,8 @@ def add_upvote(friend_id):
         return redirect(url_for("views.home"))
 
     friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+    vote = Votes.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id).first()
 
     if vote:
         if vote.vote_type == "U":
@@ -232,7 +244,8 @@ def add_downvote(friend_id):
         return redirect(url_for("views.home"))
 
     friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(user_id=current_user.id, friend_id=friend_id).first()
+    vote = Votes.query.filter_by(
+        user_id=current_user.id, friend_id=friend_id).first()
 
     if vote:
         if vote.vote_type == "D":
