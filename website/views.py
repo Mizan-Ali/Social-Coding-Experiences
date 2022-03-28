@@ -57,6 +57,7 @@ def leaderboard():
 
     return render_template(
         "leaderboard.html",
+        user=current_user,
         global_leaderboard=global_leaderboard,
         friends_leaderboard=friends_leaderboard,
     )
