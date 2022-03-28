@@ -1,9 +1,10 @@
-from os import path
+import os
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 from flask import Flask, request, jsonify
 from dbcleanup.db_cleanup import DBCleanup
+
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -11,7 +12,8 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = "dsfuibskdbvibsidbvbb"  # change before deployment
+    # change before deployment
+    app.config["SECRET_KEY"] = "dsfuibskdbvibsidbvbb"
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
@@ -28,6 +30,7 @@ def create_app():
             resp = cleanup_obj.initiate_db_cleanup()
 
             if resp.get("cleanup_status", "FAILURE") == "SUCCESS":
+                print("LOGGER: Creating Db after cleanup")
                 create_database(app)
 
             return jsonify(resp)
@@ -45,7 +48,12 @@ def create_app():
 
     from .models import User
 
-    create_database(app)
+    try:
+        create_database(app)
+
+    except Exception as e:
+        print("LOGGER: Cannot create new Db. Restart the app")
+        print(f"ERROR: {e}")
 
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
@@ -59,6 +67,11 @@ def create_app():
 
 
 def create_database(app):
-    if not path.exists("website/" + DB_NAME):
+    cwd = os.path.abspath(os.curdir)
+    path_to_db = cwd + "/website/"
+
+    print(f"LOGGER: Db path: {cwd}")
+    print(f"LOGGER: Database exists [{os.path.exists(path_to_db + DB_NAME)}]")
+    if not os.path.exists(path_to_db + DB_NAME):
         db.create_all(app=app)
-        print("Created a New Database!")
+        print("LOGGER: Created a New Database!")
