@@ -30,6 +30,7 @@ def create_app():
             resp = cleanup_obj.initiate_db_cleanup()
 
             if resp.get("cleanup_status", "FAILURE") == "SUCCESS":
+                print("LOGGER: Creating Db after cleanup")
                 create_database(app)
 
             return jsonify(resp)
@@ -47,7 +48,12 @@ def create_app():
 
     from .models import User
 
-    create_database(app)
+    try:
+        create_database(app)
+
+    except Exception as e:
+        print("LOGGER: Cannot create new Db. Restart the app")
+        print(f"ERROR: {e}")
 
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
@@ -65,6 +71,7 @@ def create_database(app):
     path_to_db = cwd + "/website/"
 
     print(f"LOGGER: Db path: {cwd}")
+    print(f"LOGGER: Database exists [{os.path.exists(path_to_db + DB_NAME)}]")
     if not os.path.exists(path_to_db + DB_NAME):
         db.create_all(app=app)
         print("LOGGER: Created a New Database!")
