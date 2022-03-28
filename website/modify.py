@@ -133,12 +133,12 @@ def add_codechef():
 
     try:
         db.session.commit()
-        update_rating()
         flash("Codechef added", category="success")
 
     except Exception as e:
         flash("Unable to add Codechef", category="error")
 
+    update_rating()
     return redirect(url_for("views.home"))
 
 

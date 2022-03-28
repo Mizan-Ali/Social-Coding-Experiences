@@ -82,7 +82,6 @@ def refresh_github():
         db.session.commit()
         flash("Updated GitHub", category="success")
     except Exception as e:
-        db.session.rollback()
         flash("Unable to add Github", category="error")
 
     update_rating()
@@ -111,7 +110,6 @@ def refresh_codeforces():
         db.session.commit()
         flash("Updated Codeforces", category="success")
     except Exception as e:
-        db.session.rollback()
         flash("Unable to add Codeforces", category="error")
 
     update_rating()
@@ -140,7 +138,6 @@ def refresh_codechef():
         db.session.commit()
         flash("Updated Codechef", category="success")
     except Exception as e:
-        db.session.rollback()
         flash("Unable to add Codechef", category="error")
 
     update_rating()
@@ -182,9 +179,6 @@ def update_rating(user=current_user):
     try:
         user.score = total_rating
         db.session.commit()
-        # print("\n\n")
-        # print(user.score, user.upvotes, user.downvotes)
-        # print("\n\n")
 
         flash("Updated rating", category="success")
     except Exception as e:
