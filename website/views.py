@@ -165,15 +165,15 @@ def get_friend_leaderboard():
 def update_rating(user=current_user):
     total_rating = user.upvotes - user.downvotes
 
-    if current_user.codechef_username:
+    if user.codechef_username:
         cc = Codechef.query.filter_by(user_id=user.id).first()
         total_rating += cc.rating / 10
 
-    if current_user.codeforces_username:
+    if user.codeforces_username:
         cf = Codeforces.query.filter_by(user_id=user.id).first()
         total_rating += cf.rating / 10
 
-    if current_user.github_username:
+    if user.github_username:
         git = Github.query.filter_by(user_id=user.id).first()
         total_rating += git.total_commits
 
