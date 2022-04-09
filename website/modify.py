@@ -1,10 +1,9 @@
+from .user import get_user
 from flask_login import current_user, login_required
-from user_profile_details import github, codechef, codeforces
 from flask import Blueprint, redirect, request, flash, url_for
-from .models import get_user, mongo, save_codechef, save_codeforces, save_github
+from .models import mongo, save_codechef, save_codeforces, save_github
 
 modify = Blueprint("modify", __name__)
-
 
 @modify.route("/add_github", methods=["POST"])
 @login_required

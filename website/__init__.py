@@ -1,5 +1,6 @@
 from flask import Flask
-from .models import get_user, mongo
+from .models import mongo
+from .user import get_user
 from flask_login import LoginManager
 
 

@@ -1,7 +1,8 @@
 import pymongo
+from .user import get_user
 from flask_login import login_required, current_user
 from flask import Blueprint, flash, redirect, render_template, url_for
-from .models import get_user, mongo, save_github, save_codechef, save_codeforces
+from .models import mongo, save_github, save_codechef, save_codeforces
 
 
 views = Blueprint("views", __name__)
