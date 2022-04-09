@@ -27,7 +27,7 @@ def add_github():
 def remove_github():
     try:
         users_collection = mongo.db.users
-        users_collection.update_one({"_id" : current_user.username}, {"github_username" : ""}, upsert = False)
+        users_collection.update_one({"_id" : current_user.username}, {"$set": {"github_username" : ""}}, upsert = False)
         github_collection = mongo.db.github
         github_collection.delete_one({"_id" : current_user.github_username})
         current_user.github_username = ""
@@ -61,7 +61,7 @@ def add_codeforces():
 def remove_codeforces():
     try:
         user_collections = mongo.db.users
-        user_collections.update_one({"_id" : current_user.username}, {"codeforces_username" : ""}, upsert=False)
+        user_collections.update_one({"_id" : current_user.username}, {"$set": {"codeforces_username": ""}}, upsert=False)
         codeforces_collection = mongo.db.codeforces
         codeforces_collection.delete_one({"_id" : current_user.codeforces_username})
         current_user.codeforces_username = ""
@@ -92,12 +92,11 @@ def add_codechef():
 @modify.route("/remove_codechef", methods=["POST"])
 def remove_codechef():
     try:
-        current_user.codechef_username = ""
-        user_collections = mongo.db.user
-        user_collections.update_one({"_id" : current_user.username}, {"codechef_username" : ""}, upsert=False)
+        user_collections = mongo.db.users
+        user_collections.update_one({"_id" : current_user.username}, {"$set": {"codechef_username": ""}}, upsert=False)
         codechef_collection = mongo.db.codechef
         codechef_collection.delete_one({"_id" : current_user.codechef_username})
-        current_user.codechef_username = ""      
+        current_user.codechef_username = ""
         flash("Removed Codechef", category = "success")
 
     except Exception as e:

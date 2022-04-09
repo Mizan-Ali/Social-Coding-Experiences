@@ -61,21 +61,21 @@
                 <p class="text-secondary mb-1">{{ friend.occupation }}</p>
                 {% if isfriend %}
                 <form action="{{ url_for('modify.delete_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ friend.id }}">UnFollow</button>
+                  <button class="btn btn-primary" name="friend_username" value="{{ friend.username }}">UnFollow</button>
                 </form>
                 {% else %}
                 <form action="{{ url_for('modify.add_friend') }}" method="post">
-                  <button class="btn btn-primary" name="friend_id" value="{{ friend.id }}">Follow</button>
+                  <button class="btn btn-primary" name="friend_username" value="{{ friend.username }}">Follow</button>
                 </form>
                 {% endif %}
               </div>
 
               <div>
-                <a href="{{ url_for('modify.add_upvote', friend_id=friend.id) }}">
+                <a href="{{ url_for('modify.add_upvote', friend_username=friend.username) }}">
                   <img src="../static/image/thumbd_up.png" alt="Like" style="width:60px">
                 </a>
 
-                <a href="{{ url_for('modify.add_downvote', friend_id=friend.id) }}">
+                <a href="{{ url_for('modify.add_downvote', friend_username=friend.username) }}">
                   <img src="../static/image/thumbd_up.png" alt="UnLike"
                     style="width:60px;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);"></a>
               </div>
@@ -97,19 +97,19 @@
             </div>
             <div class="github_contributions common">
               <h6>Contributions in the Last Year</h6>
-              <span>{{ github.total_commits }}</span>
+              <span>{{ friend.github_data.total_commits }}</span>
             </div>
             <div class="github_followers common">
               <h6>Total Followers</h6>
-              <span>{{ github.followers }}</span>
+              <span>{{ friend.github_data.followers }}</span>
             </div>
             <div class="github_forks common">
               <h6>Fork Count</h6>
-              <span>{{ github.forks_count }}</span>
+              <span>{{ friend.github_data.forks_count }}</span>
             </div>
             <div class="github_stars common">
               <h6>Star Count</h6>
-              <span>{{ github.stargazers_count }}</span>
+              <span>{{ friend.github_data.stargazers_count }}</span>
             </div>
 
             {% else %}
@@ -128,23 +128,23 @@
             </div>
             <div class="cf_u_rating common">
               <h6>Current Rating</h6>
-              <span>{{ codeforces.rating }}</span>
+              <span>{{ friend.codeforces_data.rating }}</span>
             </div>
             <div class="cf_h_rating common">
               <h6>Highest Rating</h6>
-              <span>{{ codeforces.highest_rating }}</span>
+              <span>{{ friend.codeforces_data.highest_rating }}</span>
             </div>
             <div class="cf_contests common">
               <h6>Total Contests</h6>
-              <span>{{ codeforces.contests }}</span>
+              <span>{{ friend.codeforces_data.contests }}</span>
             </div>
             <div class="cf_ps common">
               <h6>Total Problem Solved</h6>
-              <span>{{ codeforces.problems_solved }}</span>
+              <span>{{ friend.codeforces_data.problems_solved }}</span>
             </div>
             <div class="cf_rank common">
               <h6>Current Ranking</h6>
-              <span>{{ codeforces.rank }}</span>
+              <span>{{ friend.codeforces_data.rank }}</span>
             </div>
 
             {% else %}
@@ -165,27 +165,27 @@
             </div>
             <div class="cc_country common">
               <h6>Country</h6>
-              <span>{{ codechef.country }}</span>
+              <span>{{ friend.codechef_data.country }}</span>
             </div>
             <div class="cc_u_rating common">
               <h6>Current Rating</h6>
-              <span>{{ codechef.rating }}</span>
+              <span>{{ friend.codechef_data.rating }}</span>
             </div>
             <div class="cc_h_rating common">
               <h6>Highest Rating</h6>
-              <span>{{ codechef.highest_rating }}</span>
+              <span>{{ friend.codechef_data.highest_rating }}</span>
             </div>
             <div class="cc_global_rank common">
               <h6>Global Ranking</h6>
-              <span>{{ codechef.global_rank }}</span>
+              <span>{{ friend.codechef_data.global_rank }}</span>
             </div>
             <div class="cc_country_rank common">
               <h6>Country Ranking</h6>
-              <span>{{ codechef.country_rank }}</span>
+              <span>{{ friend.codechef_data.country_rank }}</span>
             </div>
             <div class="cc_star common">
               <h6>Star Rating</h6>
-              <span>{{ codechef.num_stars }}</span>
+              <span>{{ friend.codechef_data.num_stars }}</span>
             </div>
 
             {% else %}
