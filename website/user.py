@@ -86,8 +86,8 @@ def get_user(username="", email=""):
             occupation=user_data.get("occupation", "None"),
 
             score=user_data.get("score", 0),
-            upvotes=user_data.get("upvotes", []),
-            downvotes=user_data.get("downvotes", []),
+            upvotes=user_data.get("upvotes", 0),
+            downvotes=user_data.get("downvotes", 0),
 
             github_username=user_data.get("github_username", ""),
             codechef_username=user_data.get("codechef_username", ""),
