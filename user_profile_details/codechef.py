@@ -6,6 +6,7 @@ def fetch_codechef_data(username):
         response = requests.get(
             'https://codechef-userdetails-api.herokuapp.com/' + username)
         response_info = response.json()
+        response_info["username"] = username
         if 'error' in response_info:
             return {"SUCCESS": False}
         response_info["SUCCESS"] = True

@@ -21,7 +21,7 @@ def fetch_codeforces_data(username):
         return {'SUCCESS': False}
 
     return_dict = {
-        "user_name": username,
+        "username": username,
         "rank": rank,
         "rating": current_rating,
         "problems_solved": problem_count,

@@ -1,69 +1,116 @@
-from user_profile_details import github
-from . import db
-from flask_login import UserMixin
+from unicodedata import category
+
+from .user import User
+from flask import flash
+from flask_pymongo import PyMongo
+from user_profile_details import github, codechef, codeforces
 
 
-class Friends(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    friend_id = db.Column(db.Integer)
+mongo = PyMongo()
 
 
-class Votes(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    friend_id = db.Column(db.Integer)
-    vote_type = db.Column(db.String(1))
+def get_github(username):
+    github_collection = mongo.db.github
+    github_data = github_collection.find_one({"_id": username})
+    return github_data
+
+def save_github(username):
+    github_data = github.fetch_github_data(username)
+    if github_data["SUCCESS"] is False:
+        flash("Unable to save github data", category="error")
+        return 
 
 
-class Github(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    followers = db.Column(db.Integer)
-    public_repos = db.Column(db.Integer)
-    total_commits = db.Column(db.Integer)
-    stargazers_count = db.Column(db.Integer)
-    forks_count = db.Column(db.Integer)
+    github_collection = mongo.db.github
+
+    github_data["_id"] = github_data["username"]
+    github_data.pop("username")
+    github_data.pop("SUCCESS")
+
+    github_collection.update_one({"_id": username}, {"$set": github_data}, upsert=True)
 
 
-class Codeforces(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    rank = db.Column(db.String(32))
-    rating = db.Column(db.Integer)
-    problems_solved = db.Column(db.Integer)
-    contests = db.Column(db.Integer)
-    highest_rating = db.Column(db.Integer)
+def get_codechef(username):
+    codechef_collection = mongo.db.codechef
+    codechef_data = codechef_collection.find_one({"_id": username})
+    return codechef_data
 
 
-class Codechef(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    rating = db.Column(db.Integer)
-    solved = db.Column(db.Integer)
-    country_rank = db.Column(db.Integer)
-    global_rank = db.Column(db.Integer)
-    highest_rating = db.Column(db.Integer)
-    num_stars = db.Column(db.Integer)
-    country = db.Column(db.String(32))
+def save_codechef(username):
+    codechef_data = codechef.fetch_codechef_data(username)
+    if codechef_data["SUCCESS"] is False:
+        flash("Unable to save codechef data", category="error")
+        return 
 
 
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True)
+    codechef_collection = mongo.db.codechef
 
-    full_name = db.Column(db.String(64))
-    password = db.Column(db.String(64))
-    gender = db.Column(db.String(10))
-    occupation = db.Column(db.String(64))
+    codechef_data["_id"] = codechef_data["username"]
+    codechef_data.pop("username")
+    codechef_data.pop("SUCCESS")
 
-    upvotes = db.Column(db.Integer, default=0)
-    downvotes = db.Column(db.Integer, default=0)
-    score = db.Column(db.Integer, default=0)
+    codechef_collection.update_one({"_id": username}, {"$set": codechef_data}, upsert=True)
 
-    github_username = db.Column(db.String(64), default="")
-    codechef_username = db.Column(db.String(64), default="")
-    codeforces_username = db.Column(db.String(64), default="")
 
-    friends = db.relationship("Friends")
-    votes = db.relationship("Votes")
+def get_codeforces(username):
+    codeforces_collection = mongo.db.codeforces
+    
+    codeforces_data = codeforces_collection.find_one({"_id": username})
+    return codeforces_data
+
+
+def save_codeforces(username):
+    codeforces_data = codeforces.fetch_codeforces_data(username)
+    if codeforces_data["SUCCESS"] is False:
+        flash("Unable to save codeforce data", category="error")
+        return 
+        
+    codeforces_collection = mongo.db.codeforces
+
+    codeforces_data["_id"] = codeforces_data["username"]
+    codeforces_data.pop("username")
+    codeforces_data.pop("SUCCESS")
+
+    codeforces_collection.update_one({"_id": username}, {"$set": codeforces_data}, upsert=True)
+
+
+def get_user(username="", email=""):
+    users_collection =  mongo.db.users
+        
+    if username:
+        user_data = users_collection.find_one({"_id": username})
+    else:
+        user_data = users_collection.find_one({"email": email})
+
+
+    if user_data:
+        return User(
+            username=username,
+            email=user_data["email"],
+            full_name=user_data["full_name"],
+            password=user_data["password"],
+            gender=user_data["gender"],
+            occupation=user_data.get("occupation", "None"),
+
+            score=user_data.get("score", 0),
+            upvotes=user_data.get("upvotes", []),
+            downvotes=user_data.get("downvotes", []),
+
+            github_username=user_data.get("github_username", ""),
+            codechef_username=user_data.get("codechef_username", ""),
+            codeforces_username=user_data.get("codeforces_username", ""),
+
+            friends=user_data.get("friends", []),
+        )
+
+
+def save_user(username, email, full_name, password, gender, occupation):
+    users_collection = mongo.db.users
+    users_collection.insert_one({
+        "_id": username,
+        "email": email,
+        "full_name": full_name,
+        "occupation": occupation,
+        "gender": gender,
+        "password": password
+    })
