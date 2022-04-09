@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from sqlalchemy import over
 
 
 def fetch_github_data(username):
