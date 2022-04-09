@@ -59,7 +59,7 @@ class User(UserMixin):
             temp_score += 0.2 * int(self.github_data['total_commits'])
             ac_count += 1
 
-        self.score = (temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes)
+        self.score = round((temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes), 2)
 
         if self.score < 0:
             self.score = 0

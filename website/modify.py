@@ -153,12 +153,13 @@ def add_upvote(friend_username):
     if vote:
         is_voted = True
         if vote["type"] == "upvote":
-            flash("Already upvoted", category="error")
+            remove_upvote(friend_username)
             return redirect(url_for("views.public_profile", username=friend_username))
     try:
         votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "upvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
 
         users_collection = mongo.db.users
+
         users_collection.update_one({"_id": friend_username}, {"$inc": {"upvotes": 1, "downvotes": -1 if is_voted else 0}})
 
         friend = get_user(friend_username)
@@ -169,6 +170,16 @@ def add_upvote(friend_username):
         flash("Unable to upvote user.", category="error")
 
     return redirect(url_for("views.public_profile", username=friend_username))
+
+def remove_upvote(friend_username):
+    users_collection = mongo.db.users
+    users_collection.update_one({"_id": friend_username}, {"$inc": {"upvotes": -1}}, upsert = False)
+
+    votes_collection = mongo.db.votes
+    votes_collection.delete_one({"current_username": current_user.username, "friend_username": friend_username})
+    friend = get_user(friend_username)
+    friend.update_rating()
+    flash("Removed upvote", category="success")
 
 
 @modify.route("/downvote/<friend_username>")
@@ -184,7 +195,7 @@ def add_downvote(friend_username):
     if vote:
         is_voted = True
         if vote["type"] == "downvote":
-            flash("Already downvoted", category="error")
+            remove_downvote(friend_username)
             return redirect(url_for("views.public_profile", username=friend_username))
     try:
         votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "downvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
@@ -200,3 +211,13 @@ def add_downvote(friend_username):
         flash("Unable to downvote user.", category="error")
 
     return redirect(url_for("views.public_profile", username=friend_username))
+
+def remove_downvote(friend_username):
+    users_collection = mongo.db.users
+    users_collection.update_one({"_id": friend_username}, {"$inc": {"downvotes": -1}}, upsert = False)
+
+    votes_collection = mongo.db.votes
+    votes_collection.delete_one({"current_username": current_user.username, "friend_username": friend_username})
+    friend = get_user(friend_username)
+    friend.update_rating()
+    flash("Removed downvote", category="success")
