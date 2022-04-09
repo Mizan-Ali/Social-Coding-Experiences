@@ -112,7 +112,7 @@ def add_friend():
     friend_username = request.form.get("friend_username")
     if current_user.username == friend_username:
         flash("Cannot follow self.", category="error")
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.public_profile", username=friend_username))
 
     try:
         users_collection = mongo.db.users
@@ -122,7 +122,7 @@ def add_friend():
     except Exception as e:
         flash("Unable to follow user", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
 
 
 @modify.route("/delete_friend", methods=["POST"])
@@ -137,7 +137,7 @@ def delete_friend():
     except Exception as e:
         flash("Unable to unfollow user", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
 
 
 @modify.route("/upvote/<friend_username>")

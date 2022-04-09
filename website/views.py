@@ -1,8 +1,8 @@
 import pymongo
 from .user import get_user
 from flask_login import login_required, current_user
-from flask import Blueprint, flash, redirect, render_template, url_for
 from .models import mongo, save_github, save_codechef, save_codeforces
+from flask import Blueprint, flash, redirect, render_template, url_for, request
 
 
 views = Blueprint("views", __name__)
@@ -30,6 +30,15 @@ def public_profile(username):
         user=current_user,
         friend=friend
     )
+
+@views.route("/public_profile_mapper", methods=["POST"])
+def public_profile_mapper():
+    username = request.form.get("username")
+    if not username:
+        flash("Enter a username", category="error")
+        return redirect(url_for("view.home"))
+
+    return redirect(url_for("views.public_profile", username=username))
 
 
 @views.route("/leaderboard")

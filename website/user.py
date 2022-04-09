@@ -21,9 +21,12 @@ class User(UserMixin):
     codechef_username: str = ""
     codeforces_username: str = ""
 
+    friends: List[str] = field(default_factory=list)
+
     # users_collection.find({"$or": [{"_id": "vafa"}, {"github_username": "vafa"}]"})
 
-    friends: List[str] = field(default_factory=list)
+    def get_id(self):
+        return self.username
 
     @property
     def github_data(self):
@@ -37,8 +40,10 @@ class User(UserMixin):
     def codeforces_data(self):
         return get_codeforces(self.codeforces_username)
 
-    def get_id(self):
-        return self.username
+    def check_friend(self, friend):
+        if friend.username in self.friends:
+            return True
+        return False
 
     def update_rating(self):
         # update in db as well
