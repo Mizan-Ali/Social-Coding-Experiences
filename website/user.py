@@ -46,8 +46,26 @@ class User(UserMixin):
         return False
 
     def update_rating(self):
-        # update in db as well
-        pass
+        ac_count = 0
+        temp_score = 0
+
+        if self.codechef_username:
+            temp_score += self.codechef_data['rating']
+            ac_count += 1
+        if self.codeforces_username:
+            temp_score += self.codeforces_data['rating']
+            ac_count += 1
+        if self.github_username:
+            temp_score += self.github_data['total_commits']
+            ac_count += 1
+
+        self.score = (temp_score / (10.0*float(ac_count))) + self.upvotes - self.downvotes
+
+        if self.score < 0:
+            self.score = 0
+
+        users_collection = mongo.db.users
+        users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
 
 
 def get_user(username="", email=""):
