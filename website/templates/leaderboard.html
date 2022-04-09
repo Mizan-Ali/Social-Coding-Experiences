@@ -18,8 +18,8 @@
         {% for user in friends_leaderboard %}
         <div class="rating_card_common c_rating_data">
             <span>{{ user[0] }}</span>
-            <form action="{{ url_for('views.public_profile') }}" method="post">
-                <button type="submit" name="email" value="{{ user[1] }}">{{ user[1] }}</button>
+            <form action="{{ url_for('views.public_profile', username=user[1]) }}" method="post">
+                <button type="submit" name="username" value="{{ user[1] }}">{{ user[1] }}</button>
             </form>
             <span>{{ user[2] }}</span>
         </div>
@@ -36,8 +36,8 @@
         {% for user in global_leaderboard %}
         <div class="rating_card_common c_rating_data">
             <span>{{ user[0] }}</span>
-            <form action="{{ url_for('views.public_profile') }}" method="post">
-                <button type="submit" name="email" value="{{ user[1] }}">{{ user[1] }}</button>
+            <form action="{{ url_for('views.public_profile', username=user[1]) }}" method="post">
+                <button type="submit" name="username" value="{{ user[1] }}">{{ user[1] }}</button>
             </form>
             <span>{{ user[2] }}</span>
         </div>
