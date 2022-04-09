@@ -8,10 +8,9 @@ def create_app():
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = "dsfuibskdbvibsidbvbb"
-    app.config["MONGO_URI"] = "mongodb+srv://admin:duh1999@cluster0.neruc.mongodb.net/DUH?retryWrites=true&w=majority"
+    app.config["MONGO_URI"] = "mongodb+srv://admin:duh2018@cluster0.neruc.mongodb.net/DUH?retryWrites=true&w=majority"
 
     mongo.init_app(app)
-
 
     from .auth import auth
     from .views import views
@@ -30,4 +29,3 @@ def create_app():
         return get_user(username)
 
     return app
-

@@ -1,34 +1,69 @@
-{% extends "base.html" %}
-
-{% block head %}
+{% extends "base.html" %} {% block head %}
 <title>Sign Up</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/signup_style.css') }}">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/signup_style.css') }}"
+/>
 <!-- <link rel="stylesheet" href="website/static/css/signup_style.css"> -->
-{% endblock %}
+{% endblock %} {% block content %}
+<div class="out_box">
+  <div class="in_box">
+    <form method="POST">
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="E-mail"
+      />
+      <input
+        type="username"
+        class="form-control"
+        id="username"
+        name="username"
+        placeholder="Username"
+      />
+      <input
+        type="text"
+        class="form-control"
+        id="full_name"
+        name="full_name"
+        placeholder="Full Name"
+      />
+      <select name="gender" class="gender_combo">
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Non-Binary">Non-Binary</option>
+      </select>
+      <input
+        type="text"
+        class="form-control"
+        id="occupation"
+        name="occupation"
+        placeholder="(Optional) Occupation"
+      />
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password1"
+        placeholder="Password"
+      />
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password2"
+        placeholder="Confirm Password"
+      />
 
-{% block content %}
-    <div class="out_box">
-        <div class="in_box">
-            <form method="POST">
-                <input type="email" class="form-control" id="email" name="email" placeholder="E-mail">
-                <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name">
-                <select name="gender" class="gender_combo">
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Non-Binary">Non-Binary</option>
-                  </select>
-                <input type="text" class="form-control" id="occupation" name="occupation" placeholder="(Optional) Occupation">
-                <input type="password" class="form-control" id="password" name="password1" placeholder="Password">
-                <input type="password" class="form-control" id="password" name="password2"
-                    placeholder="Confirm Password">
-
-                <button type="submit" class="btn">Login</button>
-                <span style="margin-top:30px;">_____________________________</span>
-            </form>
-            <div class="sign_up">
-                <span>Already have an account? </span><a href="/login">SIGN IN</a>
-            </div>
-        </div>
+      <button type="submit" class="btn">Login</button>
+      <span style="margin-top: 30px">_____________________________</span>
+    </form>
+    <div class="sign_up">
+      <span>Already have an account? </span><a href="/login">SIGN IN</a>
     </div>
+  </div>
+</div>
 {% endblock %}

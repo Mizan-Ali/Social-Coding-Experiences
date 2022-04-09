@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
 
+
 @dataclass
 class User(UserMixin):
     username: str
@@ -36,24 +37,25 @@ class User(UserMixin):
     def codeforces_data(self):
         return get_codeforces(self.codeforces_username)
 
+    def get_id(self):
+        return self.username
+
     def update_rating(self):
         # update in db as well
         pass
 
 
-
 def get_user(username="", email=""):
-    users_collection =  mongo.db.users
-        
+    users_collection = mongo.db.users
+
     if username:
         user_data = users_collection.find_one({"_id": username})
     else:
         user_data = users_collection.find_one({"email": email})
 
-
     if user_data:
         return User(
-            username=username,
+            username=user_data["_id"],
             email=user_data["email"],
             full_name=user_data["full_name"],
             password=user_data["password"],
