@@ -50,21 +50,20 @@ class User(UserMixin):
         temp_score = 0
 
         if self.codechef_username:
-            temp_score += int(self.codechef_data['rating'])
+            temp_score += 0.4 * int(self.codechef_data['rating'])
             ac_count += 1
         if self.codeforces_username:
-            temp_score += int(self.codeforces_data['rating'])
+            temp_score += 0.4 * int(self.codeforces_data['rating'])
             ac_count += 1
         if self.github_username:
-            temp_score += int(self.github_data['total_commits'])
+            temp_score += 0.2 * int(self.github_data['total_commits'])
             ac_count += 1
 
-        self.score = (temp_score / (10.0*float(ac_count))) + int(self.upvotes) - int(self.downvotes)
+        self.score = (temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes)
 
         if self.score < 0:
             self.score = 0
         
-
         users_collection = mongo.db.users
         users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
 
