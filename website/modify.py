@@ -159,7 +159,7 @@ def add_upvote(friend_username):
         votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "upvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
 
         users_collection = mongo.db.users
-        users_collection.update_one({"_id": friend_username}, {"$inc": {"upvote": 1, "downvote": -1 if is_voted else 0}})
+        users_collection.update_one({"_id": friend_username}, {"$inc": {"upvotes": 1, "downvotes": -1 if is_voted else 0}})
 
         friend = get_user(friend_username)
         friend.update_rating()
@@ -190,7 +190,7 @@ def add_downvote(friend_username):
         votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "downvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
 
         users_collection = mongo.db.users
-        users_collection.update_one({"_id": friend_username}, {"$inc": {"downvote": 1, "upvote": -1 if is_voted else 0}})
+        users_collection.update_one({"_id": friend_username}, {"$inc": {"downvotes": 1, "upvotes": -1 if is_voted else 0}})
 
         friend = get_user(friend_username)
         friend.update_rating()
