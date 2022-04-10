@@ -1,0 +1,155 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}body{
+    background-color: lightgray;
+}
+html{
+    scroll-behavior: smooth;
+}
+#body_container{
+    height: 100vh;
+    width: 100%;
+    /* border: 3px solid black; */
+}
+.navbar{
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding:10px 80px 10px 50px;
+    margin: 0px 0px 8px 0px;
+    background-color: whitesmoke;
+    box-shadow: 0px -5px 15px 5px gray;
+    /* border: 2px solid black; */
+}
+.navbar ul {
+    width: 30em;
+    height: 50px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    /* border: 2px solid black; */
+}
+.navbar li{
+    padding: 15px 25px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-items: center;
+    /* border: 2px solid black; */
+}
+.navbar li a{
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+.navbar span{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#public_search_uname{
+    height: 30px;
+    width: 250px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border: 1.5px solid darkgray;
+    border-radius: 10px;
+}
+#public_submit{
+    height: 35px;
+    width: 35px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 20px;
+    border: 1px solid rgb(197, 184, 184);
+    background-color: darkgray;
+}
+
+.dashboard{
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.out_box{
+    width: 60%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.search_in{
+    width: 100%;
+    height: 40px;
+    margin: 5px 0px;
+}
+.search_in form{
+    display: flex;
+}
+#search_uname{
+    padding: 0px 10px;
+    height: 40px;
+    width: 90%;
+    border-radius: 15px 0px 0px 0px;
+}
+#submit_btn{
+    height: 42px;
+    width: 10%;
+    border-radius: 0px 15px 0px 0px;
+}
+.search_results{
+    height: 100%;
+    width: 100%;
+    overflow-y:scroll;
+    overflow-x: hidden;
+}
+.search_card{
+    height: 150px;
+    width: 99%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+.division{
+    height: 0px;
+    width: 90%;
+    border: 1px solid darkgray;
+}
+.card_top{
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.card_top p{
+    width: 80%;
+}
+.info{
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.info img{
+    width: 50px;
+}
+.info p{
+    font-size: 20px;
+}

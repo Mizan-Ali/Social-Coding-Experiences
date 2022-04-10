@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="search_stylesheet.css">
+    <title>OUTLIERS</title>
+</head>
+<body>
+    <nav class="navbar">
+        <span>OUTLIERS.</span>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Leaderboard</a></li>
+            <li><a href="#">SignOut</a></li>
+          </ul>
+          <form action="POST">
+              <input type="text" name="public_uname" id="public_search_uname" placeholder="USERNAME...">
+              <button type="submit" id="public_submit">GO</button>
+          </form>
+    </nav>
+
+    <div class="dashboard">
+        <div class="out_box">
+            <!-- onclick="location.href='https://outliers-1.herokuapp.com'" style="cursor:pointer;" -->
+            <div class="search_in">
+                <form action="">
+                    <input type="text" name="uname" id="search_uname"placeholder="Enter Username">
+                    <input type="submit" name="submit_btn" id="submit_btn" value="Submit">
+                </form>
+            </div>
+            <div class="search_results">
+                <div class="search_card" onclick="location.href='https://outliers-1.herokuapp.com'" style="cursor:pointer;">
+                    <div class="card_top" >
+                        <div class="info">
+                            <p>Username - Username</p>
+                        </div>
+                        <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
+                        <div class="info">
+                            <img src="github.png" alt="">
+                            <p>Username - Username</p>
+                        </div>
+                    </div>
+                    <div class="division"></div>
+                    <div class="card_top">
+                        <div class="info">
+                            <img src="code-chef.png" alt="">
+                            <p>Username - Username</p>
+                        </div>
+                        <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
+                        <div class="info">
+                            <img src="code-forces.png" alt="">
+                            <p>Username - Username</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
