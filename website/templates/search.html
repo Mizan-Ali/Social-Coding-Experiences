@@ -1,19 +1,29 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block head %}
 <title>Search</title>
-{% endblock %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
+{% endblock %}
+
 
 {% block content %}
-<ul>
-    {% for user in user_list %}
-    <li>username: {{ user._id }}</li>
-    <ul style="list-style: none;">
-        <li >github: {{ user.github_username }}</li>
-        <li>codechef: {{ user.codechef_username }}</li>
-        <li >codeforces: {{ user.codeforces_username }}</li>
-    </ul>
-    <br>
-    {% endfor %}
-</ul>
+<div class="rating">
+    <h2>Search</h2>
+    <div class="cur_rating">
+        <div class="rating_card_common c_rating_head">
+            <h3>username</h3>
+            <h3>github</h3>
+            <h3>codechef</h3>
+            <h3>codeforces</h3>
+        </div>
+        {% for user in user_list %}
+        <div class="rating_card_common c_rating_data">
+            <span>{{ user._id }}</span>
+            <span>{{ user.github_username }}</span>
+            <span>{{ user.codechef_username }}</span>
+            <span>{{ user.codeforces_username }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
