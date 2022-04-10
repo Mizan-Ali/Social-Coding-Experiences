@@ -56,7 +56,7 @@ class DBCleanup:
 
         except Exception as e:
             errStr = f'Table failed to delete with error : [{e}]'
-            logger.error(function, errStr, **ret)
+            logger.error(function, errStr, **{'DeletedCount': ret.deleted_count, 'IsAcknowledged': ret.acknowledged})
             return {'cleanup_status' : constants.CLEANUP_OP_FAILURE} 
         
         return {'cleanup_status' : constants.CLEANUP_OP_SUCCESS} 
