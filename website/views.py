@@ -47,7 +47,7 @@ def search():
         return redirect(url_for("view.profile"))
 
     users_collection = mongo.db.users
-    user_list = users_collection.find({"$or": [{"_id": username}, {"github_username": username}, {"codechef_username": username}, {"codeforces": username}, {"full_name": re.compile(username, re.IGNORECASE)}]}, {"_id": 1, "github_username": 1, "codechef_username": 1, "codeforces_username": 1, "score": 1})
+    user_list = list(users_collection.find({"$or": [{"_id": username}, {"github_username": username}, {"codechef_username": username}, {"codeforces": username}, {"full_name": re.compile(username, re.IGNORECASE)}]}, {"_id": 1, "github_username": 1, "codechef_username": 1, "codeforces_username": 1, "score": 1}))
 
     return render_template("search.html", user_list=user_list, user=current_user)
 
