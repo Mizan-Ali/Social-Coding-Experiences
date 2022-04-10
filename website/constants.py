@@ -5,7 +5,8 @@
 
 init_constants = {
     'APP_CONFIG_SECRET_KEY': "dsfuibskdbvibsidbvbb",
-    'MONGO_URI': "mongodb+srv://admin:duh2018@cluster0.neruc.mongodb.net/DUH?retryWrites=true&w=majority"
+    'MONGO_URI': "mongodb+srv://admin:duh2018@cluster0.neruc.mongodb.net/DUH?retryWrites=true&w=majority",
+    'WRONG_DELETE_REGKEY': "Wrong Reg Key provided. Use correct Reg Key to delete"
 }
 
 auth_constants = {
