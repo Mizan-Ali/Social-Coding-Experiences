@@ -1,27 +1,16 @@
-{% extends "base.html" %} {% block head %}
+{% extends "base.html" %}
+
+{% block head %}
 <title>Sign In</title>
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/login_style.css') }}"
-/>
-{% endblock %} {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}" />
+{% endblock %}
+
+{% block body %}
 <div class="out_box">
   <div class="in_box">
     <form method="POST">
-      <input
-        type="_id"
-        class="form-control"
-        id="_id"
-        name="_id"
-        placeholder="email/username"
-      />
-      <input
-        type="password"
-        class="form-control"
-        id="password"
-        name="password"
-        placeholder="password"
-      />
+      <input type="_id" class="form-control" id="_id" name="_id" placeholder="email/username" />
+      <input type="password" class="form-control" id="password" name="password" placeholder="password" />
       <button type="submit" class="btn">Login</button>
       <span style="margin-top: 30px">_____________________________</span>
     </form>

@@ -1,338 +1,159 @@
-{% extends "base.html" %} {% block head %}
-<style>
-  .row_new {
-    /* border: solid 2px red; */
-    height: 100vh;
-  }
+{% extends "base.html" %}
 
-  .common {
-    display: flex;
-    padding: 10px 0px 0px 10px;
-  }
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_stylesheet.css') }}">
+<title>OUTLIERS</title>
+{% endblock %}
 
-  .common h6 {
-    margin-right: 10px;
-  }
-
-  .card_common {
-    margin-bottom: 25px;
-    border: solid 1.5px lightgray;
-    border-radius: 20px 0px 20px 0px;
-  }
-
-  .username_common {
-    background-color: whitesmoke;
-    border-radius: 20px 0px 0px 0px;
-  }
-
-  .username_common a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-  }
-
-  .username_common img {
-    width: 35px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-  }
-
-  .sidebar_logo {
-    width: 25px;
-  }
-</style>
-{% endblock %} 
-{% block content %}
-<div class="container">
-  <div class="main-body">
-    <div class="row gutters-sm">
-      <div class="col-md-4 mb-3">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex flex-column align-items-center text-center">
-              <img
-                src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                alt="Admin"
-                class="rounded-circle"
-                width="150"
-              />
-              <div class="mt-3">
-                <h4>{{ user.full_name }}</h4>
-                <p class="text-secondary mb-1">{{ user.occupation }}</p>
-              </div>
-            </div>
-          </div>
+{% block body %}
+<div class="dashboard">
+    <div class="left_div">
+        <div class="details">
+            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
+            <span>{{ user.full_name }}</span>
+            <p>({{ user.username }})</p>
+            <p>{{ user.occupation }}</p>
+            <hr>
+            <p>Score - {{ user.score }}</p>
+            <!-- <p>Global Ranking - NULL</p> -->
+            <p>Upvotes - {{ user.upvotes }} | Downvotes - {{ user.downvotes }}</p>
+            <hr>
+            <p>Gender - {{ user.gender }}</p>
+            <!-- <p>Followers - NULL </p> -->
         </div>
+        <div class="">
 
-        <div class="card mt-3">
-          <ul class="list-group list-group-flush">
-            <li
-              class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-                flex-wrap
-              "
-            >
-              <img
-                src="../static/image/search.png"
-                alt="Search"
-                class="sidebar_logo"
-              />
-
-              <form action="{{ url_for('views.search') }}" method="post">
-                <input type="username" class="form-control" id="username" name="username" placeholder="username"/>
-                <button type="submit" class="btn">Search</button>
-              </form>
-            </li>
-
-            <li
-              class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-              "
-            >
-              <img
-                src="../static/image/trophy.png"
-                alt="Search"
-                class="sidebar_logo"
-              />
-              <div style="width: 100%; margin-left: 30px">
-                <a
-                  href="{{ url_for('views.leaderboard') }}"
-                  style="text-decoration: none; color: black; font-weight: 500"
-                  >Leaderboard</a
-                >
-              </div>
-            </li>
-            <li
-              class="
-                list-group-item
-                d-flex
-                justify-content-between
-                align-items-center
-              "
-            >
-              <img
-                src="../static/image/logout.png"
-                alt="Search"
-                class="sidebar_logo"
-              />
-              <div style="width: 100%; margin-left: 30px">
-                <a
-                  href="/logout"
-                  style="text-decoration: none; color: black; font-weight: 500"
-                  >Logout</a
-                >
-              </div>
-            </li>
-          </ul>
         </div>
-      </div>
-      <div class="col-md-8">
-        <div class="row_new">
-          <div class="github_card card_common">
-            {% if user.github_username %}
-            <div class="github_username common username_common">
-              <img src="../static/image/github.png" alt="Github" />
-              <a
-                href="https://github.com/{{ user.github_username }}"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {{ user.github_username }}</a
-              >
-            </div>
-            <div class="github_contributions common">
-              <h6>Contributions in the Last Year</h6>
-              <span>{{ user.github_data.total_commits }}</span>
-            </div>
-            <div class="github_followers common">
-              <h6>Total Followers</h6>
-              <span>{{ user.github_data.followers }}</span>
-            </div>
-            <div class="github_forks common">
-              <h6>Fork Count</h6>
-              <span>{{ user.github_data.forks_count }}</span>
-            </div>
-            <div class="github_stars common">
-              <h6>Star Count</h6>
-              <span>{{ user.github_data.stargazers_count }}</span>
-            </div>
-
-            <form method="POST" action="{{ url_for('modify.remove_github') }}">
-              <button type="submit" class="btn btn-primary">Remove</button>
-            </form>
-
-            <form method="POST" action="{{ url_for('views.refresh_github') }}">
-              <button type="submit" class="btn btn-primary">Refresh</button>
-            </form>
-
-            {% else %}
-
-            <form method="POST" action="{{ url_for('modify.add_github') }}">
-              <div class="form-group col-sm-4">
-                <label for="github_username">GitHub Username</label>
-                <input
-                  type="github_username"
-                  class="form-control"
-                  id="github_username"
-                  name="github_username"
-                  placeholder="Enter GitHub Username..."
-                />
-              </div>
-              <br /><button type="submit" class="btn btn-primary">
-                Submit
-              </button>
-            </form>
-
-            {% endif %}
-          </div>
-
-          <div class="cf_card card_common">
-            {% if user.codeforces_username %}
-            <div class="cf_username common username_common">
-              <img src="../static/image/code-forces.png" alt="Codeforces" />
-              <a
-                href="https://codeforces.com/profile/{{ user.codeforces_username }}"
-                target="_blank"
-                rel="noreferrer noopener"
-                >{{ user.codeforces_username }}</a
-              >
-            </div>
-            <div class="cf_u_rating common">
-              <h6>Current Rating</h6>
-              <span>{{ user.codeforces_data.rating }}</span>
-            </div>
-            <div class="cf_h_rating common">
-              <h6>Highest Rating</h6>
-              <span>{{ user.codeforces_data.highest_rating }}</span>
-            </div>
-            <div class="cf_contests common">
-              <h6>Total Contests</h6>
-              <span>{{ user.codeforces_data.contests }}</span>
-            </div>
-            <div class="cf_ps common">
-              <h6>Total Problem Solved</h6>
-              <span>{{ user.codeforces_data.problems_solved }}</span>
-            </div>
-            <div class="cf_rank common">
-              <h6>Current Ranking</h6>
-              <span>{{ user.codeforces_data.rank }}</span>
-            </div>
-
-            <form
-              method="POST"
-              action="{{ url_for('modify.remove_codeforces') }}"
-            >
-              <button type="submit" class="btn btn-primary">Remove</button>
-            </form>
-
-            <form
-              method="POST"
-              action="{{ url_for('views.refresh_codeforces') }}"
-            >
-              <button type="submit" class="btn btn-primary">Refresh</button>
-            </form>
-
-            {% else %}
-
-            <form method="POST" action="{{ url_for('modify.add_codeforces') }}">
-              <div class="form-group col-sm-4">
-                <label for="codeforces_username">CodeForces Username</label>
-                <input
-                  type="codeforces_username"
-                  class="form-control"
-                  id="github_username"
-                  name="codeforces_username"
-                  placeholder="Enter CodeForces Username..."
-                />
-              </div>
-              <br /><button type="submit" class="btn btn-primary">
-                Submit
-              </button>
-            </form>
-
-            {% endif %}
-          </div>
-
-          <div class="cc_card card_common">
-            {% if user.codechef_username %}
-
-            <div class="cc_username common username_common">
-              <img src="../static/image/code-chef.png" alt="CodeChef" />
-              <a
-                href="https://codechef.com/users/{{ user.codechef_username }}"
-                target="_blank"
-                rel="noreferrer noopener"
-                >{{ user.codechef_username }}</a
-              >
-            </div>
-            <div class="cc_country common">
-              <h6>Country</h6>
-              <span>{{ user.codechef_data.country }}</span>
-            </div>
-            <div class="cc_u_rating common">
-              <h6>Current Rating</h6>
-              <span>{{ user.codechef_data.rating }}</span>
-            </div>
-            <div class="cc_h_rating common">
-              <h6>Highest Rating</h6>
-              <span>{{ user.codechef_data.highest_rating }}</span>
-            </div>
-            <div class="cc_global_rank common">
-              <h6>Global Ranking</h6>
-              <span>{{ user.codechef_data.global_rank }}</span>
-            </div>
-            <div class="cc_country_rank common">
-              <h6>Country Ranking</h6>
-              <span>{{ user.codechef_data.country_rank }}</span>
-            </div>
-            <div class="cc_star common">
-              <h6>Star Rating</h6>
-              <span>{{ user.codechef_data.num_stars }}</span>
-            </div>
-
-            <form
-              method="POST"
-              action="{{ url_for('modify.remove_codechef') }}"
-            >
-              <button type="submit" class="btn btn-primary">Remove</button>
-            </form>
-
-            <form
-              method="POST"
-              action="{{ url_for('views.refresh_codechef') }}"
-            >
-              <button type="submit" class="btn btn-primary">Refresh</button>
-            </form>
-
-            {% else %}
-
-            <form method="POST" action="{{ url_for('modify.add_codechef') }}">
-              <div class="form-group col-sm-4">
-                <label for="codechef_username">Codechef Username</label>
-                <input
-                  type="codechef_username"
-                  class="form-control"
-                  id="codechef_username"
-                  name="codechef_username"
-                  placeholder="Enter Codechef Username..."
-                />
-              </div>
-              <br /><button type="submit" class="btn btn-primary">
-                Submit
-              </button>
-            </form>
-
-            {% endif %}
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+    <div class="right_div">
+        <div class="github_card">
+            <div class="github_uname">
+                {% if user.github_username %}
+                <p>{{ user.github_username }}</p>
+                <form action="{{ url_for('modify.remove_github') }}" , method="post">
+                    <button type="submit" class="github_remove">X</button>
+                </form>
+                <form action="{{ url_for('views.refresh_github') }}" , method="post">
+                    <button type="submit" class="github_remove">R</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('modify.add_github') }}" , method="post">
+                    <input type="text" name="github_username" class="github_search_uname" placeholder="Github Username....">
+                    <button type="submit" class="github_submit">GO</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="github_info">
+                {% if user.github_username %}
+                <div class="github_stars common">
+                    <span>Stars: {{ user.github_data.stargazers_count }}</span>
+                </div>
+                <div class="github_forks common">
+                    <span>Forks: {{ user.github_data.forks_count }}</span>
+                </div>
+                <div class="github_total_follower common">
+                    <span>Total Followers: {{ user.github_data.followers }}</span>
+                </div>
+                <div class="github_contri common">
+                    <span>Contributions Last Year: {{ user.github_data.total_commits }}</span>
+                </div>
+                {% else %}
+                <h3>Not Available</h3>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- -----codechef info----- -->
+        <div class="codechef_card">
+            <div class="codechef_uname">
+                {% if user.codechef_username %}
+                <p>{{ user.codechef_username }}</p>
+                <form action="{{ url_for('modify.remove_codechef') }}" , method="post">
+                    <button type="submit" class="codechef_remove">X</button>
+                </form>
+                <form action="{{ url_for('views.refresh_codechef') }}" , method="post">
+                    <button type="submit" class="codechef_remove">R</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('modify.add_codechef') }}" , method="post">
+                    <input type="text" name="codechef_username" class="codechef_search_uname"
+                        placeholder="Codechef Username....">
+                    <button type="submit" class="codechef_submit">GO</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="codechef_info">
+                {% if user.codechef_username %}
+                <div class="codechef_cur_rating common">
+                    <span>Country: {{ user.codechef_data.country }}</span>
+                </div>
+                <div class="codechef_stars common">
+                    <span>Stars: {{ user.codechef_data.num_stars }}</span>
+                    <!-- <div class="codechef_stars_img">
+                        <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
+                        <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
+                        <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
+                        <div style="width:15px;height:30px;overflow:hidden;">
+                            <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
+                        </div>
+                    </div> -->
+                </div>
+                <div class="codechef_cur_rating common">
+                    <span>Current Rating: {{ user.codechef_data.rating }}</span>
+                </div>
+                <div class="codechef_high_rating common">
+                    <span>Highest Rating: {{ user.codechef_data.highest_rating }}</span>
+                </div>
+                <div class="codechef_country_ranking common">
+                    <span>Country Ranking: {{ user.codechef_data.country_rank }}</span>
+                </div>
+                <div class="codechef_g_Ranking common">
+                    <span>Global Ranking: {{ user.codechef_data.global_rank }}</span>
+                </div>
+                {% else %}
+                <h3>Not Available</h3>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- -----codeforces info----- -->
+        <div class="codechef_card">
+            <div class="codechef_uname">
+                {% if user.codeforces_username %}
+                <p>{{ user.codeforces_username }}</p>
+                <form action="{{ url_for('modify.remove_codeforces') }}" , method="post">
+                    <button type="submit" class="codechef_remove">X</button>
+                </form>
+                <form action="{{ url_for('views.refresh_codeforces') }}" , method="post">
+                    <button type="submit" class="codechef_remove">R</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('modify.add_codeforces') }}" , method="post">
+                    <input type="text" name="codeforces_username" class="codechef_search_uname"
+                        placeholder="Codeforces Username....">
+                    <button type="submit" class="codechef_submit">GO</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="codechef_info">
+                {% if user.codeforces_username %}
+                <div class="codechef_ranking common">
+                    <span>Ranking: {{ user.codeforces_data.rank }}</span>
+                </div>
+                <div class="codechef_cur_rating common">
+                    <span>Current Rating: {{ user.codeforces_data.rating }}</span>
+                </div>
+                <div class="codechef_high_rating common">
+                    <span>Highest Rating: {{ user.codeforces_data.highest_rating }}</span>
+                </div>
+                <div class="codechef_total_probs common">
+                    <span>Total Problem Solved: {{ user.codeforces_data.problems_solved }}</span>
+                </div>
+                {% else %}
+                <h3>Not Available</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
