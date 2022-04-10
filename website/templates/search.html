@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Search</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="rating">
+    <h2>Search</h2>
+    <div class="cur_rating">
+        <div class="rating_card_common c_rating_head">
+            <h3>username</h3>
+            <h3>github</h3>
+            <h3>codechef</h3>
+            <h3>codeforces</h3>
+        </div>
+        {% for user in user_list %}
+        <div class="rating_card_common c_rating_data">
+            <span>{{ user._id }}</span>
+            <span>{{ user.github_username }}</span>
+            <span>{{ user.codechef_username }}</span>
+            <span>{{ user.codeforces_username }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

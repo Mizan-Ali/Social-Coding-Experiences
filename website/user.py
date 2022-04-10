@@ -27,7 +27,6 @@ class User(UserMixin):
 
     friends: List[str] = field(default_factory=list)
 
-    # users_collection.find({"$or": [{"_id": "vafa"}, {"github_username": "vafa"}]"})
 
     def get_id(self):
         return self.username
