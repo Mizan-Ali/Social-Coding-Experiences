@@ -15,7 +15,7 @@ def save_github(username):
     github_data = github.fetch_github_data(username)
     if github_data["SUCCESS"] is False:
         flash("Unable to save github data", category="error")
-        return 
+        raise ValueError("Unable to save github data")
 
 
     github_collection = mongo.db.github
@@ -37,7 +37,7 @@ def save_codechef(username):
     codechef_data = codechef.fetch_codechef_data(username)
     if codechef_data["SUCCESS"] is False:
         flash("Unable to save codechef data", category="error")
-        return 
+        raise ValueError("Unable to save codechef data")
 
 
     codechef_collection = mongo.db.codechef
@@ -60,7 +60,7 @@ def save_codeforces(username):
     codeforces_data = codeforces.fetch_codeforces_data(username)
     if codeforces_data["SUCCESS"] is False:
         flash("Unable to save codeforce data", category="error")
-        return 
+        raise ValueError("Unable to save codeforces data") 
 
     codeforces_collection = mongo.db.codeforces
 
