@@ -1,14 +1,12 @@
 from flask import Flask
+from logger import Logger
 from .models import mongo
 from .user import get_user
 from flask_login import LoginManager
-from logger import Logger
 from .constants import init_constants
 from apscheduler.schedulers.background import BackgroundScheduler
 
 logger = Logger()
-
-count = 0
 
 def create_app():
     app = Flask(__name__)

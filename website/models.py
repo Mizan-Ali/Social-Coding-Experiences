@@ -1,8 +1,8 @@
 from flask import flash
-from flask_pymongo import PyMongo
-from user_profile_details import github, codechef, codeforces
 from logger import Logger
+from flask_pymongo import PyMongo
 from .constants import models_constants
+from user_profile_details import github, codechef, codeforces
 
 mongo = PyMongo()
 logger = Logger()

@@ -1,13 +1,13 @@
 import pymongo
+from logger import Logger
 from .user import get_user
+from .constants import views_constants
 from flask_login import login_required, current_user
 from .models import mongo, save_github, save_codechef, save_codeforces
 from flask import Blueprint, flash, redirect, render_template, url_for, request
-from logger import Logger
-from .constants import views_constants
 
-views = Blueprint("views", __name__)
 logger = Logger()
+views = Blueprint("views", __name__)
 
 
 @views.route("/")

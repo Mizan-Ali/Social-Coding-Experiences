@@ -1,9 +1,10 @@
 from typing import List
+from logger import Logger
 from flask_login import UserMixin
+from .constants import user_constants
 from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
-from logger import Logger
-from .constants import user_constants
+
 
 logger = Logger()
 
