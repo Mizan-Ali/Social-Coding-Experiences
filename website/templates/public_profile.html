@@ -18,7 +18,7 @@
             <p>Score - {{ friend.score }}</p>
             <!-- <p>Global Ranking - NULL</p> -->
             <p>Upvotes - {{ friend.upvotes }} | Downvotes - {{ friend.downvotes }}</p>
-            {% if friend.is_authenticated %}
+            {% if user.is_authenticated %}
             <div id="vote">
                 <a href="{{ url_for('modify.add_upvote', friend_username=friend.username) }}">
                     <img src="{{ url_for('static', filename='images/thumbs_up.png') }}" alt="UP"
@@ -29,13 +29,15 @@
                         style="background-color: lightgray;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);">
                 </a>
             </div>
-            {% if friend.check_friend(friend) %}
+            {% if user.check_friend(friend) %}
             <form action="{{ url_for('modify.delete_friend') }}" method="post">
-                <input type="submit" name="friend_username" value="{{ friend.username }}" id="follow">
+                <input type="text" name="friend_username" value="{{ friend.username }}" style="height: 0px; width: 0px;">
+                <input type="submit" name="submit_btn" value="Unfollow" id="follow">
             </form>
             {% else %}
             <form action="{{ url_for('modify.add_friend') }}" method="post">
-                <input type="submit" name="friend_username" value="{{ friend.username }}" id="follow">
+                <input type="text" name="friend_username" value="{{ friend.username }}" style="height: 0px; width: 0px;">
+                <input type="submit" name="submit_btn" value="Follow" id="follow">
             </form>
             {% endif %}
             {% endif %}
