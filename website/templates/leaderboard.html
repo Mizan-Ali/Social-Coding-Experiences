@@ -22,7 +22,9 @@
             </div>
             <div class="friends_data">
                 {% for user in friends_leaderboard %}
-                <div class="friend_data_inner">
+                <div class="friend_data_inner"
+                    onclick="location.href='{{ url_for('''views.public_profile''', username=user[0]) }}'"
+                    style="cursor:pointer;">
                     <div class="friend_labels_data">
                         <span>{{ user[0] }}</span>
                         <span>-</span>
@@ -48,7 +50,9 @@
             </div>
             <div class="friends_data">
                 {% for user in global_leaderboard %}
-                <div class="friend_data_inner">
+                <div class="friend_data_inner"
+                    onclick="location.href='{{ url_for('''views.public_profile''', username=user[0]) }}'"
+                    style="cursor:pointer;">
                     <div class="friend_labels_data">
                         <span>{{ user[0] }}</span>
                         <span>-</span>
