@@ -59,10 +59,12 @@ class User(UserMixin):
             temp_score += 0.2 * int(self.github_data['total_commits'])
             ac_count += 1
 
-        self.score = round((temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes), 2)
-
-        if self.score < 0:
+        try:
+            self.score = round((temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes), 2)
+        except ZeroDivisionError:
             self.score = 0
+
+        self.score = max(self.score, 0)
         
         users_collection = mongo.db.users
         users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)

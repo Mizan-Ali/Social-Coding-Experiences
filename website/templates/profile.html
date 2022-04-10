@@ -80,6 +80,11 @@
                 alt="Search"
                 class="sidebar_logo"
               />
+
+              <form action="{{ url_for('views.public_profile_mapper') }}" method="post">
+                <input type="username" class="form-control" id="username" name="username" placeholder="username"/>
+                <button type="submit" class="btn">Search</button>
+              </form>
             </li>
 
             <li
@@ -116,14 +121,6 @@
                 alt="Search"
                 class="sidebar_logo"
               />
-
-              <form action="{{ url_for('views.public_profile_mapper') }}" method="post">
-                <input type="username" class="form-control" id="username" name="username" placeholder="username"/>
-                <button type="submit" class="btn">Search</button>
-              </form>
-            </li>
-
-            <li>
               <div style="width: 100%; margin-left: 30px">
                 <a
                   href="/logout"
