@@ -1,4 +1,6 @@
 from typing import List
+
+from flask import flash
 from logger import Logger
 from flask_login import UserMixin
 from .constants import user_constants
@@ -49,6 +51,7 @@ class User(UserMixin):
         return False
 
     def update_rating(self):
+        function = 'update_rating'
         temp_score = 0
 
         if self.codechef_username:
@@ -61,9 +64,16 @@ class User(UserMixin):
         self.score = round(temp_score  + int(self.upvotes) - int(self.downvotes), 2)
 
         self.score = max(self.score, 0)
-        
-        users_collection = mongo.db.users
-        users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
+
+        try:
+            users_collection = mongo.db.users
+            users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
+            flash(user_constants['RATING_UPDATE_SUCCESS'], category='success')
+            logger.debug(function_name=function, debug_message=user_constants['RATING_UPDATE_SUCCESS'], **self.__dict__)
+        except Exception as e:
+            flash(user_constants['RATING_UPDATE_FAILURE'], category='error')
+            logger.error(function, user_constants['RATING_UPDATE_FAILURE'], **self.__dict__)
+
 
 
 def get_user(username="", email=""):
