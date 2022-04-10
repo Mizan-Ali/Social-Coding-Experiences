@@ -86,7 +86,7 @@ def add_codechef():
     try:
         users_collections = mongo.db.users
         save_codechef(username)
-        ret = users_collections.update_one({"_id": current_user.username}, {"$set": {"codechef_username": username}}, upsert=False)
+        users_collections.update_one({"_id": current_user.username}, {"$set": {"codechef_username": username}}, upsert=False)
         current_user.codechef_username = username
     except Exception as e:
         flash("Unable to add Codechef", category="error")

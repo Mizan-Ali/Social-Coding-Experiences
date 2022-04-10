@@ -27,5 +27,5 @@ class Logger:
                 continue
             print(f'               {key} : {value}')
     
-    def scheduler(scheduler_obj):
+    def scheduler(self, scheduler_obj):
         scheduler_obj.print_jobs()
