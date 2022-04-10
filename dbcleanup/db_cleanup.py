@@ -12,7 +12,7 @@ class DBCleanup:
 
     def validate_key(self):
         function = 'validate_key'
-        logger.debug(function, "Validating DB deleteion key")
+        logger.debug(function, "Validating DB deletion key")
         if md5(self.secret_key.encode()).digest() != constants.DB_DELETION_SECRET_KEY_HASH:
             logger.error(function, "Wrong DB deletion key provided. Cannot delete DB.")
             self.curr_locale = ''
