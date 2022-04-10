@@ -23,7 +23,7 @@ def add_github():
         flash("Unable to add Github", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_github", methods=["POST"])
@@ -41,7 +41,7 @@ def remove_github():
         flash("Unable to remove Github", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
@@ -57,7 +57,7 @@ def add_codeforces():
         flash("Unable to add Codeforces", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_codeforces", methods=["POST"])
@@ -75,7 +75,7 @@ def remove_codeforces():
         flash("Unable to remove CodeForces", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/add_codechef", methods=["POST"])
@@ -92,7 +92,7 @@ def add_codechef():
         flash("Unable to add Codechef", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_codechef", methods=["POST"])
@@ -110,7 +110,7 @@ def remove_codechef():
         flash("Unable to remove Codechef", category="error")
 
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/add_friend", methods=["POST"])

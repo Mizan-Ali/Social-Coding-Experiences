@@ -25,7 +25,7 @@ html{
     /* border: 2px solid black; */
 }
 .navbar ul {
-    width: 30em;
+    width: 40em;
     height: 50px;
     list-style-type: none;
     display: flex;

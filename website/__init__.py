@@ -42,7 +42,7 @@ def create_app():
     app.register_blueprint(modify, url_prefix="/")
 
     login_manager = LoginManager()
-    login_manager.login_view = "auth.login"
+    login_manager.login_view = "views.home"
     login_manager.init_app(app)
 
     try:
