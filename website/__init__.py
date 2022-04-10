@@ -2,13 +2,19 @@ from flask import Flask
 from .models import mongo
 from .user import get_user
 from flask_login import LoginManager
+from logger import Logger
+from .constants import init_constants
+from apscheduler.schedulers.background import BackgroundScheduler
 
+logger = Logger()
+
+count = 0
 
 def create_app():
     app = Flask(__name__)
 
-    app.config["SECRET_KEY"] = "dsfuibskdbvibsidbvbb"
-    app.config["MONGO_URI"] = "mongodb+srv://admin:duh2018@cluster0.neruc.mongodb.net/DUH?retryWrites=true&w=majority"
+    app.config["SECRET_KEY"] = init_constants['APP_CONFIG_SECRET_KEY']
+    app.config["MONGO_URI"] = init_constants['MONGO_URI']
 
     mongo.init_app(app)
 
@@ -24,8 +30,29 @@ def create_app():
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
 
+    try:
+        import logging
+        logging.basicConfig()
+        logging.getLogger('apscheduler').setLevel(logging.DEBUG)
+        rating_updater = BackgroundScheduler(daemon = True)
+        rating_updater.add_job(update_all_ratings, 'interval', hours=10)
+        rating_updater.start()
+    except Exception as e:
+        print(e)
+
     @login_manager.user_loader
     def load_user(username):
         return get_user(username)
 
     return app
+
+
+def update_all_ratings():
+    try:
+        users_collection = mongo.db.users
+        for user_data in users_collection.find({}):
+            user = get_user(user_data['_id'])
+            user.update_rating()
+
+    except Exception as e:
+        print(e)

@@ -1,9 +1,11 @@
 from flask import flash
 from flask_pymongo import PyMongo
 from user_profile_details import github, codechef, codeforces
-
+from logger import Logger
+from .constants import models_constants
 
 mongo = PyMongo()
+logger = Logger()
 
 
 def get_github(username):

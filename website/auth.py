@@ -2,9 +2,11 @@ from .user import get_user, save_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, redirect, request, flash, url_for
-
+from logger import Logger
+from .constants import auth_constants
 
 auth = Blueprint("auth", __name__)
+logger = Logger()
 
 
 @auth.route("/login", methods=["GET", "POST"])
