@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from logger import Logger
 from .models import mongo
 from .user import get_user
 from flask_login import LoginManager
+from flask_restful import Resource, Api
 from .constants import init_constants
 from apscheduler.schedulers.background import BackgroundScheduler
+from dbcleanup.db_cleanup import DBCleanup
 
 logger = Logger()
 
@@ -15,6 +17,21 @@ def create_app():
     app.config["MONGO_URI"] = init_constants['MONGO_URI']
 
     mongo.init_app(app)
+
+    class DBCleaner(Resource):
+        def delete(self):
+            key = request.headers["RegKeyDelete"]
+            cleanup_obj = DBCleanup(key)
+
+            if False == cleanup_obj.validate_key():
+                return jsonify({'error': init_constants['WRONG_DELETE_REGKEY']})
+            
+            resp = cleanup_obj.initiate_db_cleanup(mongo)
+
+            return jsonify(resp)
+    
+    api = Api(app)
+    api.add_resource(DBCleaner, "/adminDeleteDB")
 
     from .auth import auth
     from .views import views

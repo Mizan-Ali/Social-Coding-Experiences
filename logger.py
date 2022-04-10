@@ -9,11 +9,11 @@ class Logger:
 
         if kwargs:
             print(f'DEBUG   DUMP:')
-        
-        for key, value in kwargs.items():
-            if 'password' == key:
-                continue
-            print(f'               {key} : {value}')
+            
+            for key, value in kwargs.items():
+                if 'password' == key:
+                    continue
+                print(f'               {key} : {value}')
 
     def error(self, function_name, error_message, **kwargs):
         print(f'ERROR   {function_name}   {error_message}')
@@ -22,10 +22,10 @@ class Logger:
         if kwargs:
             print(f'ERROR   DUMP:')
         
-        for key, value in kwargs.items():
-            if 'password' == key:
-                continue
-            print(f'               {key} : {value}')
+            for key, value in kwargs.items():
+                if 'password' == key:
+                    continue
+                print(f'               {key} : {value}')
     
     def scheduler(self, scheduler_obj):
         scheduler_obj.print_jobs()
