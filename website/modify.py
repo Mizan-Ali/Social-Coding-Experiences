@@ -18,6 +18,7 @@ def add_github():
         save_github(username)
         users_collections.update_one({"_id": current_user.username}, {"$set": {"github_username": username}}, upsert=False)
         flash("Added Github", category="success")
+        current_user.github_username = username
     except Exception as e:
         flash("Unable to add Github", category="error")
 
@@ -42,7 +43,6 @@ def remove_github():
     current_user.update_rating()
     return redirect(url_for("views.home"))
 
-
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
 def add_codeforces():
@@ -52,6 +52,7 @@ def add_codeforces():
         users_collections = mongo.db.users
         save_codeforces(username)
         users_collections.update_one({"_id": current_user.username}, {"$set": {"codeforces_username": username}}, upsert=False)
+        current_user.codeforces = username
     except Exception as e:
         flash("Unable to add Codeforces", category="error")
 
@@ -78,13 +79,15 @@ def remove_codeforces():
 
 
 @modify.route("/add_codechef", methods=["POST"])
+@login_required
 def add_codechef():
     username = request.form.get("codechef_username")
     
     try:
         users_collections = mongo.db.users
         save_codechef(username)
-        users_collections.update_one({"_id": current_user.username}, {"$set": {"codechef_username": username}}, upsert=False)
+        ret = users_collections.update_one({"_id": current_user.username}, {"$set": {"codechef_username": username}}, upsert=False)
+        current_user.codechef_username = username
     except Exception as e:
         flash("Unable to add Codechef", category="error")
 
@@ -93,6 +96,7 @@ def add_codechef():
 
 
 @modify.route("/remove_codechef", methods=["POST"])
+@login_required
 def remove_codechef():
     try:
         user_collections = mongo.db.users

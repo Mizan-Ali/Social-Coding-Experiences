@@ -21,7 +21,8 @@ modify_constants = {
 }
 
 user_constants = {
-
+    'RATING_UPDATE_SUCCESS': "Rating updated successfully",
+    'RATING_UPDATE_FAILURE': "Rating update failed"
 }
 
 views_constants = {
