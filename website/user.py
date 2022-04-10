@@ -49,23 +49,16 @@ class User(UserMixin):
         return False
 
     def update_rating(self):
-        ac_count = 0
         temp_score = 0
 
         if self.codechef_username:
             temp_score += 0.4 * int(self.codechef_data['rating'])
-            ac_count += 1
         if self.codeforces_username:
             temp_score += 0.4 * int(self.codeforces_data['rating'])
-            ac_count += 1
         if self.github_username:
             temp_score += 0.2 * int(self.github_data['total_commits'])
-            ac_count += 1
 
-        try:
-            self.score = round((temp_score / float(ac_count)) + int(self.upvotes) - int(self.downvotes), 2)
-        except ZeroDivisionError:
-            self.score = 0
+        self.score = round(temp_score  + int(self.upvotes) - int(self.downvotes), 2)
 
         self.score = max(self.score, 0)
         
