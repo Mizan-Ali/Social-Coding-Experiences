@@ -1,0 +1,19 @@
+{% extends "base.html" %} 
+
+{% block head %}
+<title>Search</title>
+{% endblock %} 
+
+{% block content %}
+<ul>
+    {% for user in user_list %}
+    <li>username: {{ user._id }}</li>
+    <ul style="list-style: none;">
+        <li >github: {{ user.github_username }}</li>
+        <li>codechef: {{ user.codechef_username }}</li>
+        <li >codeforces: {{ user.codeforces_username }}</li>
+    </ul>
+    <br>
+    {% endfor %}
+</ul>
+{% endblock %}

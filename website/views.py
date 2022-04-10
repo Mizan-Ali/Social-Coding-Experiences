@@ -31,14 +31,17 @@ def public_profile(username):
         friend=friend
     )
 
-@views.route("/public_profile_mapper", methods=["POST"])
-def public_profile_mapper():
+@views.route("/search", methods=["POST"])
+def search():
     username = request.form.get("username")
     if not username:
         flash("Enter a username", category="error")
         return redirect(url_for("view.home"))
 
-    return redirect(url_for("views.public_profile", username=username))
+    users_collection = mongo.db.users
+    user_list = users_collection.find({"$or": [{"_id": username}, {"github_username": username}, {"codechef_username": username}, {"codeforces": username}]}, {"_id": 1, "github_username": 1, "codechef_username": 1, "codeforces_username": 1, "score": 1})
+
+    return render_template("search.html", user_list=user_list, user=current_user)
 
 
 @views.route("/leaderboard")
