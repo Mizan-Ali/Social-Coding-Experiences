@@ -108,16 +108,16 @@ def get_global_leaderboard():
     leaderboard = []
     users_collection = mongo.db.users
     for user in users_collection.find().sort("score", pymongo.DESCENDING):
-        leaderboard.append((user["_id"], user["full_name"], user.get("score", 0)))
+        leaderboard.append((user["_id"], user.get("score", 0)))
     return leaderboard
 
 
 def get_friend_leaderboard():
-    leaderboard = [(current_user.username, current_user.full_name, current_user.score)]
+    leaderboard = [(current_user.username, current_user.score)]
 
     users_collection = mongo.db.users
     for friend_username in current_user.friends:
         friend = users_collection.find_one({"_id": friend_username})
-        leaderboard.append((friend["_id"], friend["full_name"], friend.get("score", 0)))
-    leaderboard.sort(key=lambda x: x[2], reverse=True)
+        leaderboard.append((friend["_id"], friend.get("score", 0)))
+    leaderboard.sort(key=lambda x: x[-1], reverse=True)
     return leaderboard
