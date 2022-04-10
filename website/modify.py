@@ -1,41 +1,24 @@
-from . import db
-from .views import update_rating
+from .user import get_user
 from flask_login import current_user, login_required
-from user_profile_details import github, codechef, codeforces
 from flask import Blueprint, redirect, request, flash, url_for
-from .models import Codeforces, Friends, Github, User, Votes, Codechef
+from .models import mongo, save_codechef, save_codeforces, save_github
 
 modify = Blueprint("modify", __name__)
-
 
 @modify.route("/add_github", methods=["POST"])
 @login_required
 def add_github():
     username = request.form.get("github_username")
-    current_user.github_username = username
-
-    github_details = github.fetch_github_data(username)
-    if not github_details["SUCCESS"]:
-        flash("Unable to add Github", category="error")
-        return redirect(url_for("views.home"))
-
-    git = Github(
-        user_id=current_user.id,
-        followers=github_details["followers"],
-        public_repos=github_details["public_repos"],
-        total_commits=github_details["total_commits"],
-        stargazers_count=github_details["stargazers_count"],
-        forks_count=github_details["forks_count"],
-    )
-    db.session.add(git)
-
+    
     try:
-        db.session.commit()
+        users_collections = mongo.db.users
+        save_github(username)
+        users_collections.update_one({"_id": current_user.username}, {"$set": {"github_username": username}}, upsert=False)
         flash("Added Github", category="success")
     except Exception as e:
         flash("Unable to add Github", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
@@ -43,16 +26,17 @@ def add_github():
 @login_required
 def remove_github():
     try:
+        users_collection = mongo.db.users
+        users_collection.update_one({"_id" : current_user.username}, {"$set": {"github_username" : ""}}, upsert = False)
+        github_collection = mongo.db.github
+        github_collection.delete_one({"_id" : current_user.github_username})
         current_user.github_username = ""
-        git = Github.query.filter_by(user_id=current_user.id).first()
-        db.session.delete(git)
-        db.session.commit()
         flash("Removed Github", category="success")
 
     except Exception as e:
         flash("Unable to remove Github", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
@@ -60,31 +44,15 @@ def remove_github():
 @login_required
 def add_codeforces():
     username = request.form.get("codeforces_username")
-    current_user.codeforces_username = username
-
-    codeforces_details = codeforces.fetch_codeforces_data(username)
-
-    if not codeforces_details["SUCCESS"]:
-        flash("Unable to add Codeforces", category="error")
-        return redirect(url_for("views.home"))
-
-    cf = Codeforces(
-        user_id=current_user.id,
-        rank=codeforces_details["rank"],
-        rating=codeforces_details["rating"],
-        problems_solved=codeforces_details["problems_solved"],
-        contests=codeforces_details["contests"],
-        highest_rating=codeforces_details["highest_rating"]
-    )
-
-    db.session.add(cf)
+    
     try:
-        db.session.commit()
-
+        users_collections = mongo.db.users
+        save_codeforces(username)
+        users_collections.update_one({"_id": current_user.username}, {"$set": {"codeforces_username": username}}, upsert=False)
     except Exception as e:
         flash("Unable to add Codeforces", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
@@ -92,176 +60,164 @@ def add_codeforces():
 @login_required
 def remove_codeforces():
     try:
+        user_collections = mongo.db.users
+        user_collections.update_one({"_id" : current_user.username}, {"$set": {"codeforces_username": ""}}, upsert=False)
+        codeforces_collection = mongo.db.codeforces
+        codeforces_collection.delete_one({"_id" : current_user.codeforces_username})
         current_user.codeforces_username = ""
-
-        cf = Codeforces.query.filter_by(user_id=current_user.id).first()
-        db.session.delete(cf)
-        db.session.commit()
-        flash("Codeforces added", category="success")
+        flash("Codeforces added", category="success") 
 
     except Exception as e:
         flash("Unable to remove CodeForces", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
 @modify.route("/add_codechef", methods=["POST"])
 def add_codechef():
     username = request.form.get("codechef_username")
-    current_user.codechef_username = username
-
-    codechef_details = codechef.fetch_codechef_data(username)
-
-    if not codechef_details["SUCCESS"]:
-        flash("Unable to add Codechef", category="error")
-        return redirect(url_for("views.home"))
-
-    codechef_details.pop("SUCCESS")
-    cc = Codechef(
-        user_id=current_user.id,
-        rating=codechef_details["rating"],
-        solved=codechef_details["solved"],
-        country_rank=codechef_details["country_rank"],
-        global_rank=codechef_details["global_rank"],
-        highest_rating=codechef_details["highest_rating"],
-        num_stars=codechef_details["num_stars"],
-        country=codechef_details["country"],
-    )
-
-    db.session.add(cc)
-
+    
     try:
-        db.session.commit()
-        flash("Codechef added", category="success")
-
+        users_collections = mongo.db.users
+        save_codechef(username)
+        users_collections.update_one({"_id": current_user.username}, {"$set": {"codechef_username": username}}, upsert=False)
     except Exception as e:
         flash("Unable to add Codechef", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
 @modify.route("/remove_codechef", methods=["POST"])
 def remove_codechef():
     try:
+        user_collections = mongo.db.users
+        user_collections.update_one({"_id" : current_user.username}, {"$set": {"codechef_username": ""}}, upsert=False)
+        codechef_collection = mongo.db.codechef
+        codechef_collection.delete_one({"_id" : current_user.codechef_username})
         current_user.codechef_username = ""
-        cc = Codechef.query.filter_by(user_id = current_user.id).first()
-        db.session.delete(cc)
-        db.session.commit()
         flash("Removed Codechef", category = "success")
 
     except Exception as e:
         flash("Unable to remove Codechef", category="error")
 
-    update_rating()
+    current_user.update_rating()
     return redirect(url_for("views.home"))
 
 
 @modify.route("/add_friend", methods=["POST"])
 @login_required
 def add_friend():
-    friend_id = request.form.get("friend_id")
-    if current_user.id == int(friend_id):
+    friend_username = request.form.get("friend_username")
+    if current_user.username == friend_username:
         flash("Cannot follow self.", category="error")
-        return redirect(url_for("views.home"))
-
-    friend = User.query.filter_by(id=friend_id).first()
-
-    if not friend:
-        flash("User not found", category="error")
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.public_profile", username=friend_username))
 
     try:
-        new_friend = Friends(user_id=current_user.id, friend_id=friend_id)
-        db.session.add(new_friend)
-        db.session.commit()
+        users_collection = mongo.db.users
+        users_collection.update_one({"_id": current_user.username}, {"$push": {"friends": friend_username}}, upsert=False)
+        flash("Followed User", category="success")
 
     except Exception as e:
         flash("Unable to follow user", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
 
 
 @modify.route("/delete_friend", methods=["POST"])
 @login_required
 def delete_friend():
-    friend_id = request.form.get("friend_id")
-    friend_relaton = Friends.query.filter_by(
-        user_id=current_user.id, friend_id=friend_id
-    ).first()
-
+    friend_username = request.form.get("friend_username")
     try:
-        db.session.delete(friend_relaton)
-        db.session.commit()
+        users_collection = mongo.db.users
+        users_collection.update_one({"_id": current_user.username}, {"$pull": {"friends": friend_username}}, upsert=False)
 
+        flash("Unfollowed User", category="success")
     except Exception as e:
         flash("Unable to unfollow user", category="error")
 
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
 
 
-@modify.route("/upvote/<int:friend_id>")
+@modify.route("/upvote/<friend_username>")
 @login_required
-def add_upvote(friend_id):
-    if current_user.id == friend_id:
+def add_upvote(friend_username):
+    if current_user.username == friend_username:
         flash("Cannot upvote self", category="error")
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.public_profile", username=friend_username))
 
-    friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(
-        user_id=current_user.id, friend_id=friend_id).first()
-
+    votes_collection = mongo.db.votes
+    vote = votes_collection.find_one({"current_username": current_user.username, "friend_username": friend_username})
+    is_voted = False
     if vote:
-        if vote.vote_type == "U":
-            flash("Can only upvote once", category="error")
-            return redirect(url_for("views.home"))
-        else:
-            db.session.delete(vote)
-            friend.downvotes -= 1
-
-    vote = Votes(user_id=current_user.id, friend_id=friend_id, vote_type="U")
-    db.session.add(vote)
-    friend.upvotes += 1
-
+        is_voted = True
+        if vote["type"] == "upvote":
+            remove_upvote(friend_username)
+            return redirect(url_for("views.public_profile", username=friend_username))
     try:
-        db.session.commit()
+        votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "upvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
+
+        users_collection = mongo.db.users
+
+        users_collection.update_one({"_id": friend_username}, {"$inc": {"upvotes": 1, "downvotes": -1 if is_voted else 0}})
+
+        friend = get_user(friend_username)
+        friend.update_rating()
+
         flash("Upvoted User", category="success")
     except Exception as e:
         flash("Unable to upvote user.", category="error")
 
-    update_rating(friend)
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
+
+def remove_upvote(friend_username):
+    users_collection = mongo.db.users
+    users_collection.update_one({"_id": friend_username}, {"$inc": {"upvotes": -1}}, upsert = False)
+
+    votes_collection = mongo.db.votes
+    votes_collection.delete_one({"current_username": current_user.username, "friend_username": friend_username})
+    friend = get_user(friend_username)
+    friend.update_rating()
+    flash("Removed upvote", category="success")
 
 
-@modify.route("/downvote/<int:friend_id>")
+@modify.route("/downvote/<friend_username>")
 @login_required
-def add_downvote(friend_id):
-    if current_user.id == friend_id:
+def add_downvote(friend_username):
+    if current_user.username == friend_username:
         flash("Cannot downvote self", category="error")
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.public_profile", username=friend_username))
 
-    friend = User.query.get(friend_id)
-    vote = Votes.query.filter_by(
-        user_id=current_user.id, friend_id=friend_id).first()
-
+    votes_collection = mongo.db.votes
+    vote = votes_collection.find_one({"current_username": current_user.username, "friend_username": friend_username})
+    is_voted = False
     if vote:
-        if vote.vote_type == "D":
-            flash("Can only downvote once", category="error")
-            return redirect(url_for("views.home"))
-        else:
-            db.session.delete(vote)
-            friend.upvotes -= 1
-
-    vote = Votes(user_id=current_user.id, friend_id=friend_id, vote_type="D")
-    db.session.add(vote)
-    friend.downvotes += 1
-
+        is_voted = True
+        if vote["type"] == "downvote":
+            remove_downvote(friend_username)
+            return redirect(url_for("views.public_profile", username=friend_username))
     try:
-        db.session.commit()
+        votes_collection.update_one({"current_username": current_user.username, "friend_username": friend_username}, {"$set": {"type": "downvote", "current_username": current_user.username, "friend_username": friend_username}}, upsert=True)
+
+        users_collection = mongo.db.users
+        users_collection.update_one({"_id": friend_username}, {"$inc": {"downvotes": 1, "upvotes": -1 if is_voted else 0}})
+
+        friend = get_user(friend_username)
+        friend.update_rating()
+
         flash("Downvoted User", category="success")
     except Exception as e:
         flash("Unable to downvote user.", category="error")
 
-    update_rating(friend)
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.public_profile", username=friend_username))
+
+def remove_downvote(friend_username):
+    users_collection = mongo.db.users
+    users_collection.update_one({"_id": friend_username}, {"$inc": {"downvotes": -1}}, upsert = False)
+
+    votes_collection = mongo.db.votes
+    votes_collection.delete_one({"current_username": current_user.username, "friend_username": friend_username})
+    friend = get_user(friend_username)
+    friend.update_rating()
+    flash("Removed downvote", category="success")

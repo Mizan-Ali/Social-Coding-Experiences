@@ -1,22 +1,33 @@
-{% extends "base.html" %}
-
-{% block head %}
+{% extends "base.html" %} {% block head %}
 <title>Sign In</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/login_style.css') }}">
-{% endblock %}
-
-{% block content %}
-    <div class="out_box">
-        <div class="in_box">
-            <form method="POST">
-                <input type="email" class="form-control" id="email" name="email" placeholder="email">
-                <input type="password" class="form-control" id="password" name="password" placeholder="password">
-                <button type="submit" class="btn">Login</button>
-                <span style="margin-top: 30px;">_____________________________</span>
-            </form>
-            <div class="sign_up">
-                <span>Not registered yet? </span><a href="/signup">SIGN UP</a>
-            </div>
-        </div>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/login_style.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="out_box">
+  <div class="in_box">
+    <form method="POST">
+      <input
+        type="_id"
+        class="form-control"
+        id="_id"
+        name="_id"
+        placeholder="email/username"
+      />
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="password"
+      />
+      <button type="submit" class="btn">Login</button>
+      <span style="margin-top: 30px">_____________________________</span>
+    </form>
+    <div class="sign_up">
+      <span>Not registered yet? </span><a href="/signup">SIGN UP</a>
     </div>
+  </div>
+</div>
 {% endblock %}
