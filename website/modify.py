@@ -2,8 +2,11 @@ from .user import get_user
 from flask_login import current_user, login_required
 from flask import Blueprint, redirect, request, flash, url_for
 from .models import mongo, save_codechef, save_codeforces, save_github
+from logger import Logger
+from .constants import modify_constants
 
 modify = Blueprint("modify", __name__)
+logger = Logger()
 
 @modify.route("/add_github", methods=["POST"])
 @login_required
