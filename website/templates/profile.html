@@ -29,7 +29,7 @@
         <div class="github_card">
             <div class="github_uname">
                 {% if user.github_username %}
-                <p>{{ user.github_username }}</p>
+                <a href="https://github.com/{{ user.github_username }}" target="_blank">{{ user.github_username }}</a>
                 <form action="{{ url_for('modify.remove_github') }}"  method="post">
                     <button type="submit" class="github_remove">X</button>
                 </form>
@@ -67,7 +67,7 @@
         <div class="codechef_card">
             <div class="codechef_uname">
                 {% if user.codechef_username %}
-                <p>{{ user.codechef_username }}</p>
+                <a href="https://www.codechef.com/users/{{ user.codechef_username }}" target="_blank">{{ user.codechef_username }}</a>
                 <form action="{{ url_for('modify.remove_codechef') }}"  method="post">
                     <button type="submit" class="codechef_remove">X</button>
                 </form>
@@ -120,7 +120,7 @@
         <div class="codechef_card">
             <div class="codechef_uname">
                 {% if user.codeforces_username %}
-                <p>{{ user.codeforces_username }}</p>
+                <a href="https://codeforces.com/profile/{{ user.codeforces_username }}" target="_blank">{{ user.codeforces_username }}</a>
                 <form action="{{ url_for('modify.remove_codeforces') }}"  method="post">
                     <button type="submit" class="codechef_remove">X</button>
                 </form>
