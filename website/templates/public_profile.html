@@ -53,7 +53,7 @@
         <div class="github_card">
             <div class="github_uname">
                 {% if friend.github_username %}
-                <a href="https://github.com/{{ user.github_username }}" target="_blank">{{ user.github_username }}</a>
+                <a href="https://github.com/{{ friend.github_username }}" target="_blank">{{ friend.github_username }}</a>
                 {% endif %}
             </div>
             <div class="github_info">
@@ -80,7 +80,7 @@
         <div class="codechef_card">
             <div class="codechef_uname">
                 {% if friend.codechef_username %}
-                <a href="https://www.codechef.com/users/{{ user.codechef_username }}" target="_blank">{{ user.codechef_username }}</a>
+                <a href="https://www.codechef.com/users/{{ friend.codechef_username }}" target="_blank">{{ friend.codechef_username }}</a>
                 {% endif %}
             </div>
             <div class="codechef_info">
@@ -121,7 +121,7 @@
         <div class="codechef_card">
             <div class="codechef_uname">
                 {% if friend.codeforces_username %}
-                <a href="https://codeforces.com/profile/{{ user.codeforces_username }}" target="_blank">{{ user.codeforces_username }}</a>
+                <a href="https://codeforces.com/profile/{{ friend.codeforces_username }}" target="_blank">{{ friend.codeforces_username }}</a>
                 {% endif %}
             </div>
             <div class="codechef_info">
