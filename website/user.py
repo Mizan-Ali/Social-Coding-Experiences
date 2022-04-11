@@ -68,11 +68,11 @@ class User(UserMixin):
         try:
             users_collection = mongo.db.users
             users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
-            flash(user_constants['RATING_UPDATE_SUCCESS'], category='success')
-            logger.debug(function_name=function, debug_message=user_constants['RATING_UPDATE_SUCCESS'], **self.__dict__)
+            flash(3, user_constants['RATING_UPDATE_SUCCESS'], category='success')
+            logger.debug(3, function_name=function, debug_message=user_constants['RATING_UPDATE_SUCCESS'], **self.__dict__)
         except Exception as e:
             flash(user_constants['RATING_UPDATE_FAILURE'], category='error')
-            logger.error(function, user_constants['RATING_UPDATE_FAILURE'], **self.__dict__)
+            logger.error(3, function, user_constants['RATING_UPDATE_FAILURE'], **self.__dict__)
 
 
 
