@@ -1,29 +1,50 @@
 {% extends "base.html" %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search_stylesheet.css') }}">
 <title>Search</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
 {% endblock %}
 
-
-{% block content %}
-<div class="rating">
-    <h2>Search</h2>
-    <div class="cur_rating">
-        <div class="rating_card_common c_rating_head">
-            <h3>username</h3>
-            <h3>github</h3>
-            <h3>codechef</h3>
-            <h3>codeforces</h3>
+{% block body %}
+<div class="dashboard">
+    <div class="out_box">
+        <div class="search_in">
+            <form action="{{ url_for('views.search') }}" method="post">
+                <input type="text" name="username" id="search_uname" placeholder="Enter Username">
+                <input type="submit" name="submit_btn" id="submit_btn" value="Submit">
+            </form>
         </div>
-        {% for user in user_list %}
-        <div class="rating_card_common c_rating_data">
-            <span>{{ user._id }}</span>
-            <span>{{ user.github_username }}</span>
-            <span>{{ user.codechef_username }}</span>
-            <span>{{ user.codeforces_username }}</span>
+        <div class="search_results">
+            {% for user in user_list %}
+            <div class="search_card"
+                onclick="location.href='{{ url_for('''views.public_profile''', username=user._id) }}'"
+                style="cursor:pointer;">
+                <div class="card_top">
+                    <div class="info">
+                        <strong>OUTLIERS. </strong>
+                        <p>{{ user._id }}</p>
+                    </div>
+                    <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
+                    <div class="info">
+                        <img src="{{ url_for('static', filename='images/github.png') }}" alt="">
+                        <p>{{ user.github_username }}</p>
+                    </div>
+                </div>
+                <div class="division"></div>
+                <div class="card_top">
+                    <div class="info">
+                        <img src="{{ url_for('static', filename='images/code-chef.png') }}" alt="">
+                        <p>{{ user.codechef_username }}</p>
+                    </div>
+                    <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
+                    <div class="info">
+                        <img src="{{ url_for('static', filename='images/code-forces.png') }}" alt="">
+                        <p>{{ user.codeforces_username }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

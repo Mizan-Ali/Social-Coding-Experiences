@@ -28,7 +28,7 @@ def add_github():
     
     logger.debug(0, function, f'Updating the rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_github", methods=["POST"])
@@ -51,7 +51,7 @@ def remove_github():
 
     logger.debug(0, function, f'Updating rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 @modify.route("/add_codeforces", methods=["POST"])
 @login_required
@@ -72,7 +72,7 @@ def add_codeforces():
 
     logger.debug(0, function, f'Updating the rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_codeforces", methods=["POST"])
@@ -96,7 +96,7 @@ def remove_codeforces():
 
     logger.debug(0, function, f'Updating rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/add_codechef", methods=["POST"])
@@ -118,7 +118,7 @@ def add_codechef():
 
     logger.debug(0, function, f'Updating the rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/remove_codechef", methods=["POST"])
@@ -142,7 +142,7 @@ def remove_codechef():
 
     logger.debug(0, function, f'Updating the rating for user [{current_user.username}]')
     current_user.update_rating()
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.profile"))
 
 
 @modify.route("/add_friend", methods=["POST"])

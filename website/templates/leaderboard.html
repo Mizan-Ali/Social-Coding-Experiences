@@ -1,47 +1,67 @@
 {% extends "base.html" %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_stylesheet.css') }}">
 <title>Leaderboard</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard_style.css') }}">
 {% endblock %}
 
+{% block body %}
 
-{% block content %}
-<div class="rating">
-    <h2>Personal Ranking</h2>
-    <div class="cur_rating">
-        <div class="rating_card_common c_rating_head">
-            <h3>Name</h3>
-            <h3>Email</h3>
-            <h3>Score</h3>
+<div class="dashboard">
+    <div class="left_div">
+        <p>
+            Friends Leaderboard
+        </p>
+        <div class="leaderboard_list">
+            <div class="friend_headers">
+                <div class="friend_labels">
+                    <span>Username</span>
+                    <span>-</span>
+                    <span>Score</span>
+                </div>
+            </div>
+            <div class="friends_data">
+                {% for user in friends_leaderboard %}
+                <div class="friend_data_inner"
+                    onclick="location.href='{{ url_for('''views.public_profile''', username=user[0]) }}'"
+                    style="cursor:pointer;">
+                    <div class="friend_labels_data">
+                        <span>{{ user[0] }}</span>
+                        <span>-</span>
+                        <span>{{ user[1] }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% for user in friends_leaderboard %}
-        <div class="rating_card_common c_rating_data">
-            <span>{{ user[0] }}</span>
-            <form action="{{ url_for('views.public_profile', username=user[0]) }}">
-                <button type="submit" name="username" value="{{ user[0] }}">{{ user[1] }}</button>
-            </form>
-            <span>{{ user[2] }}</span>
-        </div>
-        {% endfor %}
     </div>
-
-    <h2>Global Rating</h2>
-    <div class="global_rating">
-        <div class="rating_card_common c_rating_head">
-            <h3>Name</h3>
-            <h3>Email</h3>
-            <h3>Score</h3>
+    <div class="division"></div>
+    <div class="left_div">
+        <p>
+            Global Leaderboard
+        </p>
+        <div class="leaderboard_list">
+            <div class="friend_headers">
+                <div class="friend_labels">
+                    <span>Username</span>
+                    <span>-</span>
+                    <span>Score</span>
+                </div>
+            </div>
+            <div class="friends_data">
+                {% for user in global_leaderboard %}
+                <div class="friend_data_inner"
+                    onclick="location.href='{{ url_for('''views.public_profile''', username=user[0]) }}'"
+                    style="cursor:pointer;">
+                    <div class="friend_labels_data">
+                        <span>{{ user[0] }}</span>
+                        <span>-</span>
+                        <span>{{ user[1] }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        {% for user in global_leaderboard %}
-        <div class="rating_card_common c_rating_data">
-            <span>{{ user[0] }}</span>
-            <form action="{{ url_for('views.public_profile', username=user[0]) }}">
-                <button type="submit" name="username" value="{{ user[0] }}">{{ user[1] }}</button>
-            </form>
-            <span>{{ user[2] }}</span>
-        </div>
-        {% endfor %}
     </div>
 </div>
 {% endblock %}

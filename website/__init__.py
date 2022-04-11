@@ -63,7 +63,7 @@ def create_app():
 
     logger.debug(0, function, 'Initiating login manager')
     login_manager = LoginManager()
-    login_manager.login_view = "auth.login"
+    login_manager.login_view = "views.home"
     login_manager.init_app(app)
     logger.debug(0, function, 'Login manager initiated')
 
