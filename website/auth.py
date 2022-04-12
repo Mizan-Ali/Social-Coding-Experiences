@@ -100,7 +100,7 @@ def signup():
             logger.error(0, function, f'Cannot create account for user [{username}]. Password length is less than 3 characters.')
             flash("Password must be greater than 3 characters.", category="error")
         else:
-            logger.debug(0, function, 'Creating account for user [{username}].', **signup_dump)
+            logger.debug(0, function, f'Creating account for user [{username}].', **signup_dump)
             save_user(
                 username=username,
                 email=email,
@@ -110,8 +110,8 @@ def signup():
                 occupation=occupation
             )
             
-            logger.debug(0, function, 'User account created for user [{username}]')
-            logger.debug(0, function, 'Logging in user [{username}]')
+            logger.debug(0, function, f'User account created for user [{username}]')
+            logger.debug(0, function, f'Logging in user [{username}]')
             login_user(get_user(username=username), remember=True)
             flash("Account created!", category="success")
 
