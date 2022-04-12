@@ -1,5 +1,4 @@
 from typing import List
-
 from flask import flash
 from logger import Logger
 from flask_login import UserMixin

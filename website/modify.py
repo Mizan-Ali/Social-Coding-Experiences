@@ -205,7 +205,7 @@ def add_upvote(friend_username):
         if vote["type"] == "upvote":
             logger.debug(3, function, f'User [{current_user.username}] has already upvoted user [{friend_username}]. Removing upvote.')
             remove_upvote(friend_username)
-            logger.debug(3, function, f'Removed upvote of user [{current_user.username}] successfully from user [{friend}]')
+            logger.debug(3, function, f'Removed upvote of user [{current_user.username}] successfully from user [{friend_username}]')
             return redirect(url_for("views.public_profile", username=friend_username))
     try:
         logger.debug(3, function, f'User [{current_user.username}] has not upvoted user [{friend_username}] yet. Adding upvote.')
@@ -255,7 +255,7 @@ def add_downvote(friend_username):
         if vote["type"] == "downvote":
             logger.debug(3, function, f'User [{current_user.username}] has already downnvoted user [{friend_username}]. Removing downvote.')
             remove_downvote(friend_username)
-            logger.debug(3, function, f'Removed downvote of user [{current_user.username}] successfully from user [{friend}]')
+            logger.debug(3, function, f'Removed downvote of user [{current_user.username}] successfully from user [{friend_username}]')
             return redirect(url_for("views.public_profile", username=friend_username))
     try:
         logger.debug(3, function, f'User [{current_user.username}] has not downvoted user [{friend_username}] yet. Adding downvote.')

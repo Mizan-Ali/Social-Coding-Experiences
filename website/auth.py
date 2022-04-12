@@ -29,7 +29,7 @@ def login():
             flash("Logged in successfully!", category="success")
             login_user(user, remember=True)
             logger.debug(0, function, f'Saving login data for user [{_id}]')
-            return redirect(url_for("views.home"))
+            return redirect(url_for("views.profile"))
         else:
             logger.error(0, function, f'Error in authenticating user [{_id}]')
             if user:
@@ -115,6 +115,6 @@ def signup():
             login_user(get_user(username=username), remember=True)
             flash("Account created!", category="success")
 
-            return redirect(url_for("views.home"))
+            return redirect(url_for("views.profile"))
 
     return render_template("signup.html", user=current_user)

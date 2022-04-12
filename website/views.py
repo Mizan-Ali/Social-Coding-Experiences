@@ -11,12 +11,12 @@ logger = Logger()
 views = Blueprint("views", __name__)
 
 
-@views.route("/")
+@views.route("/home")
 def home():
     return render_template("home.html", user=current_user)
 
 
-@views.route("/profile")
+@views.route("/")
 @login_required
 def profile():
     return render_template("profile.html", user=current_user)
@@ -113,6 +113,9 @@ def get_global_leaderboard():
 
 
 def get_friend_leaderboard():
+    if not current_user.is_authenticated:
+        return [("Sign-In to view your personal leaderboard", "")]
+
     leaderboard = [(current_user.username, current_user.score)]
 
     users_collection = mongo.db.users

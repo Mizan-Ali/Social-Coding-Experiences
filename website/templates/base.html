@@ -17,11 +17,11 @@
         <nav class="navbar">
             <span>OUTLIERS.</span>
             <ul>
-                <li><a href="/">Home</a></li>
+                <li><a href="/home">Home</a></li>
                 <li><a href="/leaderboard">Leaderboard</a></li>
                 
                 {% if user.is_authenticated %}
-                <li><a href="/profile">My-Profile</a></li>
+                <li><a href="/">My-Profile</a></li>
                 <li><a href="/logout">Sign-Out</a></li>
                 {% else %}
                 <li><a href="/login">Sign-In</a></li>
@@ -36,7 +36,7 @@
 
 
         <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
         {% if category == 'error' %}
@@ -56,7 +56,7 @@
         {% endif %}
         {% endfor %}
         {% endif %}
-        {% endwith %}
+        {% endwith %} -->
 
         {% block body %}
         {% endblock %}
