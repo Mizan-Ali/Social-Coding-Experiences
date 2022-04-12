@@ -49,6 +49,20 @@ class User(UserMixin):
             return True
         return False
 
+    def is_upvoted(self, friend):
+        votes_collection = mongo.db.votes
+        vote = votes_collection.find_one({"current_username": self.username, "friend_username": friend.username, "type": "upvote"})
+        if(vote):
+            return True
+        return False
+
+    def is_downvoted(self, friend):
+        votes_collection = mongo.db.votes
+        vote = votes_collection.find_one({"current_username": self.username, "friend_username": friend.username, "type": "downvote"})
+        if(vote):
+            return True
+        return False
+
     def update_rating(self):
         function = 'update_rating'
         temp_score = 0

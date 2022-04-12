@@ -1,96 +1,156 @@
-{% extends "base.html" %}
-
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_stylesheet.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/public_profile_stylesheet.css') }}">
+{% extends "base.html" %} {% block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/profile_stylesheet.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/public_profile_stylesheet.css') }}"
+/>
 <title>OUTLIERS</title>
-{% endblock %}
-
-{% block body %}
+{% endblock %} {% block body %}
 <div class="dashboard">
-    <div class="left_div">
-        <div class="details">
-            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="">
-            <span>{{ friend.full_name }}</span>
-            <p>({{ friend.username }})</p>
-            <p>{{ friend.occupation }}</p>
-            <hr>
-            <p>Score - {{ friend.score }}</p>
-            <!-- <p>Global Ranking - NULL</p> -->
-            <p>Upvotes - {{ friend.upvotes }} | Downvotes - {{ friend.downvotes }}</p>
-            {% if user.is_authenticated %}
-            <div id="vote">
-                <a href="{{ url_for('modify.add_upvote', friend_username=friend.username) }}">
-                    <img src="{{ url_for('static', filename='images/thumbs_up.png') }}" alt="UP"
-                        style="background-color: lightgray;">
-                </a>
-                <a href="{{ url_for('modify.add_downvote', friend_username=friend.username) }}">
-                    <img src="{{ url_for('static', filename='images/thumbs_up.png') }}" alt="Down"
-                        style="background-color: lightgray;-webkit-transform:rotate(180deg);-moz-transform: rotate(180deg);-ms-transform: rotate(180deg);-o-transform: rotate(180deg);transform: rotate(180deg);">
-                </a>
-            </div>
-            {% if user.check_friend(friend) %}
-            <form action="{{ url_for('modify.delete_friend') }}" method="post">
-                <input type="text" name="friend_username" value="{{ friend.username }}" style="height: 0px; width: 0px;">
-                <input type="submit" name="submit_btn" value="Unfollow" id="follow">
-            </form>
-            {% else %}
-            <form action="{{ url_for('modify.add_friend') }}" method="post">
-                <input type="text" name="friend_username" value="{{ friend.username }}" style="height: 0px; width: 0px;">
-                <input type="submit" name="submit_btn" value="Follow" id="follow">
-            </form>
-            {% endif %}
-            {% endif %}
-            <hr>
-            <p>Gender - {{ friend.gender }}</p>
-            <!-- <p>Followers - NULL </p> -->
-        </div>
-        <div class="">
-
-        </div>
+  <div class="left_div">
+    <div class="details">
+      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
+      <span>{{ friend.full_name }}</span>
+      <p>({{ friend.username }})</p>
+      <p>{{ friend.occupation }}</p>
+      <hr />
+      <p>Score - {{ friend.score }}</p>
+      <!-- <p>Global Ranking - NULL</p> -->
+      <p>Upvotes - {{ friend.upvotes }} | Downvotes - {{ friend.downvotes }}</p>
+      {% if user.is_authenticated %}
+      <div id="vote">
+        <a
+          href="{{ url_for('modify.add_upvote', friend_username=friend.username) }}"
+        >
+          {% if user.is_upvoted(friend) %}
+          <img
+            src="{{ url_for('static', filename='images/thumbs_up.png') }}"
+            alt="UP"
+            style="background-color: greenyellow"
+          />
+          {% else %}
+          <img
+            src="{{ url_for('static', filename='images/thumbs_up.png') }}"
+            alt="UP"
+            style="background-color: lightgray"
+          />
+          {% endif %}
+        </a>
+        <a
+          href="{{ url_for('modify.add_downvote', friend_username=friend.username) }}"
+        >
+          {% if user.is_downvoted(friend) %}
+          <img
+            src="{{ url_for('static', filename='images/thumbs_up.png') }}"
+            alt="Down"
+            style="
+              background-color: red;
+              -webkit-transform: rotate(180deg);
+              -moz-transform: rotate(180deg);
+              -ms-transform: rotate(180deg);
+              -o-transform: rotate(180deg);
+              transform: rotate(180deg);
+            "
+          />
+          {% else %}
+          <img
+            src="{{ url_for('static', filename='images/thumbs_up.png') }}"
+            alt="Down"
+            style="
+              background-color: lightgray;
+              -webkit-transform: rotate(180deg);
+              -moz-transform: rotate(180deg);
+              -ms-transform: rotate(180deg);
+              -o-transform: rotate(180deg);
+              transform: rotate(180deg);
+            "
+          />
+          {% endif %}
+        </a>
+      </div>
+      {% if user.check_friend(friend) %}
+      <form action="{{ url_for('modify.delete_friend') }}" method="post">
+        <input
+          type="text"
+          name="friend_username"
+          value="{{ friend.username }}"
+          style="height: 0px; width: 0px"
+        />
+        <input type="submit" name="submit_btn" value="Unfollow" id="unfollow" />
+      </form>
+      {% else %}
+      <form action="{{ url_for('modify.add_friend') }}" method="post">
+        <input
+          type="text"
+          name="friend_username"
+          value="{{ friend.username }}"
+          style="height: 0px; width: 0px"
+        />
+        <input type="submit" name="submit_btn" value="Follow" id="follow" />
+      </form>
+      {% endif %} {% endif %}
+      <hr />
+      <p>Gender - {{ friend.gender }}</p>
+      <!-- <p>Followers - NULL </p> -->
     </div>
-    <div class="right_div">
-        <div class="github_card">
-            <div class="github_uname">
-                {% if friend.github_username %}
-                <a href="https://github.com/{{ friend.github_username }}" target="_blank">{{ friend.github_username }}</a>
-                {% endif %}
-            </div>
-            <div class="github_info">
-                {% if friend.github_username %}
-                <div class="github_stars common">
-                    <span>Stars: {{ friend.github_data.stargazers_count }}</span>
-                </div>
-                <div class="github_forks common">
-                    <span>Forks: {{ friend.github_data.forks_count }}</span>
-                </div>
-                <div class="github_total_follower common">
-                    <span>Total Followers: {{ friend.github_data.followers }}</span>
-                </div>
-                <div class="github_contri common">
-                    <span>Contributions Last Year: {{ friend.github_data.total_commits }}</span>
-                </div>
-                {% else %}
-                <h3>Not Available</h3>
-                {% endif %}
-            </div>
+    <div class=""></div>
+  </div>
+  <div class="right_div">
+    <div class="github_card">
+      <div class="github_uname">
+        {% if friend.github_username %}
+        <a
+          href="https://github.com/{{ friend.github_username }}"
+          target="_blank"
+          >{{ friend.github_username }}</a
+        >
+        {% endif %}
+      </div>
+      <div class="github_info">
+        {% if friend.github_username %}
+        <div class="github_stars common">
+          <span>Stars: {{ friend.github_data.stargazers_count }}</span>
         </div>
+        <div class="github_forks common">
+          <span>Forks: {{ friend.github_data.forks_count }}</span>
+        </div>
+        <div class="github_total_follower common">
+          <span>Total Followers: {{ friend.github_data.followers }}</span>
+        </div>
+        <div class="github_contri common">
+          <span
+            >Contributions Last Year: {{ friend.github_data.total_commits
+            }}</span
+          >
+        </div>
+        {% else %}
+        <h3>Not Available</h3>
+        {% endif %}
+      </div>
+    </div>
 
-        <!-- -----codechef info----- -->
-        <div class="codechef_card">
-            <div class="codechef_uname">
-                {% if friend.codechef_username %}
-                <a href="https://www.codechef.com/users/{{ friend.codechef_username }}" target="_blank">{{ friend.codechef_username }}</a>
-                {% endif %}
-            </div>
-            <div class="codechef_info">
-                {% if friend.codechef_username %}
-                <div class="codechef_cur_rating common">
-                    <span>Country: {{ friend.codechef_data.country }}</span>
-                </div>
-                <div class="codechef_stars common">
-                    <span>Stars: {{ friend.codechef_data.num_stars }}</span>
-                    <!-- <div class="codechef_stars_img">
+    <!-- -----codechef info----- -->
+    <div class="codechef_card">
+      <div class="codechef_uname">
+        {% if friend.codechef_username %}
+        <a
+          href="https://www.codechef.com/users/{{ friend.codechef_username }}"
+          target="_blank"
+          >{{ friend.codechef_username }}</a
+        >
+        {% endif %}
+      </div>
+      <div class="codechef_info">
+        {% if friend.codechef_username %}
+        <div class="codechef_cur_rating common">
+          <span>Country: {{ friend.codechef_data.country }}</span>
+        </div>
+        <div class="codechef_stars common">
+          <span>Stars: {{ friend.codechef_data.num_stars }}</span>
+          <!-- <div class="codechef_stars_img">
                         <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
                         <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
                         <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
@@ -98,51 +158,60 @@
                             <img src="{{ url_for('static', filename='images/star.png') }}" alt="rating">
                         </div>
                     </div> -->
-                </div>
-                <div class="codechef_cur_rating common">
-                    <span>Current Rating: {{ friend.codechef_data.rating }}</span>
-                </div>
-                <div class="codechef_high_rating common">
-                    <span>Highest Rating: {{ friend.codechef_data.highest_rating }}</span>
-                </div>
-                <div class="codechef_country_ranking common">
-                    <span>Country Ranking: {{ friend.codechef_data.country_rank }}</span>
-                </div>
-                <div class="codechef_g_Ranking common">
-                    <span>Global Ranking: {{ friend.codechef_data.global_rank }}</span>
-                </div>
-                {% else %}
-                <h3>Not Available</h3>
-                {% endif %}
-            </div>
         </div>
-
-        <!-- -----codeforces info----- -->
-        <div class="codechef_card">
-            <div class="codechef_uname">
-                {% if friend.codeforces_username %}
-                <a href="https://codeforces.com/profile/{{ friend.codeforces_username }}" target="_blank">{{ friend.codeforces_username }}</a>
-                {% endif %}
-            </div>
-            <div class="codechef_info">
-                {% if friend.codeforces_username %}
-                <div class="codechef_ranking common">
-                    <span>Ranking: {{ friend.codeforces_data.rank }}</span>
-                </div>
-                <div class="codechef_cur_rating common">
-                    <span>Current Rating: {{ friend.codeforces_data.rating }}</span>
-                </div>
-                <div class="codechef_high_rating common">
-                    <span>Highest Rating: {{ friend.codeforces_data.highest_rating }}</span>
-                </div>
-                <div class="codechef_total_probs common">
-                    <span>Total Problem Solved: {{ friend.codeforces_data.problems_solved }}</span>
-                </div>
-                {% else %}
-                <h3>Not Available</h3>
-                {% endif %}
-            </div>
+        <div class="codechef_cur_rating common">
+          <span>Current Rating: {{ friend.codechef_data.rating }}</span>
         </div>
+        <div class="codechef_high_rating common">
+          <span>Highest Rating: {{ friend.codechef_data.highest_rating }}</span>
+        </div>
+        <div class="codechef_country_ranking common">
+          <span>Country Ranking: {{ friend.codechef_data.country_rank }}</span>
+        </div>
+        <div class="codechef_g_Ranking common">
+          <span>Global Ranking: {{ friend.codechef_data.global_rank }}</span>
+        </div>
+        {% else %}
+        <h3>Not Available</h3>
+        {% endif %}
+      </div>
     </div>
+
+    <!-- -----codeforces info----- -->
+    <div class="codechef_card">
+      <div class="codechef_uname">
+        {% if friend.codeforces_username %}
+        <a
+          href="https://codeforces.com/profile/{{ friend.codeforces_username }}"
+          target="_blank"
+          >{{ friend.codeforces_username }}</a
+        >
+        {% endif %}
+      </div>
+      <div class="codechef_info">
+        {% if friend.codeforces_username %}
+        <div class="codechef_ranking common">
+          <span>Ranking: {{ friend.codeforces_data.rank }}</span>
+        </div>
+        <div class="codechef_cur_rating common">
+          <span>Current Rating: {{ friend.codeforces_data.rating }}</span>
+        </div>
+        <div class="codechef_high_rating common">
+          <span
+            >Highest Rating: {{ friend.codeforces_data.highest_rating }}</span
+          >
+        </div>
+        <div class="codechef_total_probs common">
+          <span
+            >Total Problem Solved: {{ friend.codeforces_data.problems_solved
+            }}</span
+          >
+        </div>
+        {% else %}
+        <h3>Not Available</h3>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
