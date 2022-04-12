@@ -1,257 +1,268 @@
-*{
-    margin: 0px;
-    padding: 0px;
-}body{
-    background-color: lightgray;
+* {
+  margin: 0px;
+  padding: 0px;
 }
-html{
-    scroll-behavior: smooth;
+body {
+  background-color: lightgray;
 }
-#body_container{
-    height: 100vh;
-    width: 100%;
-    /* border: 3px solid black; */
+html {
+  scroll-behavior: smooth;
 }
-.navbar{
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding:10px 80px 10px 50px;
-    margin: 0px 0px 8px 0px;
-    background-color: whitesmoke;
-    box-shadow: 0px -5px 15px 5px gray;
-    /* border: 2px solid black; */
+#body_container {
+  height: 100vh;
+  width: 100%;
+  /* border: 3px solid black; */
+}
+.navbar {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 80px 10px 50px;
+  margin: 0px 0px 8px 0px;
+  background-color: whitesmoke;
+  box-shadow: 0px -5px 15px 5px gray;
+  /* border: 2px solid black; */
 }
 .navbar ul {
-    width: 40em;
-    height: 50px;
-    list-style-type: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    /* border: 2px solid black; */
+  width: 40em;
+  height: 50px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  /* border: 2px solid black; */
 }
-.navbar li{
-    padding: 15px 25px;
-    display: flex;
-    flex-direction: row;
-    text-align: center;
-    justify-items: center;
-    /* border: 2px solid black; */
+.navbar li {
+  padding: 15px 25px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  justify-items: center;
+  /* border: 2px solid black; */
 }
-.navbar li a{
-    text-decoration: none;
-    color: black;
-    font-size: 20px;
+.navbar li a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
 }
-.navbar span{
-    font-size: 25px;
-    font-weight: bold;
+.navbar span {
+  font-size: 25px;
+  font-weight: bold;
 }
 
-#public_search_uname{
-    height: 30px;
-    width: 250px;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border: 1.5px solid darkgray;
-    border-radius: 10px;
+#public_search_uname {
+  height: 30px;
+  width: 250px;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border: 1.5px solid darkgray;
+  border-radius: 10px;
 }
-#public_submit{
-    height: 35px;
-    width: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgb(197, 184, 184);
-    background-color: darkgray;
+#public_submit {
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 184, 184);
+  background-color: darkgray;
 }
-.dashboard{
-    padding: 0px 10px;
-    height: 90vh;
-    width: 99%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.dashboard {
+  padding: 0px 10px;
+  height: 90vh;
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 hr {
-    width:60%;
-    height: 2px;
-    margin: 20px auto;
-    background-color: lightgray;
-    border-radius: 10px;
+  width: 60%;
+  height: 2px;
+  margin: 20px auto;
+  background-color: lightgray;
+  border-radius: 10px;
 }
-.left_div{
-    width: 22%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.left_div {
+  width: 22%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.left_div img{
-    height: 160px;
-    border-radius: 50%;
-    background-color: whitesmoke;
+.left_div img {
+  height: 160px;
+  border-radius: 50%;
+  background-color: whitesmoke;
 }
-.details{
-    width: 100%;
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    border: 2px solid gray;
+.details {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  border: 2px solid gray;
 }
-.details span{
-    font-size: 40px;
-    font-weight: bold;
+.details span {
+  font-size: 40px;
+  font-weight: bold;
 }
-.details p{
-    font-size: 20px;
+.details p {
+  font-size: 20px;
 }
-.right_div{
-    width: 76%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 18px;
+.right_div {
+  width: 76%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 18px;
 }
-.github_card{
-    width: 100%;
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 18px 18px 0px 0px;
-    border: 2px solid gray;
+.github_card {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 18px 18px 0px 0px;
+  border: 2px solid gray;
 }
-.github_uname{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: gray;
+.github_uname {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: gray;
 }
-.github_uname input{
-    margin: 10px 30px;
+.github_uname input {
+  margin: 10px 30px;
 }
-.github_search_uname{
-    height: 30px;
-    width: 250px;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border: 1.5px solid darkgray;
-    border-radius: 10px;
+.github_uname a {
+  font-size: 25px;
+  color: whitesmoke;
+  margin: 10px 30px;
 }
-.github_submit{
-    height: 35px;
-    width: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgb(197, 184, 184);
-    background-color: darkgray;
+.github_search_uname {
+  height: 30px;
+  width: 250px;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border: 1.5px solid darkgray;
+  border-radius: 10px;
 }
-.github_remove{
+.github_submit {
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 184, 184);
+  background-color: darkgray;
+}
+.github_remove {
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 184, 184);
+  background-color: darkgray;
+}
+.github_info {
+  height: 100%;
+  width: 100%;
+}
+.common {
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.common span {
+  font-size: 20px;
+}
+.common img {
+  width: 30px;
+}
 
-    height: 35px;
-    width: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgb(197, 184, 184);
-    background-color: darkgray;
+.codechef_card {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid gray;
 }
-.github_info{
-    height: 100%;
-    width: 100%;
+.codechef_uname {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: gray;
 }
-.common{
-    margin: 20px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+.codechef_uname a {
+  font-size: 25px;
+  color: whitesmoke;
+  margin: 10px 30px;
 }
-.common span{
-    font-size: 20px;
+.codechef_uname input {
+  margin: 10px 30px;
 }
-.common img{
-    width: 30px;
+.codechef_search_uname {
+  height: 30px;
+  width: 250px;
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border: 1.5px solid darkgray;
+  border-radius: 10px;
 }
-
-.codechef_card{
-    width: 100%;
-    height: 350px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid gray;
+.codechef_submit {
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 184, 184);
+  background-color: darkgray;
 }
-.codechef_uname{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: gray;
+.codechef_remove {
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(197, 184, 184);
+  background-color: darkgray;
 }
-.codechef_uname input{
-    margin: 10px 30px;
+.codechef_info {
+  height: 100%;
+  width: 100%;
 }
-.codechef_search_uname{
-    height: 30px;
-    width: 250px;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 2px 8px;
-    border: 1.5px solid darkgray;
-    border-radius: 10px;
-}
-.codechef_submit{
-    height: 35px;
-    width: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgb(197, 184, 184);
-    background-color: darkgray;
-}
-.codechef_remove{
-
-    height: 35px;
-    width: 35px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 20px;
-    border: 1px solid rgb(197, 184, 184);
-    background-color: darkgray;
-}
-.codechef_info{
-    height: 100%;
-    width: 100%;
-}
-.codechef_stars_img{
-    margin: 0px 60px;
-    display: flex;
+.codechef_stars_img {
+  margin: 0px 60px;
+  display: flex;
 }

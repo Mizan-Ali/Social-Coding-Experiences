@@ -1,147 +1,197 @@
-{% extends "base.html" %}
-
-{% block head %}
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <title>OUTLIERS</title>
-{% endblock %}
-
-{% block body %}
+{% extends "base.html" %} {% block head %}
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<title>OUTLIERS</title>
+{% endblock %} {% block body %}
 <div id="body_head">
-    <div id="body_about_text">
-        <div id="body_about_text_out">
-            <div id="body_about_text_heading">
-                <span>Social Coding Experience.</span>
-            </div>
-            <div id="body_about_text_button">
-                <form action="https://github.com/Mizan-Ali/OUTLIERS_1" target="popup">
-                    <input type="submit" value="Github" id="">
-                </form>
-                <form
-                    action="https://docs.google.com/presentation/d/1cczDgtSutDv_qQWtzmlOQbSoqLEOguwF/edit#slide=id.g11f60460301_1_10"
-                    target="popup">
-                    <input type="submit" value="Project Details" id="">
-                </form>
-            </div>
-            <!-- <div id="body_about_text_button">
-                        <form action="https://docs.google.com/presentation/d/1cczDgtSutDv_qQWtzmlOQbSoqLEOguwF/edit#slide=id.g11f60460301_1_10" target="popup">
-                            <input type="submit" value="PPT" id="">
-                        </form>
-                    </div> -->
-        </div>
+  <div id="body_about_text">
+    <div id="body_about_text_out">
+      <div id="body_about_text_heading">
+        <span>Social Coding Experience.</span>
+      </div>
+      <div id="body_about_text_button">
+        <form action="https://github.com/Mizan-Ali/OUTLIERS_1" target="popup">
+          <input type="submit" value="Github" id="" />
+        </form>
+        <form
+          action="https://docs.google.com/presentation/d/1cczDgtSutDv_qQWtzmlOQbSoqLEOguwF/edit#slide=id.g11f60460301_1_10"
+          target="popup"
+        >
+          <input type="submit" value="Project Details" id="" />
+        </form>
+      </div>
     </div>
-    <div id="body_about_head"></div>
+  </div>
+  <div id="body_about_head"></div>
 </div>
-<hr>
+<hr />
 
 <div id="body_about" class="about_outliers">
-    <div id="body_about_info">
-        <span id="body_about_info_head">About</span>
-        <div id="body_about_info_text"></div>
+  <div id="body_about_info">
+    <span id="body_about_info_head">About</span>
+    <div id="body_about_info_text">
+      <p>
+        Being a coder, you don’t want to spend your time jumping from one site
+        to another to track your progress along with your peers.
+      </p>
+      <p>
+        The Social Coding Experience offers a one stop destination to track your
+        progress across various coding platforms.
+      </p>
+      <p>
+        Add your various coding profiles and see where you stand among your
+        peers! Brag about your score on social media platforms and get in the
+        eyes of potential recruiters.
+      </p>
     </div>
+  </div>
 </div>
 
+<hr />
+
 <div class="team_outliers" id="body_team">
-    <div id="body_team_heading">
-        <span>Meet the team</span>
+  <div id="body_team_heading">
+    <span>Meet the team</span>
+  </div>
+  <div id="body_team_body">
+    <!-- -----Team Mate - 1----- -->
+    <div class="body_team_card">
+      <div class="body_team_card_dp">
+        <img
+          src="../static/images/jayesh.jfif"
+          alt="Team Mate : Jayesh Rohan Singh"
+        />
+      </div>
+      <hr />
+      <div class="body_team_card_info">
+        <div class="team_name">
+          <span>Jayesh Rohan Singh</span>
+        </div>
+        <div class="team_work">
+          <span>Intern SWE @ Red Hat</span>
+        </div>
+        <div class="team_role">
+          <span><strong>Role :</strong> tech1, tech2 ... techn</span>
+        </div>
+        <div class="team_contact">
+          <a href="https://github.com/Conero007" target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/github.png') }}"
+              alt="github"
+          /></a>
+          <a
+            href="https://www.linkedin.com/in/jayesh-rohan-singh/"
+            target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/linkedin.png') }}"
+              alt="linkedin"
+          /></a>
+        </div>
+      </div>
     </div>
-    <div id="body_team_body">
-        <!-- -----Team Mate - 1----- -->
-        <div class="body_team_card">
-            <div class="body_team_card_dp">
-                <img src="" alt="Team Mate : John Doe">
-            </div>
-            <hr>
-            <div class="body_team_card_info">
-                <div class="team_name">
-                    <span>John Doe</span>
-                </div>
-                <div class="team_work">
-                    <span>SDE @ XYZ</span>
-                </div>
-                <div class="team_role">
-                    <span><strong>Role :</strong> tech1, tech2 ... techn</span>
-                </div>
-                <div class="team_contact">
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/github.png') }}"
-                            alt="github"></a>
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/linkedin.png') }}"
-                            alt="github"></a>
-                </div>
-            </div>
+    <!-- -----Team Mate - 2----- -->
+    <div class="body_team_card">
+      <div class="body_team_card_dp">
+        <img
+          src="../static/images/mizan.jpg"
+          alt="Team Mate : Mohd Mizan Ali"
+        />
+      </div>
+      <hr />
+      <div class="body_team_card_info">
+        <div class="team_name">
+          <span>Mohd Mizan Ali</span>
         </div>
-        <!-- -----Team Mate - 2----- -->
-        <div class="body_team_card">
-            <div class="body_team_card_dp">
-                <img src="" alt="Team Mate : John Doe">
-            </div>
-            <hr>
-            <div class="body_team_card_info">
-                <div class="team_name">
-                    <span>John Doe</span>
-                </div>
-                <div class="team_work">
-                    <span>SDE @ XYZ</span>
-                </div>
-                <div class="team_role">
-                    <span><strong>Role :</strong> tech1, tech2 ... techn</span>
-                </div>
-                <div class="team_contact">
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/github.png') }}"
-                            alt="github"></a>
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/linkedin.png') }}"
-                            alt="github"></a>
-                </div>
-            </div>
+        <div class="team_work">
+          <span>Power Intern @ Infosys</span>
         </div>
-        <!-- -----Team Mate - 3----- -->
-        <div class="body_team_card">
-            <div class="body_team_card_dp">
-                <img src="" alt="Team Mate : John Doe">
-            </div>
-            <hr>
-            <div class="body_team_card_info">
-                <div class="team_name">
-                    <span>John Doe</span>
-                </div>
-                <div class="team_work">
-                    <span>SDE @ XYZ</span>
-                </div>
-                <div class="team_role">
-                    <span><strong>Role :</strong> tech1, tech2 ... techn</span>
-                </div>
-                <div class="team_contact">
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/github.png') }}"
-                            alt="github"></a>
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/linkedin.png') }}"
-                            alt="github"></a>
-                </div>
-            </div>
+        <div class="team_role">
+          <span><strong>Role :</strong> tech1, tech2 ... techn</span>
         </div>
-        <!-- -----Team Mate - 4----- -->
-        <div class="body_team_card">
-            <div class="body_team_card_dp">
-                <img src="" alt="Team Mate : John Doe">
-            </div>
-            <hr>
-            <div class="body_team_card_info">
-                <div class="team_name">
-                    <span>John Doe</span>
-                </div>
-                <div class="team_work">
-                    <span>SDE @ XYZ</span>
-                </div>
-                <div class="team_role">
-                    <span><strong>Role :</strong> tech1, tech2 ... techn</span>
-                </div>
-                <div class="team_contact">
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/github.png') }}"
-                            alt="github"></a>
-                    <a href="https://github.com/Mizan-Ali/OUTLIERS_1" target="_blank"><img src="{{ url_for('static', filename='images/linkedin.png') }}"
-                            alt="github"></a>
-                </div>
-            </div>
+        <div class="team_contact">
+          <a href="https://github.com/Mizan-Ali" target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/github.png') }}"
+              alt="github"
+          /></a>
+          <a href="https://www.linkedin.com/in/mohd-mizan-ali/" target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/linkedin.png') }}"
+              alt="linkedin"
+          /></a>
         </div>
+      </div>
     </div>
+    <!-- -----Team Mate - 3----- -->
+    <div class="body_team_card">
+      <div class="body_team_card_dp">
+        <img
+          src="../static/images/prateek_bajpai.jfif"
+          alt="Team Mate : Prateek Bajpai"
+        />
+      </div>
+      <hr />
+      <div class="body_team_card_info">
+        <div class="team_name">
+          <span>Prateek Bajpai</span>
+        </div>
+        <div class="team_work">
+          <span>Intern, Development @ Commvault</span>
+        </div>
+        <div class="team_role">
+          <span><strong>Role :</strong> tech1, tech2 ... techn</span>
+        </div>
+        <div class="team_contact">
+          <a href="https://github.com/prateekbajpaiCS" target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/github.png') }}"
+              alt="github"
+          /></a>
+          <a
+            href="https://www.linkedin.com/in/prateekbajpaicse/"
+            target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/linkedin.png') }}"
+              alt="linkedin"
+          /></a>
+        </div>
+      </div>
+    </div>
+    <!-- -----Team Mate - 4----- -->
+    <div class="body_team_card">
+      <div class="body_team_card_dp">
+        <img
+          src="../static/images/siddharth.jfif"
+          alt="Team Mate : Siddharth Sharma"
+        />
+      </div>
+      <hr />
+      <div class="body_team_card_info">
+        <div class="team_name">
+          <span>Siddharth Sharma</span>
+        </div>
+        <div class="team_work">
+          <span>Softare Engineer @ Aprisero</span>
+        </div>
+        <div class="team_role">
+          <span><strong>Role :</strong> tech1, tech2 ... techn</span>
+        </div>
+        <div class="team_contact">
+          <a href="https://github.com/siddharthSharma102" target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/github.png') }}"
+              alt="github"
+          /></a>
+          <a
+            href="https://www.linkedin.com/in/siddharth-sharma102/"
+            target="_blank"
+            ><img
+              src="{{ url_for('static', filename='images/linkedin.png') }}"
+              alt="linkedin"
+          /></a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
