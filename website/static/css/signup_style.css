@@ -2,6 +2,7 @@
   margin: 0px;
   padding: 0px;
 }
+
 .out_box {
   width: 100%;
   height: 100vh;
@@ -9,6 +10,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .in_box {
   background: whitesmoke;
   width: 50%;
@@ -21,12 +23,14 @@
   align-items: center;
   justify-content: center;
 }
+
 .in_box form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
+
 .in_box input {
   margin: 10px;
   width: 400px;
@@ -36,6 +40,7 @@
   border: solid 2.5px gray;
   border-radius: 10px;
 }
+
 .in_box button {
   color: #fff;
   margin: 10px;
@@ -45,6 +50,7 @@
   border-radius: 10px;
   background-color: #0b5ed7;
 }
+
 .sign_up {
   width: 100%;
   display: flex;
@@ -53,6 +59,7 @@
   justify-content: center;
   font-size: 13px;
 }
+
 .sign_up a {
   margin: 0px 0px 0px 20px;
   color: #000;

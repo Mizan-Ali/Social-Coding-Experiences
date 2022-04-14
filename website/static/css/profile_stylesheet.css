@@ -2,55 +2,13 @@
   margin: 0px;
   padding: 0px;
 }
+
 body {
   background-color: lightgray;
 }
+
 html {
   scroll-behavior: smooth;
-}
-#body_container {
-  height: 100vh;
-  width: 100%;
-  /* border: 3px solid black; */
-}
-.navbar {
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 80px 10px 50px;
-  margin: 0px 0px 8px 0px;
-  background-color: whitesmoke;
-  box-shadow: 0px -5px 15px 5px gray;
-  /* border: 2px solid black; */
-}
-.navbar ul {
-  width: 40em;
-  height: 50px;
-  list-style-type: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  /* border: 2px solid black; */
-}
-.navbar li {
-  padding: 15px 25px;
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-  justify-items: center;
-  /* border: 2px solid black; */
-}
-.navbar li a {
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
-}
-.navbar span {
-  font-size: 25px;
-  font-weight: bold;
 }
 
 #public_search_uname {
@@ -63,6 +21,7 @@ html {
   border: 1.5px solid darkgray;
   border-radius: 10px;
 }
+
 #public_submit {
   height: 35px;
   width: 35px;
@@ -74,6 +33,7 @@ html {
   border: 1px solid rgb(197, 184, 184);
   background-color: darkgray;
 }
+
 .dashboard {
   padding: 0px 10px;
   height: 90vh;
@@ -83,6 +43,7 @@ html {
   align-items: center;
   justify-content: space-between;
 }
+
 hr {
   width: 60%;
   height: 2px;
@@ -90,6 +51,7 @@ hr {
   background-color: lightgray;
   border-radius: 10px;
 }
+
 .left_div {
   width: 22%;
   height: 100%;
@@ -97,11 +59,13 @@ hr {
   flex-direction: column;
   align-items: center;
 }
+
 .left_div img {
   height: 160px;
   border-radius: 50%;
   background-color: whitesmoke;
 }
+
 .details {
   width: 100%;
   height: 50vh;
@@ -112,13 +76,16 @@ hr {
   border-radius: 18px;
   border: 2px solid gray;
 }
+
 .details span {
   font-size: 40px;
   font-weight: bold;
 }
+
 .details p {
   font-size: 20px;
 }
+
 .right_div {
   width: 76%;
   height: 100%;
@@ -127,6 +94,7 @@ hr {
   align-items: center;
   border-radius: 18px;
 }
+
 .github_card {
   width: 100%;
   height: 300px;
@@ -136,6 +104,7 @@ hr {
   border-radius: 18px 18px 0px 0px;
   border: 2px solid rgb(155, 148, 148);
 }
+
 .github_uname {
   height: 70px;
   width: 100%;
@@ -144,23 +113,28 @@ hr {
   align-items: center;
   background-color: rgb(155, 148, 148);
 }
+
 .github_uname img {
   width: 50px;
   height: 50px;
   margin-left: 20px;
 }
+
 .github_uname input {
   margin: 10px 30px;
 }
+
 .github_uname button {
   margin: 10px 5px;
 }
+
 .github_uname a {
   text-decoration: none;
   font-size: 25px;
   color: whitesmoke;
   margin: 10px 30px;
 }
+
 .github_search_uname {
   height: 30px;
   width: 250px;
@@ -171,6 +145,7 @@ hr {
   border: 1.5px solid darkgray;
   border-radius: 10px;
 }
+
 .github_submit {
   height: 35px;
   width: 35px;
@@ -182,6 +157,7 @@ hr {
   border: 1px solid rgb(197, 184, 184);
   background-color: darkgray;
 }
+
 .github_remove {
   height: 35px;
   width: 35px;
@@ -193,10 +169,12 @@ hr {
   border: 1px solid rgb(197, 184, 184);
   background-color: darkgray;
 }
+
 .github_info {
   height: 100%;
   width: 100%;
 }
+
 .common {
   margin: 20px;
   display: flex;
@@ -204,9 +182,11 @@ hr {
   align-items: center;
   justify-content: flex-start;
 }
+
 .common span {
   font-size: 20px;
 }
+
 .common img {
   width: 30px;
 }
@@ -219,6 +199,7 @@ hr {
   align-items: center;
   border: 2px solid rgb(155, 148, 148);
 }
+
 .codechef_uname {
   height: 70px;
   width: 100%;
@@ -227,23 +208,28 @@ hr {
   align-items: center;
   background-color: rgb(155, 148, 148);
 }
+
 .codechef_uname img {
   width: 50px;
   height: 50px;
   margin-left: 20px;
 }
+
 .codechef_uname a {
   text-decoration: none;
   font-size: 25px;
   color: whitesmoke;
   margin: 10px 30px;
 }
+
 .codechef_uname input {
   margin: 10px 30px;
 }
+
 .codechef_uname button {
   margin: 10px 5px;
 }
+
 .codechef_search_uname {
   height: 30px;
   width: 250px;
@@ -254,6 +240,7 @@ hr {
   border: 1.5px solid darkgray;
   border-radius: 10px;
 }
+
 .codechef_submit {
   height: 35px;
   width: 35px;
@@ -265,6 +252,7 @@ hr {
   border: 1px solid rgb(197, 184, 184);
   background-color: darkgray;
 }
+
 .codechef_remove {
   height: 35px;
   width: 35px;
@@ -276,10 +264,12 @@ hr {
   border: 1px solid rgb(197, 184, 184);
   background-color: darkgray;
 }
+
 .codechef_info {
   height: 100%;
   width: 100%;
 }
+
 .codechef_stars_img {
   margin: 0px 60px;
   display: flex;
