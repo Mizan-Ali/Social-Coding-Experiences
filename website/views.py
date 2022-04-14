@@ -19,6 +19,7 @@ def home():
 @views.route("/")
 @login_required
 def profile():
+    current_user.update_rating()
     return render_template("profile.html", user=current_user)
 
 
@@ -33,21 +34,39 @@ def public_profile(username):
         flash("User does not exist.", category="error")
         return redirect((url_for("views.profile")))
 
-    return render_template(
-        "public_profile.html",
-        user=current_user,
-        friend=friend
-    )
+    return render_template("public_profile.html", user=current_user, friend=friend)
+
 
 @views.route("/search", methods=["POST"])
 def search():
     username = request.form.get("username")
     if not username:
         flash("Enter a username", category="error")
+        # redirect_url = "views." + re.findall(r"\/([A-Z]*[a-z]*)\?*", request.referrer)[-1]
+        # return redirect(url_for(redirect_url))
         return redirect(url_for("views.profile"))
 
     users_collection = mongo.db.users
-    user_list = list(users_collection.find({"$or": [{"_id": username}, {"github_username": username}, {"codechef_username": username}, {"codeforces": username}, {"full_name": re.compile(username, re.IGNORECASE)}]}, {"_id": 1, "github_username": 1, "codechef_username": 1, "codeforces_username": 1, "score": 1}))
+    user_list = list(
+        users_collection.find(
+            {
+                "$or": [
+                    {"_id": username},
+                    {"github_username": username},
+                    {"codechef_username": username},
+                    {"codeforces": username},
+                    {"full_name": re.compile(username, re.IGNORECASE)},
+                ]
+            },
+            {
+                "_id": 1,
+                "github_username": 1,
+                "codechef_username": 1,
+                "codeforces_username": 1,
+                "score": 1,
+            },
+        )
+    )
 
     return render_template("search.html", user_list=user_list, user=current_user)
 
@@ -63,45 +82,6 @@ def leaderboard():
         global_leaderboard=global_leaderboard,
         friends_leaderboard=friends_leaderboard,
     )
-
-
-@views.route("/refresh_github", methods=["POST"])
-@login_required
-def refresh_github():
-    try:
-        save_github(current_user.github_username)
-        flash("Updated GitHub", category="success")
-    except Exception as e:
-        flash("Unable to add Github", category="error")
-
-    current_user.update_rating()
-    return redirect(url_for("views.profile"))
-
-
-@views.route("/refresh_codeforces", methods=["POST"])
-@login_required
-def refresh_codeforces():
-    try:
-        save_codeforces(current_user.codeforces_username)
-        flash("Updated Codeforces", category="success")
-    except Exception as e:
-        flash("Unable to add Codeforces", category="error")
-
-    current_user.update_rating()
-    return redirect(url_for("views.profile"))
-
-
-@views.route("/refresh_codechef", methods=["POST"])
-@login_required
-def refresh_codechef():
-    try:
-        save_codechef(current_user.codechef_username)
-        flash("Updated Codechef", category="success")
-    except Exception as e:
-        flash("Unable to add Codechef", category="error")
-
-    current_user.update_rating()
-    return redirect(url_for("views.profile"))
 
 
 def get_global_leaderboard():

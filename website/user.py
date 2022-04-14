@@ -8,6 +8,7 @@ from .models import get_codechef, get_codeforces, get_github, mongo
 
 
 
+
 @dataclass
 class User(UserMixin):
     username: str
@@ -26,7 +27,6 @@ class User(UserMixin):
     codeforces_username: str = ""
 
     friends: List[str] = field(default_factory=list)
-
 
     def get_id(self):
         return self.username
@@ -50,15 +50,27 @@ class User(UserMixin):
 
     def is_upvoted(self, friend):
         votes_collection = mongo.db.votes
-        vote = votes_collection.find_one({"current_username": self.username, "friend_username": friend.username, "type": "upvote"})
-        if(vote):
+        vote = votes_collection.find_one(
+            {
+                "current_username": self.username,
+                "friend_username": friend.username,
+                "type": "upvote",
+            }
+        )
+        if vote:
             return True
         return False
 
     def is_downvoted(self, friend):
         votes_collection = mongo.db.votes
-        vote = votes_collection.find_one({"current_username": self.username, "friend_username": friend.username, "type": "downvote"})
-        if(vote):
+        vote = votes_collection.find_one(
+            {
+                "current_username": self.username,
+                "friend_username": friend.username,
+                "type": "downvote",
+            }
+        )
+        if vote:
             return True
         return False
 
@@ -68,26 +80,34 @@ class User(UserMixin):
         temp_score = 0
 
         if self.codechef_username:
-            temp_score += 0.4 * int(self.codechef_data['rating'])
+            temp_score += 0.4 * int(self.codechef_data["rating"])
         if self.codeforces_username:
-            temp_score += 0.4 * int(self.codeforces_data['rating'])
+            temp_score += 0.4 * int(self.codeforces_data["rating"])
         if self.github_username:
-            temp_score += 0.2 * int(self.github_data['total_commits'])
+            temp_score += 0.2 * int(self.github_data["total_commits"])
 
-        self.score = round(temp_score  + int(self.upvotes) - int(self.downvotes), 2)
+        self.score = round(temp_score + int(self.upvotes) - int(self.downvotes), 2)
 
         self.score = max(self.score, 0)
         logger.debug(3, function, f'Trying to update rating of user [{self.username}] to [{self.score}]')
 
         try:
             users_collection = mongo.db.users
-            users_collection.update_one({'_id' : self.username}, {'$set' : {'score': self.score}}, upsert = False)
-            flash(3, user_constants['RATING_UPDATE_SUCCESS'], category='success')
-            logger.debug(3, function_name=function, debug_message=user_constants['RATING_UPDATE_SUCCESS'], **self.__dict__)
+            users_collection.update_one(
+                {"_id": self.username}, {"$set": {"score": self.score}}, upsert=False
+            )
+            flash(3, user_constants["RATING_UPDATE_SUCCESS"], category="success")
+            logger.debug(
+                3,
+                function_name=function,
+                debug_message=user_constants["RATING_UPDATE_SUCCESS"],
+                **self.__dict__
+            )
         except Exception as e:
-            flash(user_constants['RATING_UPDATE_FAILURE'], category='error')
-            logger.error(3, function, user_constants['RATING_UPDATE_FAILURE'], **self.__dict__)
-
+            flash(user_constants["RATING_UPDATE_FAILURE"], category="error")
+            logger.error(
+                3, function, user_constants["RATING_UPDATE_FAILURE"], **self.__dict__
+            )
 
 
 def get_user(username="", email=""):
@@ -106,26 +126,25 @@ def get_user(username="", email=""):
             password=user_data["password"],
             gender=user_data["gender"],
             occupation=user_data.get("occupation", "None"),
-
             score=user_data.get("score", 0),
             upvotes=user_data.get("upvotes", 0),
             downvotes=user_data.get("downvotes", 0),
-
             github_username=user_data.get("github_username", ""),
             codechef_username=user_data.get("codechef_username", ""),
             codeforces_username=user_data.get("codeforces_username", ""),
-
             friends=user_data.get("friends", []),
         )
 
 
 def save_user(username, email, full_name, password, gender, occupation):
     users_collection = mongo.db.users
-    users_collection.insert_one({
-        "_id": username,
-        "email": email,
-        "full_name": full_name,
-        "occupation": occupation,
-        "gender": gender,
-        "password": password
-    })
+    users_collection.insert_one(
+        {
+            "_id": username,
+            "email": email,
+            "full_name": full_name,
+            "occupation": occupation,
+            "gender": gender,
+            "password": password,
+        }
+    )

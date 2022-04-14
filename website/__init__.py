@@ -1,12 +1,12 @@
-from flask import Flask, request, jsonify
 from logger import Logger
 from .models import mongo
 from .user import get_user
 from flask_login import LoginManager
-from flask_restful import Resource, Api
 from .constants import init_constants
-from apscheduler.schedulers.background import BackgroundScheduler
+from flask_restful import Resource, Api
+from flask import Flask, request, jsonify
 from dbcleanup.db_cleanup import DBCleanup
+from apscheduler.schedulers.background import BackgroundScheduler
 
 def create_app():
     function = 'create_app'
@@ -28,24 +28,27 @@ def create_app():
             cleanup_obj = DBCleanup(key, mongo)
 
             if False == cleanup_obj.validate_key():
-                return jsonify({'error': init_constants['WRONG_DELETE_REGKEY']})
-            
+                return jsonify({"error": init_constants["WRONG_DELETE_REGKEY"]})
+
             resp = cleanup_obj.initiate_db_cleanup(mongo)
 
             return jsonify(resp)
 
         def get(self):
-            return jsonify({'Logging Level': logger.get_debug_lvl()})
-        
+            return jsonify({"Logging Level": logger.get_debug_lvl()})
+
         def put(self):
-            function = 'AdminOperations.PUT'
-            dbglvl = request.headers['DEBUGLVL']
-            logger.debug(0, function, f'Setting DEBUG Level from [{logger.get_debug_lvl()}] to [{dbglvl}]')
+            function = "AdminOperations.PUT"
+            dbglvl = request.headers["DEBUGLVL"]
+            logger.debug(
+                0,
+                function,
+                f"Setting DEBUG Level from [{logger.get_debug_lvl()}] to [{dbglvl}]",
+            )
             logger.set_debug_lvl(dbglvl)
 
-            return jsonify({'New Debug Level': dbglvl})
+            return jsonify({"New Debug Level": dbglvl})
 
-    
     api = Api(app)
     api.add_resource(DBCleaner, "/adminOperations")
 
@@ -53,29 +56,30 @@ def create_app():
     from .views import views
     from .modify import modify
 
-    logger.debug(0, function, 'Registering auth blueprint')
+    logger.debug(0, function, "Registering auth blueprint")
     app.register_blueprint(auth, url_prefix="/")
-    logger.debug(0, function, 'Registring views blueprint')
+    logger.debug(0, function, "Registring views blueprint")
     app.register_blueprint(views, url_prefix="/")
-    logger.debug(0, function, 'Registring modify blueprint')
+    logger.debug(0, function, "Registring modify blueprint")
     app.register_blueprint(modify, url_prefix="/")
 
-    logger.debug(0, function, 'Initiating login manager')
+    logger.debug(0, function, "Initiating login manager")
     login_manager = LoginManager()
     login_manager.login_view = "views.home"
     login_manager.init_app(app)
-    logger.debug(0, function, 'Login manager initiated')
+    logger.debug(0, function, "Login manager initiated")
 
     try:
         import logging
+
         logging.basicConfig()
-        logging.getLogger('apscheduler').setLevel(logging.DEBUG)
-        rating_updater = BackgroundScheduler(daemon = True)
-        rating_updater.add_job(update_all_ratings, 'interval', hours=10)
+        logging.getLogger("apscheduler").setLevel(logging.DEBUG)
+        rating_updater = BackgroundScheduler(daemon=True)
+        rating_updater.add_job(update_all_ratings, "interval", hours=10)
         rating_updater.start()
         logger.scheduler(rating_updater)
     except Exception as e:
-        logger.error(0, function, f'Error while scheduling leaderboard refresh : {e}')
+        logger.error(0, function, f"Error while scheduling leaderboard refresh : {e}")
 
     @login_manager.user_loader
     def load_user(username):
@@ -85,14 +89,15 @@ def create_app():
 
 
 def update_all_ratings():
-    function = 'update_all_ratings'
+    function = "update_all_ratings"
     l_user_data = {}
     try:
         users_collection = mongo.db.users
         for user_data in users_collection.find({}):
-            user = get_user(user_data['_id'])
+            user = get_user(user_data["_id"])
             user.update_rating()
             l_user_data = user_data
 
     except Exception as e:
         print('ERROR', function, f'Error while updating ratings for all users : {e}', **l_user_data)
+

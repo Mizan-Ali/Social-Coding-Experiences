@@ -21,7 +21,7 @@
             <ul>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/leaderboard">Leaderboard</a></li>
-                
+
                 {% if user.is_authenticated %}
                 <li><a href="/">My-Profile</a></li>
                 <li><a href="/logout">Sign-Out</a></li>
@@ -30,9 +30,10 @@
                 {% endif %}
             </ul>
 
-            <form action="{{ url_for('views.search') }}", method="post">
+            <form action="{{ url_for('views.search') }}" , method="post">
                 <input type="text" name="username" id="public_search_uname" placeholder="Name or Username...">
-                <button type="submit" id="public_submit"><i class="fa fa-search" aria-hidden="true" style="font-size:20px;"></i></button>
+                <button type="submit" id="public_submit"><i class="fa fa-search" aria-hidden="true"
+                        style="font-size:20px;"></i></button>
             </form>
         </nav>
 

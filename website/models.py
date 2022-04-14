@@ -11,13 +11,14 @@ def get_github(username):
     logger = Logger(mongo)
     function = 'models.get_github'
     github_collection = mongo.db.github
-    logger.debug(5, function, 'Attempting to get GitHub data from DB')
+    logger.debug(5, function, "Attempting to get GitHub data from DB")
     github_data = github_collection.find_one({"_id": username})
     if github_data is not None:
-        logger.debug(5, function, 'DB Response', **github_data)
+        logger.debug(5, function, "DB Response", **github_data)
     else:
-        logger.error(0, function, f'GitHub data not in DB for user [{username}]')
+        logger.error(0, function, f"GitHub data not in DB for user [{username}]")
     return github_data
+
 
 def save_github(username):
     logger = Logger(mongo)
@@ -25,12 +26,14 @@ def save_github(username):
     logger.debug(0, function, f'Attempting to fetch GitHub data for username [{username}]')
     github_data = github.fetch_github_data(username)
     if github_data["SUCCESS"] is False:
-        logger.error(0, function, f'Unable to fetch GitHub data for [{username}]')
+        logger.error(0, function, f"Unable to fetch GitHub data for [{username}]")
         flash("Unable to save GitHub data", category="error")
         raise ValueError("Unable to save GitHub data")
 
-    logger.debug(0, function, f'GitHub data fetched for username [{username}]', **github_data)
-    logger.debug(0, function, f'Saving GitHub data for username [{username}]')
+    logger.debug(
+        0, function, f"GitHub data fetched for username [{username}]", **github_data
+    )
+    logger.debug(0, function, f"Saving GitHub data for username [{username}]")
 
     github_collection = mongo.db.github
 
@@ -39,19 +42,21 @@ def save_github(username):
     github_data.pop("SUCCESS")
 
     github_collection.update_one({"_id": username}, {"$set": github_data}, upsert=True)
-    logger.debug(0, function, f'GitHub data added successfully for username [{username}]')
+    logger.debug(
+        0, function, f"GitHub data added successfully for username [{username}]"
+    )
 
 
 def get_codechef(username):
     logger = Logger(mongo)
     function = 'models.get_codechef'
     codechef_collection = mongo.db.codechef
-    logger.debug(5, function, 'Attempting to get CodeChef data from DB')
+    logger.debug(5, function, "Attempting to get CodeChef data from DB")
     codechef_data = codechef_collection.find_one({"_id": username})
     if codechef_data is not None:
-        logger.debug(5, function, 'DB Response', **codechef_data)
+        logger.debug(5, function, "DB Response", **codechef_data)
     else:
-        logger.error(0, function, f'CodeChef data not in DB for user [{username}]')
+        logger.error(0, function, f"CodeChef data not in DB for user [{username}]")
     return codechef_data
 
 
@@ -62,12 +67,14 @@ def save_codechef(username):
 
     codechef_data = codechef.fetch_codechef_data(username)
     if codechef_data["SUCCESS"] is False:
-        logger.error(0, function, f'Unable to fetch CodeChef data for [{username}]')
+        logger.error(0, function, f"Unable to fetch CodeChef data for [{username}]")
         flash("Unable to save codechef data", category="error")
         raise ValueError("Unable to save codechef data")
 
-    logger.debug(0, function, f'CodeChef data fetched for username [{username}]', **codechef_data)
-    logger.debug(0, function, f'Saving CodeChef data for username [{username}]')
+    logger.debug(
+        0, function, f"CodeChef data fetched for username [{username}]", **codechef_data
+    )
+    logger.debug(0, function, f"Saving CodeChef data for username [{username}]")
 
     codechef_collection = mongo.db.codechef
 
@@ -75,20 +82,24 @@ def save_codechef(username):
     codechef_data.pop("username")
     codechef_data.pop("SUCCESS")
 
-    codechef_collection.update_one({"_id": username}, {"$set": codechef_data}, upsert=True)
-    logger.debug(0, function, f'CodeChef data added successfully for username [{username}]')
+    codechef_collection.update_one(
+        {"_id": username}, {"$set": codechef_data}, upsert=True
+    )
+    logger.debug(
+        0, function, f"CodeChef data added successfully for username [{username}]"
+    )
 
 
 def get_codeforces(username):
     logger = Logger(mongo)
     function = 'models.get_codeforces'
     codeforces_collection = mongo.db.codeforces
-    logger.debug(5, function, 'Attempting to get CodeForces data from DB')
+    logger.debug(5, function, "Attempting to get CodeForces data from DB")
     codeforces_data = codeforces_collection.find_one({"_id": username})
     if codeforces_data is not None:
-        logger.debug(5, function, 'DB Response', **codeforces_data)
+        logger.debug(5, function, "DB Response", **codeforces_data)
     else:
-        logger.error(0, function, f'CodeForces data not in DB for user [{username}]')
+        logger.error(0, function, f"CodeForces data not in DB for user [{username}]")
     return codeforces_data
 
 
@@ -98,12 +109,17 @@ def save_codeforces(username):
     logger.debug(0, function, f'Attempting to fetch CodeForces data for username [{username}]')
     codeforces_data = codeforces.fetch_codeforces_data(username)
     if codeforces_data["SUCCESS"] is False:
-        logger.error(0, function, f'Unable to fetch CodeForces data for [{username}]')
+        logger.error(0, function, f"Unable to fetch CodeForces data for [{username}]")
         flash("Unable to save codeforce data", category="error")
-        raise ValueError("Unable to save codeforces data") 
+        raise ValueError("Unable to save codeforces data")
 
-    logger.debug(0, function, f'CodeForces data fetched for username [{username}]', **codeforces_data)
-    logger.debug(0, function, f'Saving CodeForces data for username [{username}]')
+    logger.debug(
+        0,
+        function,
+        f"CodeForces data fetched for username [{username}]",
+        **codeforces_data,
+    )
+    logger.debug(0, function, f"Saving CodeForces data for username [{username}]")
 
     codeforces_collection = mongo.db.codeforces
 
@@ -111,5 +127,9 @@ def save_codeforces(username):
     codeforces_data.pop("username")
     codeforces_data.pop("SUCCESS")
 
-    codeforces_collection.update_one({"_id": username}, {"$set": codeforces_data}, upsert=True)
-    logger.debug(0, function, f'CodeForces data added successfully for username [{username}]')
+    codeforces_collection.update_one(
+        {"_id": username}, {"$set": codeforces_data}, upsert=True
+    )
+    logger.debug(
+        0, function, f"CodeForces data added successfully for username [{username}]"
+    )
