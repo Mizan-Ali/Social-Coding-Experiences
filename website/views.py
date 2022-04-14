@@ -1,10 +1,10 @@
 import re
 import pymongo
 from logger import Logger
+from .models import mongo
 from .user import get_user
 from .constants import views_constants
 from flask_login import login_required, current_user
-from .models import mongo, save_github, save_codechef, save_codeforces
 from flask import Blueprint, flash, redirect, render_template, url_for, request
 
 logger = Logger(mongo)
@@ -54,7 +54,7 @@ def search():
                     {"_id": username},
                     {"github_username": username},
                     {"codechef_username": username},
-                    {"codeforces": username},
+                    {"codeforces_username": username},
                     {"full_name": re.compile(username, re.IGNORECASE)},
                 ]
             },
