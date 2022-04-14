@@ -27,19 +27,31 @@
                     <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
                     <div class="info">
                         <img src="{{ url_for('static', filename='images/github.png') }}" alt="">
+                        {% if user.github_username %}
                         <p>{{ user.github_username }}</p>
+                        {% else %}
+                        <p>(Not Available)</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="division"></div>
                 <div class="card_top">
                     <div class="info">
                         <img src="{{ url_for('static', filename='images/code-chef.png') }}" alt="">
+                        {% if user.codechef_username %}
                         <p>{{ user.codechef_username }}</p>
+                        {% else %}
+                        <p>(Not Available)</p>
+                        {% endif %}
                     </div>
                     <div style="width: 0px; height: 85%;border: 1px solid black;"></div>
                     <div class="info">
                         <img src="{{ url_for('static', filename='images/code-forces.png') }}" alt="">
+                        {% if user.codeforces_username %}
                         <p>{{ user.codeforces_username }}</p>
+                        {% else %}
+                        <p>(Not Available)</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
