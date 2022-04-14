@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from .models import mongo, save_github, save_codechef, save_codeforces
 from flask import Blueprint, flash, redirect, render_template, url_for, request
 
-logger = Logger()
+logger = Logger(mongo)
 views = Blueprint("views", __name__)
 
 

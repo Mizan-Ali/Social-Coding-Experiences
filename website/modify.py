@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from flask import Blueprint, redirect, request, flash, url_for
 from .models import mongo, save_codechef, save_codeforces, save_github
 
-logger = Logger()
+logger = Logger(mongo)
 modify = Blueprint("modify", __name__)
 
 

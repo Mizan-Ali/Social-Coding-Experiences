@@ -4,11 +4,11 @@ from flask_pymongo import PyMongo
 from .constants import models_constants
 from user_profile_details import github, codechef, codeforces
 
-mongo = PyMongo()
-logger = Logger()
 
+mongo = PyMongo()
 
 def get_github(username):
+    logger = Logger(mongo)
     function = "models.get_github"
     github_collection = mongo.db.github
     logger.debug(5, function, "Attempting to get GitHub data from DB")
@@ -19,8 +19,8 @@ def get_github(username):
         logger.error(0, function, f"GitHub data not in DB for user [{username}]")
     return github_data
 
-
 def save_github(username):
+    logger = Logger(mongo)
     function = "models.save_github"
     logger.debug(
         0, function, f"Attempting to fetch GitHub data for username [{username}]"
@@ -47,8 +47,8 @@ def save_github(username):
         0, function, f"GitHub data added successfully for username [{username}]"
     )
 
-
 def get_codechef(username):
+    logger = Logger(mongo)
     function = "models.get_codechef"
     codechef_collection = mongo.db.codechef
     logger.debug(5, function, "Attempting to get CodeChef data from DB")
@@ -59,8 +59,8 @@ def get_codechef(username):
         logger.error(0, function, f"CodeChef data not in DB for user [{username}]")
     return codechef_data
 
-
 def save_codechef(username):
+    logger = Logger(mongo)
     function = "models.save_codechef"
     logger.debug(
         0, function, f"Attempting to fetch CodeChef data for username [{username}]"
@@ -90,8 +90,8 @@ def save_codechef(username):
         0, function, f"CodeChef data added successfully for username [{username}]"
     )
 
-
 def get_codeforces(username):
+    logger = Logger(mongo)
     function = "models.get_codeforces"
     codeforces_collection = mongo.db.codeforces
     logger.debug(5, function, "Attempting to get CodeForces data from DB")
@@ -102,8 +102,8 @@ def get_codeforces(username):
         logger.error(0, function, f"CodeForces data not in DB for user [{username}]")
     return codeforces_data
 
-
 def save_codeforces(username):
+    logger = Logger(mongo)
     function = "models.save_codeforces"
     logger.debug(
         0, function, f"Attempting to fetch CodeForces data for username [{username}]"

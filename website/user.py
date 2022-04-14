@@ -7,8 +7,6 @@ from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
 
 
-logger = Logger()
-
 
 @dataclass
 class User(UserMixin):
@@ -76,6 +74,7 @@ class User(UserMixin):
         return False
 
     def update_rating(self):
+        logger = Logger(mongo)
         function = "update_rating"
         temp_score = 0
 
