@@ -1,5 +1,5 @@
 from logger import Logger
-from .models import mongo
+from .models import mongo, save_codechef, save_codeforces, save_github
 from .user import get_user
 from flask_login import LoginManager
 from .constants import init_constants
@@ -91,18 +91,20 @@ def create_app():
 
 def update_all_ratings():
     function = "update_all_ratings"
-    l_user_data = {}
-    try:
-        users_collection = mongo.db.users
-        for user_data in users_collection.find({}):
+    users_collection = mongo.db.users
+    for user_data in users_collection.find({}):
+        try:
+            save_github(user_data["_id"])
+            save_codechef(user_data["_id"])
+            save_codeforces(user_data["_id"])
+
             user = get_user(user_data["_id"])
             user.update_rating()
-            l_user_data = user_data
 
-    except Exception as e:
-        print(
-            "DEBUG",
-            function,
-            f"Error while updating ratings for all users : {e}",
-            **l_user_data,
-        )
+        except Exception as e:
+            print(
+                "DEBUG",
+                function,
+                f"Error while updating ratings for user {user_data['_id']} : {e}",
+                **user_data,
+            )
