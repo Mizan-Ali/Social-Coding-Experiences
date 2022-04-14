@@ -19,7 +19,7 @@ def home():
 @views.route("/")
 @login_required
 def profile():
-    current_user.update_rating()
+    # current_user.update_rating()
     return render_template("profile.html", user=current_user)
 
 
