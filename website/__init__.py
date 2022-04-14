@@ -8,20 +8,19 @@ from flask import Flask, request, jsonify
 from dbcleanup.db_cleanup import DBCleanup
 from apscheduler.schedulers.background import BackgroundScheduler
 
-logger = Logger()
-
 
 def create_app():
     function = "create_app"
-    logger.debug(0, function, "Initiating app creation")
+    print("DEBUG", function, "Initiating app creation")
     app = Flask(__name__)
 
     app.config["SECRET_KEY"] = init_constants["APP_CONFIG_SECRET_KEY"]
     app.config["MONGO_URI"] = init_constants["MONGO_URI"]
-    logger.debug(0, function, "App created successfully")
+    print("DEBUG", function, "App created successfully")
 
-    logger.debug(0, function, "Connecting to DB")
+    print("DEBUG", function, "Connecting to DB")
     mongo.init_app(app)
+    logger = Logger(mongo)
     logger.debug(0, function, "Connection to DB successful")
 
     class DBCleaner(Resource):
@@ -101,9 +100,4 @@ def update_all_ratings():
             l_user_data = user_data
 
     except Exception as e:
-        logger.error(
-            0,
-            function,
-            f"Error while updating ratings for all users : {e}",
-            **l_user_data,
-        )
+        print("DEBUG", function, f"Error while updating ratings for all users : {e}", **l_user_data)
