@@ -7,7 +7,6 @@ from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
 
 
-logger = Logger()
 
 @dataclass
 class User(UserMixin):
@@ -64,6 +63,7 @@ class User(UserMixin):
         return False
 
     def update_rating(self):
+        logger = Logger(mongo)
         function = 'update_rating'
         temp_score = 0
 
@@ -77,6 +77,7 @@ class User(UserMixin):
         self.score = round(temp_score  + int(self.upvotes) - int(self.downvotes), 2)
 
         self.score = max(self.score, 0)
+        logger.debug(3, function, f'Trying to update rating of user [{self.username}] to [{self.score}]')
 
         try:
             users_collection = mongo.db.users

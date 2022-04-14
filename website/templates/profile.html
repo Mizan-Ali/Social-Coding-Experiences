@@ -31,10 +31,10 @@
           >{{ user.github_username }}</a
         >
         <form action="{{ url_for('modify.remove_github') }}" method="post">
-          <button type="submit" class="github_remove"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="github_remove" title="Remove Account"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
         </form>
         <form action="{{ url_for('views.refresh_github') }}" method="post">
-          <button type="submit" class="github_remove"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="github_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_github') }}" method="post">
@@ -81,10 +81,10 @@
           >{{ user.codechef_username }}</a
         >
         <form action="{{ url_for('modify.remove_codechef') }}" method="post">
-          <button type="submit" class="codechef_remove"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Remove Account"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
         </form>
         <form action="{{ url_for('views.refresh_codechef') }}" method="post">
-          <button type="submit" class="codechef_remove"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_codechef') }}" method="post">
@@ -143,10 +143,10 @@
           >{{ user.codeforces_username }}</a
         >
         <form action="{{ url_for('modify.remove_codeforces') }}" method="post">
-          <button type="submit" class="codechef_remove"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Remove Account"><i class="fa fa-trash" aria-hidden="true" style="color:red;font-size:24px"></i></button>
         </form>
         <form action="{{ url_for('views.refresh_codeforces') }}" method="post">
-          <button type="submit" class="codechef_remove"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true" style="color: green;font-size:24px"></i></button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_codeforces') }}" method="post">

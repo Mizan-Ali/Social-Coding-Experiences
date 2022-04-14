@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from .models import mongo, save_github, save_codechef, save_codeforces
 from flask import Blueprint, flash, redirect, render_template, url_for, request
 
-logger = Logger()
+logger = Logger(mongo)
 views = Blueprint("views", __name__)
 
 
@@ -44,7 +44,7 @@ def search():
     username = request.form.get("username")
     if not username:
         flash("Enter a username", category="error")
-        return redirect(url_for("view.profile"))
+        return redirect(url_for("views.profile"))
 
     users_collection = mongo.db.users
     user_list = list(users_collection.find({"$or": [{"_id": username}, {"github_username": username}, {"codechef_username": username}, {"codeforces": username}, {"full_name": re.compile(username, re.IGNORECASE)}]}, {"_id": 1, "github_username": 1, "codechef_username": 1, "codeforces_username": 1, "score": 1}))

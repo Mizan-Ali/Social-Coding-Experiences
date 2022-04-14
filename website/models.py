@@ -5,10 +5,10 @@ from .constants import models_constants
 from user_profile_details import github, codechef, codeforces
 
 mongo = PyMongo()
-logger = Logger()
 
 
 def get_github(username):
+    logger = Logger(mongo)
     function = 'models.get_github'
     github_collection = mongo.db.github
     logger.debug(5, function, 'Attempting to get GitHub data from DB')
@@ -20,6 +20,7 @@ def get_github(username):
     return github_data
 
 def save_github(username):
+    logger = Logger(mongo)
     function = 'models.save_github'
     logger.debug(0, function, f'Attempting to fetch GitHub data for username [{username}]')
     github_data = github.fetch_github_data(username)
@@ -42,6 +43,7 @@ def save_github(username):
 
 
 def get_codechef(username):
+    logger = Logger(mongo)
     function = 'models.get_codechef'
     codechef_collection = mongo.db.codechef
     logger.debug(5, function, 'Attempting to get CodeChef data from DB')
@@ -54,6 +56,7 @@ def get_codechef(username):
 
 
 def save_codechef(username):
+    logger = Logger(mongo)
     function = 'models.save_codechef'
     logger.debug(0, function, f'Attempting to fetch CodeChef data for username [{username}]')
 
@@ -77,6 +80,7 @@ def save_codechef(username):
 
 
 def get_codeforces(username):
+    logger = Logger(mongo)
     function = 'models.get_codeforces'
     codeforces_collection = mongo.db.codeforces
     logger.debug(5, function, 'Attempting to get CodeForces data from DB')
@@ -89,6 +93,7 @@ def get_codeforces(username):
 
 
 def save_codeforces(username):
+    logger = Logger(mongo)
     function = 'models.save_codeforces'
     logger.debug(0, function, f'Attempting to fetch CodeForces data for username [{username}]')
     codeforces_data = codeforces.fetch_codeforces_data(username)

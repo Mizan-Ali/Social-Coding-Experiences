@@ -4,8 +4,9 @@ from .constants import auth_constants
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, redirect, request, flash, url_for, session
+from .models import mongo
 
-logger = Logger()
+logger = Logger(mongo)
 auth = Blueprint("auth", __name__)
 
 
