@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_stylesheet.css') }}" />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/profile_stylesheet.css') }}"
+/>
 <title>OUTLIERS</title>
 {% endblock %} {% block body %}
 <div class="dashboard">
@@ -24,19 +27,42 @@
       <div class="github_uname">
         <img src="../static/images/github.png" alt="Github" />
         {% if user.github_username %}
-        <a href="https://github.com/{{ user.github_username }}" target="_blank">{{ user.github_username }}</a>
+        <a href="https://github.com/{{ user.github_username }}" target="_blank"
+          >{{ user.github_username }}</a
+        >
         <form action="{{ url_for('modify.remove_github') }}" method="post">
-          <button type="submit" class="github_remove" title="Unlink Account"><i class="fa fa-trash" aria-hidden="true"
-              style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="github_remove" title="Unlink Account">
+            <i
+              class="fa fa-trash"
+              aria-hidden="true"
+              style="color: red; font-size: 24px"
+            ></i>
+          </button>
         </form>
         <form action="{{ url_for('modify.refresh_github') }}" method="post">
-          <button type="submit" class="github_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true"
-              style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="github_remove" title="Refresh Data">
+            <i
+              class="fa fa-refresh"
+              aria-hidden="true"
+              style="color: green; font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_github') }}" method="post">
-          <input type="text" name="github_username" class="github_search_uname" placeholder="Github Username...." />
-          <button type="submit" class="github_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
+          <input
+            type="text"
+            name="github_username"
+            class="github_search_uname"
+            placeholder="Github Username...."
+          />
+          <button type="submit" class="github_submit">
+            <i
+              class="fa fa-plus"
+              aria-hidden="true"
+              style="font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% endif %}
       </div>
@@ -52,7 +78,9 @@
           <span>Total Followers: {{ user.github_data.followers }}</span>
         </div>
         <div class="github_contri common">
-          <span>Contributions Last Year: {{ user.github_data.total_commits }}</span>
+          <span
+            >Contributions Last Year: {{ user.github_data.total_commits }}</span
+          >
         </div>
         {% else %}
         <h3>Not Available</h3>
@@ -65,21 +93,44 @@
       <div class="codechef_uname">
         <img src="../static/images/code-chef.png" alt="Codechef" />
         {% if user.codechef_username %}
-        <a href="https://www.codechef.com/users/{{ user.codechef_username }}" target="_blank">{{ user.codechef_username
-          }}</a>
+        <a
+          href="https://www.codechef.com/users/{{ user.codechef_username }}"
+          target="_blank"
+          >{{ user.codechef_username }}</a
+        >
         <form action="{{ url_for('modify.remove_codechef') }}" method="post">
-          <button type="submit" class="codechef_remove" title="Unlink Account"><i class="fa fa-trash" aria-hidden="true"
-              style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Unlink Account">
+            <i
+              class="fa fa-trash"
+              aria-hidden="true"
+              style="color: red; font-size: 24px"
+            ></i>
+          </button>
         </form>
         <form action="{{ url_for('modify.refresh_codechef') }}" method="post">
-          <button type="submit" class="codechef_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true"
-              style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Refresh Data">
+            <i
+              class="fa fa-refresh"
+              aria-hidden="true"
+              style="color: green; font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_codechef') }}" method="post">
-          <input type="text" name="codechef_username" class="codechef_search_uname"
-            placeholder="Codechef Username...." />
-          <button type="submit" class="codechef_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
+          <input
+            type="text"
+            name="codechef_username"
+            class="codechef_search_uname"
+            placeholder="Codechef Username...."
+          />
+          <button type="submit" class="codechef_submit">
+            <i
+              class="fa fa-plus"
+              aria-hidden="true"
+              style="font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% endif %}
       </div>
@@ -122,21 +173,44 @@
       <div class="codechef_uname">
         <img src="../static/images/code-forces.png" alt="Codeforces" />
         {% if user.codeforces_username %}
-        <a href="https://codeforces.com/profile/{{ user.codeforces_username }}" target="_blank">{{
-          user.codeforces_username }}</a>
+        <a
+          href="https://codeforces.com/profile/{{ user.codeforces_username }}"
+          target="_blank"
+          >{{ user.codeforces_username }}</a
+        >
         <form action="{{ url_for('modify.remove_codeforces') }}" method="post">
-          <button type="submit" class="codechef_remove" title="Unlink Account"><i class="fa fa-trash" aria-hidden="true"
-              style="color:red;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Unlink Account">
+            <i
+              class="fa fa-trash"
+              aria-hidden="true"
+              style="color: red; font-size: 24px"
+            ></i>
+          </button>
         </form>
         <form action="{{ url_for('modify.refresh_codeforces') }}" method="post">
-          <button type="submit" class="codechef_remove" title="Refresh Data"><i class="fa fa-refresh fa-spin" aria-hidden="true"
-              style="color: green;font-size:24px"></i></button>
+          <button type="submit" class="codechef_remove" title="Refresh Data">
+            <i
+              class="fa fa-refresh"
+              aria-hidden="true"
+              style="color: green; font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% else %}
         <form action="{{ url_for('modify.add_codeforces') }}" method="post">
-          <input type="text" name="codeforces_username" class="codechef_search_uname"
-            placeholder="Codeforces Username...." />
-          <button type="submit" class="codechef_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
+          <input
+            type="text"
+            name="codeforces_username"
+            class="codechef_search_uname"
+            placeholder="Codeforces Username...."
+          />
+          <button type="submit" class="codechef_submit">
+            <i
+              class="fa fa-plus"
+              aria-hidden="true"
+              style="font-size: 24px"
+            ></i>
+          </button>
         </form>
         {% endif %}
       </div>
@@ -152,8 +226,10 @@
           <span>Highest Rating: {{ user.codeforces_data.highest_rating }}</span>
         </div>
         <div class="codechef_total_probs common">
-          <span>Total Problem Solved: {{ user.codeforces_data.problems_solved
-            }}</span>
+          <span
+            >Total Problem Solved: {{ user.codeforces_data.problems_solved
+            }}</span
+          >
         </div>
         {% else %}
         <h3>Not Available</h3>

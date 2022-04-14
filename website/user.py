@@ -94,11 +94,11 @@ class User(UserMixin):
             users_collection.update_one(
                 {"_id": self.username}, {"$set": {"score": self.score}}, upsert=False
             )
-            flash(3, user_constants["RATING_UPDATE_SUCCESS"], category="success")
+            # flash(3, user_constants["RATING_UPDATE_SUCCESS"], category="success")
             logger.debug(
                 3,
-                function_name=function,
-                debug_message=user_constants["RATING_UPDATE_SUCCESS"],
+                function,
+                user_constants["RATING_UPDATE_SUCCESS"],
                 **self.__dict__
             )
         except Exception as e:
