@@ -36,7 +36,7 @@
         {% else %}
         <form action="{{ url_for('modify.add_github') }}" method="post">
           <input type="text" name="github_username" class="github_search_uname" placeholder="Github Username...." />
-          <button type="submit" class="github_submit">GO</button>
+          <button type="submit" class="github_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
         </form>
         {% endif %}
       </div>
@@ -79,7 +79,7 @@
         <form action="{{ url_for('modify.add_codechef') }}" method="post">
           <input type="text" name="codechef_username" class="codechef_search_uname"
             placeholder="Codechef Username...." />
-          <button type="submit" class="codechef_submit">GO</button>
+          <button type="submit" class="codechef_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
         </form>
         {% endif %}
       </div>
@@ -136,7 +136,7 @@
         <form action="{{ url_for('modify.add_codeforces') }}" method="post">
           <input type="text" name="codeforces_username" class="codechef_search_uname"
             placeholder="Codeforces Username...." />
-          <button type="submit" class="codechef_submit">GO</button>
+          <button type="submit" class="codechef_submit"><i class="fa fa-plus" aria-hidden="true" style="font-size:24px"></i></button>
         </form>
         {% endif %}
       </div>
