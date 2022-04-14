@@ -1,12 +1,144 @@
 from logger import Logger
 from .user import get_user
 from .constants import modify_constants
-from flask_login import current_user, login_required
+from flask_login import current_user, login_required, logout_user
 from flask import Blueprint, redirect, request, flash, url_for
 from .models import mongo, save_codechef, save_codeforces, save_github
 
 logger = Logger(mongo)
 modify = Blueprint("modify", __name__)
+
+
+@modify.route("/remove_account")
+@login_required
+def remove_account():
+    function = "modify.remove_account"
+    logger.debug(
+        0, function, f"Attempting to delete account for [{current_user.username}]"
+    )
+
+    # deleting all votes by user
+    delete_votes()
+
+    # deleting user's github profile
+    try:
+        logger.debug(
+            0,
+            function,
+            f"Attempting to remove GitHub data for user [{current_user.username}]",
+        )
+        github_collection = mongo.db.github
+        github_collection.delete_one({"_id": current_user.github_username})
+        current_user.github_username = ""
+        logger.debug(
+            0, function, f"Removed GitHub data for user [{current_user.username}]"
+        )
+        flash("Removed Github", category="success")
+
+    except Exception as e:
+        logger.error(
+            0,
+            function,
+            f"Cannot remove GitHub data for user [{current_user.username}]. Error : [{e}]",
+        )
+        flash("Unable to remove Github", category="error")
+
+    # deleting user's codeforces' profile
+    try:
+        logger.debug(
+            0,
+            function,
+            f"Attempting to remove CodeForces data for user [{current_user.username}]",
+        )
+        codeforces_collection = mongo.db.codeforces
+        codeforces_collection.delete_one({"_id": current_user.codeforces_username})
+        current_user.codeforces_username = ""
+        logger.debug(
+            0, function, f"Removed CodeForces data for user [{current_user.username}]"
+        )
+
+    except Exception as e:
+        logger.error(
+            0,
+            function,
+            f"Cannot remove CodeForces data for user [{current_user.username}]. Error : [{e}]",
+        )
+
+    # deleting user's codechef's profile
+    try:
+        logger.debug(
+            0,
+            function,
+            f"Attempting to remove CodeChef data for user [{current_user.username}]",
+        )
+        codechef_collection = mongo.db.codechef
+        codechef_collection.delete_one({"_id": current_user.codechef_username})
+        current_user.codechef_username = ""
+        logger.debug(
+            0, function, f"Removed CodeChef data for user [{current_user.username}]"
+        )
+
+    except Exception as e:
+        logger.error(
+            0,
+            function,
+            f"Cannot remove CodeChef data for user [{current_user.username}]. Error : [{e}]",
+        )
+
+    # deleting user's profile
+    try:
+        logger.debug(
+            0, function, f"Attempting to delete user [{current_user.username}]"
+        )
+
+        users_collection = mongo.db.users
+        users_collection.delete_one({"_id": current_user.username})
+
+        logger.debug(
+            0,
+            function,
+            f"Deletion of user [{current_user.username}] completed",
+        )
+
+        logout_user()
+
+    except Exception as e:
+        logger.debug(
+            0,
+            function,
+            f"Cannot delete user [{current_user.username}]. Error : {e}",
+        )
+
+    return redirect(url_for("views.home"))
+
+
+def delete_votes():
+    try:
+        logger.debug(
+            0,
+            function,
+            f"Attempting to delete votes of [{current_user.username}]",
+        )
+        votes_collection = mongo.db.votes
+        votes = votes_collection.find({"current_username": current_user.username})
+        for vote in votes:
+            if vote["type"] == "upvotes":
+                remove_upvote(vote["friend_username"])
+            else:
+                remove_downvote(vote["friend_username"])
+        votes_collection.delete_many({"current_username": current_user.username})
+        logger.debug(
+            0,
+            function,
+            f"Deletion of votes for [{current_user.username}] completed",
+        )
+
+    except Exception as e:
+        logger.debug(
+            0,
+            function,
+            f"Cannot delete votes of [{current_user.username}]. Error : {e}",
+        )
 
 
 @modify.route("/add_github", methods=["POST"])
