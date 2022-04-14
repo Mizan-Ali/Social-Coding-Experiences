@@ -7,7 +7,6 @@ from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
 
 
-
 @dataclass
 class User(UserMixin):
     username: str
@@ -84,6 +83,7 @@ class User(UserMixin):
             temp_score += 0.4 * int(self.codeforces_data["rating"])
         if self.github_username:
             temp_score += 0.2 * int(self.github_data["total_commits"])
+            temp_score += int(self.github_data["stargazers_count"])
 
         self.score = round(temp_score + int(self.upvotes) - int(self.downvotes), 2)
 
@@ -96,10 +96,7 @@ class User(UserMixin):
             )
             # flash(3, user_constants["RATING_UPDATE_SUCCESS"], category="success")
             logger.debug(
-                3,
-                function,
-                user_constants["RATING_UPDATE_SUCCESS"],
-                **self.__dict__
+                3, function, user_constants["RATING_UPDATE_SUCCESS"], **self.__dict__
             )
         except Exception as e:
             flash(user_constants["RATING_UPDATE_FAILURE"], category="error")

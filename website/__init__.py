@@ -100,4 +100,9 @@ def update_all_ratings():
             l_user_data = user_data
 
     except Exception as e:
-        print("DEBUG", function, f"Error while updating ratings for all users : {e}", **l_user_data)
+        print(
+            "DEBUG",
+            function,
+            f"Error while updating ratings for all users : {e}",
+            **l_user_data,
+        )

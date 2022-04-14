@@ -7,6 +7,7 @@ from user_profile_details import github, codechef, codeforces
 
 mongo = PyMongo()
 
+
 def get_github(username):
     logger = Logger(mongo)
     function = "models.get_github"
@@ -18,6 +19,7 @@ def get_github(username):
     else:
         logger.error(0, function, f"GitHub data not in DB for user [{username}]")
     return github_data
+
 
 def save_github(username):
     logger = Logger(mongo)
@@ -47,6 +49,7 @@ def save_github(username):
         0, function, f"GitHub data added successfully for username [{username}]"
     )
 
+
 def get_codechef(username):
     logger = Logger(mongo)
     function = "models.get_codechef"
@@ -58,6 +61,7 @@ def get_codechef(username):
     else:
         logger.error(0, function, f"CodeChef data not in DB for user [{username}]")
     return codechef_data
+
 
 def save_codechef(username):
     logger = Logger(mongo)
@@ -90,6 +94,7 @@ def save_codechef(username):
         0, function, f"CodeChef data added successfully for username [{username}]"
     )
 
+
 def get_codeforces(username):
     logger = Logger(mongo)
     function = "models.get_codeforces"
@@ -101,6 +106,7 @@ def get_codeforces(username):
     else:
         logger.error(0, function, f"CodeForces data not in DB for user [{username}]")
     return codeforces_data
+
 
 def save_codeforces(username):
     logger = Logger(mongo)
