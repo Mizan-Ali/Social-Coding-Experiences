@@ -52,6 +52,12 @@ html {
   font-size: 25px;
   font-weight: bold;
 }
+.navbar span a{
+  text-decoration: none;
+  color: black;
+}
+
+
 #public_search_uname {
   height: 30px;
   width: 250px;
