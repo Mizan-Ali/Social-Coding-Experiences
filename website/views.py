@@ -101,6 +101,9 @@ def get_friend_leaderboard():
     users_collection = mongo.db.users
     for friend_username in current_user.friends:
         friend = users_collection.find_one({"_id": friend_username})
-        leaderboard.append((friend["_id"], friend.get("score", 0)))
+        if friend:
+            leaderboard.append((friend["_id"], friend.get("score", 0)))
+        else:
+            users_collection.delete_one({"_id": friend_username})
     leaderboard.sort(key=lambda x: x[-1], reverse=True)
     return leaderboard
