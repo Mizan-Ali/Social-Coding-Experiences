@@ -9,7 +9,12 @@
 <div class="dashboard">
   <div class="left_div">
     <div class="details">
-      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
+      <div class="profile_parent">
+        <a href = "{{ user.profile_pic }}"><img src="{{ user.profile_pic }}" alt="" /></a>
+        <a href="https://gravatar.com/" target="_blank">
+          <i class="fa fa-pencil-square-o" aria-hidden="true" title="Edit Profile Pic on Gravatar"></i>
+        </a>
+      </div>
       <span>{{ user.full_name }}</span>
       <p>({{ user.username }})</p>
       <p>{{ user.occupation }}</p>

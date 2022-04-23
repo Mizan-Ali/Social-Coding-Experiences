@@ -274,3 +274,14 @@ hr {
   margin: 0px 60px;
   display: flex;
 }
+
+.fa-pencil-square-o {
+  position: relative;
+  font-size: 30px;
+  color: black;
+  background: transparent;
+  bottom: 10px;
+  right: 40px;
+  cursor: pointer;
+  border-radius: 30px;
+}

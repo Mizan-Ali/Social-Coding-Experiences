@@ -5,6 +5,7 @@ from flask_login import UserMixin
 from .constants import user_constants
 from dataclasses import dataclass, field
 from .models import get_codechef, get_codeforces, get_github, mongo
+from hashlib import md5
 
 
 @dataclass
@@ -40,6 +41,14 @@ class User(UserMixin):
     @property
     def codeforces_data(self):
         return get_codeforces(self.codeforces_username)
+    
+    @property
+    def profile_pic(self):
+        size = 315
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
+
 
     def check_friend(self, friend):
         if friend.username in self.friends:

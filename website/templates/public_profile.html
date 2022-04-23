@@ -6,7 +6,9 @@
 <div class="dashboard">
   <div class="left_div">
     <div class="details">
-      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" />
+      <a href="{{ friend.profile_pic }}">
+        <img src="{{ friend.profile_pic }}" alt="" />
+      </a>
       <span>{{ friend.full_name }}</span>
       <p>({{ friend.username }})</p>
       <p>{{ friend.occupation }}</p>
